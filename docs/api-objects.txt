@@ -1,0 +1,12 @@
+mripy.ijmpy	mripy.ijmpy-module.html
+mripy.ijmpy.setAutoThreshold	mripy.ijmpy-module.html#setAutoThreshold
+mripy.ijmpy.getThreshold	mripy.ijmpy-module.html#getThreshold
+mripy.ijmpy.roiManager	mripy.ijmpy-module.html#roiManager
+mripy.ijmpy.getWidth	mripy.ijmpy-module.html#getWidth
+mripy.ijmpy.run	mripy.ijmpy-module.html#run
+mripy.ijmpy.newImage	mripy.ijmpy-module.html#newImage
+mripy.ijmpy.print	mripy.ijmpy-module.html#print
+mripy.ijmpy.close	mripy.ijmpy-module.html#close
+mripy.ijmpy.example	mripy.ijmpy-module.html#example
+mripy.ijmpy.nImages	mripy.ijmpy-module.html#nImages
+mripy.ijmpy.getPixel	mripy.ijmpy-module.html#getPixel
