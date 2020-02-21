@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>Module Hierarchy</title>
+  <title>Class Hierarchy</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -40,7 +40,7 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="module-tree.html"
+            >]&nbsp;|&nbsp;<a href="class-tree.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
@@ -50,14 +50,22 @@
  [ <a href="module-tree.html">Module Hierarchy</a>
  | <a href="class-tree.html">Class Hierarchy</a> ]
 </b></center><br />
-<h1 class="epydoc">Module Hierarchy</h1>
+<h1 class="epydoc">Class Hierarchy</h1>
 <ul class="nomargin-top">
-    <li> <strong class="uidlink"><a href="mripy.bialang-module.html">mripy.bialang</a></strong>: <em class="summary">bialang is a python wrapper to the imagej1 api. It tries to create a simpler
-api for imagej1 to allow writing more readable and re-usable bio-image analysis
-scripts.</em>    </li>
-    <li> <strong class="uidlink"><a href="mripy.bialangsj-module.html">mripy.bialangsj</a></strong>: <em class="summary">bialangsj is a python wrapper to the imagej2 api. It tries to create a bio-image analyst
-centric api for imagej2.</em>    </li>
-    <li> <strong class="uidlink"><a href="mripy.ijmpy-module.html">mripy.ijmpy</a></strong>: <em class="summary">ijmpy is a python wrapper of the imagej-macro-language</em>    </li>
+    <li> <strong class="uidlink">object</strong>:
+      <em class="summary">The most base type</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="mripy.ijmpy.Array-class.html">mripy.ijmpy.Array</a></strong>:
+      <em class="summary">These functions operate on arrays. Refer to the <a class="rst-reference external" href="https://imagej.net/macros/examples/ArrayFunctions.txt" target="_top">ArrayFunctions</a> macro for examples.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="mripy.bialang.ImageOperation-class.html">mripy.bialang.ImageOperation</a></strong>:
+      <em class="summary">Abstract super-class for image-operations.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="mripy.bialangsj.ImageOperation-class.html">mripy.bialangsj.ImageOperation</a></strong>:
+      <em class="summary">Abstract super-class for image-operations.</em>
+    </li>
+    </ul>
+    </li>
 </ul>
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"

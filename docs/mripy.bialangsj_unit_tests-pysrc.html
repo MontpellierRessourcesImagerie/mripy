@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mripy.bialangsj_unit_tests</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;mripy ::
+        Module&nbsp;bialangsj_unit_tests
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mripy.bialangsj_unit_tests-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="mripy.bialangsj_unit_tests-module.html">Module mripy.bialangsj_unit_tests</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment">#@ OpService ops</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">mripy</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module mripy.bialangsj=mripy.bialangsj-module.html"><a title="mripy.bialangsj" class="py-name" href="#" onclick="return doclink('link-0', 'bialangsj', 'link-0');">bialangsj</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">unittest</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">net</tt><tt class="py-op">.</tt><tt class="py-name">imglib2</tt><tt class="py-op">.</tt><tt class="py-name">type</tt><tt class="py-op">.</tt><tt class="py-name">numeric</tt><tt class="py-op">.</tt><tt class="py-name">integer</tt> <tt class="py-keyword">import</tt> <tt class="py-name">UnsignedByteType</tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="findEdgesTest"></a><div id="findEdgesTest-def"><a name="L8"></a><tt class="py-lineno"> 8</tt> <a class="py-toggle" href="#" id="findEdgesTest-toggle" onclick="return toggle('findEdgesTest');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="mripy.bialangsj_unit_tests.findEdgesTest-class.html">findEdgesTest</a><tt class="py-op">(</tt><tt class="py-base-class">unittest</tt><tt class="py-op">.</tt><tt class="py-base-class">TestCase</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="findEdgesTest-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="findEdgesTest-expanded"><a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="findEdgesTest.testRectangle"></a><div id="findEdgesTest.testRectangle-def"><a name="L10"></a><tt class="py-lineno">10</tt> <a class="py-toggle" href="#" id="findEdgesTest.testRectangle-toggle" onclick="return toggle('findEdgesTest.testRectangle');">-</a><tt class="py-line">        <tt class="py-keyword">def</tt> <a class="py-def-name" href="mripy.bialangsj_unit_tests.findEdgesTest-class.html#testRectangle">testRectangle</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="findEdgesTest.testRectangle-collapsed" style="display:none;" pad="++" indent="++++++++++++"></div><div id="findEdgesTest.testRectangle-expanded"><a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">                <tt class="py-comment"># create a test image with a filled rectangle</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">                <tt class="py-name">testImg</tt> <tt class="py-op">=</tt> <tt id="link-1" class="py-name" targets="Variable mripy.bialangsj.ops=mripy.bialangsj-module.html#ops"><a title="mripy.bialangsj.ops" class="py-name" href="#" onclick="return doclink('link-1', 'ops', 'link-1');">ops</a></tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Method mripy.bialang.ImageOperation.run()=mripy.bialang.ImageOperation-class.html#run,Method mripy.bialangsj.ImageOperation.run()=mripy.bialangsj.ImageOperation-class.html#run,Function mripy.ijmpy.run()=mripy.ijmpy-module.html#run"><a title="mripy.bialang.ImageOperation.run
+mripy.bialangsj.ImageOperation.run
+mripy.ijmpy.run" class="py-name" href="#" onclick="return doclink('link-2', 'run', 'link-2');">run</a></tt><tt class="py-op">(</tt><tt class="py-string">"create.img"</tt><tt class="py-op">,</tt> <tt class="py-op">[</tt><tt class="py-number">256</tt><tt class="py-op">,</tt> <tt class="py-number">256</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">UnsignedByteType</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">                <tt class="py-name">formula</tt> <tt class="py-op">=</tt> <tt class="py-string">"(p[0]&gt;10 &amp;&amp; p[0]&lt;110 &amp;&amp; p[1]&gt;10 &amp;&amp; p[1]&lt;110)*255"</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">                <tt id="link-3" class="py-name"><a title="mripy.bialangsj.ops" class="py-name" href="#" onclick="return doclink('link-3', 'ops', 'link-1');">ops</a></tt><tt class="py-op">.</tt><tt class="py-name">image</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">equation</tt><tt class="py-op">(</tt><tt class="py-name">testImg</tt><tt class="py-op">,</tt> <tt class="py-name">formula</tt><tt class="py-op">)</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">                 </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">                <tt class="py-name">edgesImage</tt> <tt class="py-op">=</tt> <tt id="link-4" class="py-name" targets="Function mripy.bialang.findEdges()=mripy.bialang-module.html#findEdges,Function mripy.bialangsj.findEdges()=mripy.bialangsj-module.html#findEdges"><a title="mripy.bialang.findEdges
+mripy.bialangsj.findEdges" class="py-name" href="#" onclick="return doclink('link-4', 'findEdges', 'link-4');">findEdges</a></tt><tt class="py-op">(</tt><tt class="py-name">testImg</tt><tt class="py-op">)</tt><tt class="py-op">;</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">                <tt class="py-name">ra</tt> <tt class="py-op">=</tt> <tt class="py-name">edgesImage</tt><tt class="py-op">.</tt><tt class="py-name">randomAccess</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt>
+<a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line">                <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">setPosition</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-number">9</tt><tt class="py-op">,</tt> <tt class="py-number">9</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">                <tt class="py-name">v1</tt> <tt class="py-op">=</tt> <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">                <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">setPosition</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-number">10</tt><tt class="py-op">,</tt> <tt class="py-number">10</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">                <tt class="py-name">v2</tt> <tt class="py-op">=</tt> <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">                <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">setPosition</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-number">11</tt><tt class="py-op">,</tt><tt class="py-number">11</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">                <tt class="py-name">v3</tt> <tt class="py-op">=</tt> <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">                <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">setPosition</tt><tt class="py-op">(</tt><tt class="py-op">[</tt><tt class="py-number">12</tt><tt class="py-op">,</tt><tt class="py-number">12</tt><tt class="py-op">]</tt><tt class="py-op">)</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">                <tt class="py-name">v4</tt> <tt class="py-op">=</tt> <tt class="py-name">ra</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">get</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">         </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">assertEquals</tt><tt class="py-op">(</tt><tt class="py-name">v1</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">assertEquals</tt><tt class="py-op">(</tt><tt class="py-name">v2</tt><tt class="py-op">,</tt> <tt class="py-number">64</tt><tt class="py-op">)</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">assertEquals</tt><tt class="py-op">(</tt><tt class="py-name">v3</tt><tt class="py-op">,</tt> <tt class="py-number">255</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">assertEquals</tt><tt class="py-op">(</tt><tt class="py-name">v4</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"> </tt>
+<a name="suite"></a><div id="suite-def"><a name="L34"></a><tt class="py-lineno">34</tt> <a class="py-toggle" href="#" id="suite-toggle" onclick="return toggle('suite');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="mripy.bialangsj_unit_tests-module.html#suite">suite</a><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="suite-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="suite-expanded"><a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">        <tt id="link-5" class="py-name" targets="Function mripy.bialang_unit_tests.suite()=mripy.bialang_unit_tests-module.html#suite,Function mripy.bialangsj_unit_tests.suite()=mripy.bialangsj_unit_tests-module.html#suite,Function mripy.ijmpy_unit_tests.suite()=mripy.ijmpy_unit_tests-module.html#suite"><a title="mripy.bialang_unit_tests.suite
+mripy.bialangsj_unit_tests.suite
+mripy.ijmpy_unit_tests.suite" class="py-name" href="#" onclick="return doclink('link-5', 'suite', 'link-5');">suite</a></tt> <tt class="py-op">=</tt> <tt class="py-name">unittest</tt><tt class="py-op">.</tt><tt class="py-name">TestSuite</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line"> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">        <tt id="link-6" class="py-name"><a title="mripy.bialang_unit_tests.suite
+mripy.bialangsj_unit_tests.suite
+mripy.ijmpy_unit_tests.suite" class="py-name" href="#" onclick="return doclink('link-6', 'suite', 'link-5');">suite</a></tt><tt class="py-op">.</tt><tt class="py-name">addTest</tt><tt class="py-op">(</tt><tt id="link-7" class="py-name" targets="Class mripy.bialang_unit_tests.findEdgesTest=mripy.bialang_unit_tests.findEdgesTest-class.html,Class mripy.bialangsj_unit_tests.findEdgesTest=mripy.bialangsj_unit_tests.findEdgesTest-class.html"><a title="mripy.bialang_unit_tests.findEdgesTest
+mripy.bialangsj_unit_tests.findEdgesTest" class="py-name" href="#" onclick="return doclink('link-7', 'findEdgesTest', 'link-7');">findEdgesTest</a></tt><tt class="py-op">(</tt><tt class="py-string">'testRectangle'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line"> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt id="link-8" class="py-name"><a title="mripy.bialang_unit_tests.suite
+mripy.bialangsj_unit_tests.suite
+mripy.ijmpy_unit_tests.suite" class="py-name" href="#" onclick="return doclink('link-8', 'suite', 'link-5');">suite</a></tt> </tt>
+</div><a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line"> </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"><tt id="link-9" class="py-name" targets="Variable mripy.bialang_unit_tests.runner=mripy.bialang_unit_tests-module.html#runner,Variable mripy.bialangsj_unit_tests.runner=mripy.bialangsj_unit_tests-module.html#runner,Variable mripy.ijmpy_unit_tests.runner=mripy.ijmpy_unit_tests-module.html#runner"><a title="mripy.bialang_unit_tests.runner
+mripy.bialangsj_unit_tests.runner
+mripy.ijmpy_unit_tests.runner" class="py-name" href="#" onclick="return doclink('link-9', 'runner', 'link-9');">runner</a></tt> <tt class="py-op">=</tt> <tt class="py-name">unittest</tt><tt class="py-op">.</tt><tt class="py-name">TextTestRunner</tt><tt class="py-op">(</tt><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stdout</tt><tt class="py-op">,</tt> <tt class="py-name">verbosity</tt><tt class="py-op">=</tt><tt class="py-number">1</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"><tt id="link-10" class="py-name"><a title="mripy.bialang_unit_tests.runner
+mripy.bialangsj_unit_tests.runner
+mripy.ijmpy_unit_tests.runner" class="py-name" href="#" onclick="return doclink('link-10', 'runner', 'link-9');">runner</a></tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="mripy.bialang.ImageOperation.run
+mripy.bialangsj.ImageOperation.run
+mripy.ijmpy.run" class="py-name" href="#" onclick="return doclink('link-11', 'run', 'link-2');">run</a></tt><tt class="py-op">(</tt><tt id="link-12" class="py-name"><a title="mripy.bialang_unit_tests.suite
+mripy.bialangsj_unit_tests.suite
+mripy.ijmpy_unit_tests.suite" class="py-name" href="#" onclick="return doclink('link-12', 'suite', 'link-5');">suite</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1
+    on Fri Feb 21 00:26:01 2020
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

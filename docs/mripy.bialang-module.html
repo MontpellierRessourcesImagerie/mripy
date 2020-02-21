@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mripy.bialang</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;mripy ::
+        Module&nbsp;bialang
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mripy.bialang-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module bialang</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.bialang-pysrc.html">source&nbsp;code</a></span></p>
+<p>bialang is a python wrapper to the imagej1 api. It tries to create a simpler
+api for imagej1 to allow writing more readable and re-usable bio-image analysis
+scripts.</p>
+<p>Currently there are 4 ways to write image analysis workflows in ImageJ:</p>
+<blockquote>
+<ul class="rst-simple">
+<li>as an imagej-macro</li>
+<li>as a script in one of the scripting languages (python, groovy, javascript, ...)</li>
+<li>as a plugin in java</li>
+<li>using operators and imglib2 from the sci-java framework</li>
+</ul>
+</blockquote>
+<p>A nice feature is that actions can be recorded in different languages, using the macro-recorder.</p>
+<p>However there are some problems with the above approaches:</p>
+<blockquote>
+<ul class="rst-simple">
+<li>the code contains technical details and is not centered on the (bio-)image analysis</li>
+<li>the macro-language has little support for code-organization and re-use.</li>
+<li>execution depends on the global state in imagej (global settings like the &quot;Black background option, ...)</li>
+<li>operations are applied to the active image or window</li>
+<li>parameters are passed as strings</li>
+<li>the sci-java remedies most of the problems, however a high level image analysis api is still missing.</li>
+</ul>
+</blockquote>
+<p>Example:</p>
+<p>Here is a simple pre-processing workflow in the ijm:</p>
+<pre class="rst-literal-block">
+run(&quot;Duplicate...&quot;, &quot; &quot;);
+run(&quot;Find Edges&quot;);
+run(&quot;8-bit&quot;);
+run(&quot;Smooth&quot;);
+setAutoThreshold(thresholdMethod);
+run(&quot;Analyze Particles...&quot;, &quot;size=&quot;+minSize+&quot;-&quot;+maxSize+&quot; circularity=0.00-1.00 show=Masks exclude in_situ&quot;);
+run(&quot;Create Selection&quot;);
+run(&quot;Enlarge...&quot;, &quot;enlarge=&quot; + numberOfDilates + &quot; pixel&quot;);
+roiManager(&quot;Add&quot;);
+close();
+roiManager(&quot;select&quot;, 0);
+run(&quot;Clear Outside&quot;);
+</pre>
+<p>In a scripting language it would look something like this:</p>
+<pre class="rst-literal-block">
+imp2 = imp.duplicate();
+IJ.run(imp, &quot;Find Edges&quot;, &quot;&quot;);
+IJ.run(imp, &quot;8-bit&quot;, &quot;&quot;);
+IJ.run(imp, &quot;Smooth&quot;, &quot;&quot;);
+IJ.setAutoThreshold(imp, &quot;Percentile dark&quot;);
+IJ.run(imp, &quot;Analyze Particles...&quot;, &quot;size=350-20000 show=Masks exclude in_situ&quot;);
+IJ.run(imp, &quot;Create Selection&quot;, &quot;&quot;);
+IJ.run(imp, &quot;Enlarge...&quot;, &quot;enlarge=10&quot;);
+rm.addRoi(imp.getRoi());
+imp.close();
+rm.select(0);
+IJ.setBackgroundColor(0, 0, 0);
+IJ.run(imp, &quot;Clear Outside&quot;, &quot;&quot;);
+</pre>
+<p>Here is how it looks like in bialang:</p>
+<pre class="rst-literal-block">
+image = duplicate(inputImage)
+findEdges(image)
+to8Bit(image)
+smooth(image)
+toMask(image,
+   percentileThreshold(image),
+   Filter(minSize, maxSize, minCirc, maxCirc, exclude))
+roi = createSelection(image)
+close(image)
+enlarge(roi, numberOfDilates, unit=units.pixel)
+clearOutside(inputImage, roi)
+</pre>
+<p>The operations like duplicate, findEdges, ... are objects which instead being immediatly run can also be created and
+configured first and then explicitly run.</p>
+<p>For example:</p>
+<pre class="rst-literal-block">
+Duplicate = Duplicate()
+Duplicate.selectChannels(1, 3)
+Duplicate.setZSices(1, 3, 5, 7)
+Duplicate.run(image)
+</pre>
+<p>written 2020 by <a class="rst-reference external" href="https://github.com/volker-baecker" target="_top">Volker Baecker</a>, <a class="rst-reference external" href="http://www.mri.cnrs.fr" target="_top">Montpellier Ressources Imagerie</a>, Biocampus Montpellier, UM, INSERM, CNRS</p>
+<p>Have fun!</p>
+
+<!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Classes"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.bialang.ImageOperation-class.html" class="summary-name">ImageOperation</a><br />
+      Abstract super-class for image-operations.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.bialang.FindEdges-class.html" class="summary-name">FindEdges</a><br />
+      Apply an edge-filter to the image.
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Functions</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="findEdges"></a><span class="summary-sig-name">findEdges</span>(<span class="summary-sig-arg">image</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Run the <a class="rst-reference external" href="redirect.html#mripy.bialang.FindEdges" target="_top">FindEdges</a> operation.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.bialang-pysrc.html#findEdges">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1
+    on Fri Feb 21 00:29:41 2020
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

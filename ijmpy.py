@@ -12,13 +12,141 @@ written 2020 by `Volker Baecker`_, `Montpellier Ressources Imagerie`_, Biocampus
 .. _`Montpellier Ressources Imagerie`: http://www.mri.cnrs.fr
 
 Have fun!
+
+Unimplemented functions
+=======================
+
+abs()
+-----
+
+When you call 'abs()' the python 'abs()' function is called. The behaviour should be identical.
+
+acos()
+------
+
+Import the function from python's math module instead. 
+
+.. code-block:: python
+
+	from math import acos
 '''
 from __future__ import print_function					# we will overwrite python's print command
 import __builtin__										# to use the python print command: __builtin__.print(<text>)
 from ij import IJ, WindowManager
 from ij.process import FloatProcessor, ColorProcessor
 from ij.plugin.frame import RoiManager
+from ij.plugin.filter import MaximumFinder
+from ij.process import FHT
 
+class Array(object):
+	'''
+	These functions operate on arrays. Refer to the `ArrayFunctions`_ macro for examples. 
+
+	.. _`ArrayFunctions`: https://imagej.net/macros/examples/ArrayFunctions.txt
+	'''
+
+	INCLUDE_EDGES = 0
+	EXLUDE_EDGES = 1
+	CIRCULAR_ARRAY = 2
+	NO_WINDOW = "none"
+	HAMMING = "Hamming"
+	HANN = "Hann"
+	FLAT_TOP = "flat-top"
+	
+	@classmethod 
+	def concat(cls, *args):
+		'''
+		Returns a new array created by joining two or more arrays or values (examples_). 
+
+		.. _`examples`: https://imagej.net/macros/examples/ArrayConcatExamples.txt
+		'''
+		result = list()
+		for arrayOrElement in args:
+			if isinstance(arrayOrElement, list):
+				current = arrayOrElement
+			else:
+				current = list()
+				current.append(arrayOrElement)
+			result = result + current
+		return result
+
+	@classmethod
+	def copy(cls, aList):
+		'''
+		Returns a copy of array. 
+		'''
+		return list(aList)
+
+	@classmethod
+	def deleteValue(cls, array, value):
+		'''
+		Returns a version of array where all numeric or string elements in the array that contain 
+		value have been deleted (examples_). 
+		
+		Requires 1.52o. 
+
+		.. _`examples`: https://imagej.net/macros/examples/ArrayDeleteDemo.txt
+		'''
+		filtered = [x for x in array if x!=value]
+		return filtered
+
+	@classmethod
+	def deleteIndex(cls, array, index):
+		'''
+		Returns a version of array where the element with the specified index has been deleted. 
+		
+		Requires 1.52o. 
+		'''
+		a1 = array[0:index]
+		a2 = array[index+1:len(array)]
+		return  a1 + a2
+
+	@classmethod
+	def fill(cls, array, value):
+		'''
+		Assigns the specified numeric value to each element of array. 
+		'''
+		for i in range(0, len(array)):
+			array[i] = value
+
+	@classmethod
+	def findMaxima(cls, array, tolerance, edgeMode=EXLUDE_EDGES):
+		'''
+		Returns an array holding the peak positions (sorted with descending strength). 
+		
+		'Tolerance' is the minimum amplitude difference needed to separate two peaks. 
+		With v1.51n and later, there is an optional 'edgeMode' argument: 
+		0=include edges, 1=exclude edges(default), 2=circular array. `Examples`_.
+
+		.. _`Examples`: https://imagej.net/macros/examples/FindMaxima1D.txt
+		'''
+		maxima = MaximumFinder.findMaxima(array, tolerance, edgeMode)
+		return maxima
+
+	@classmethod
+	def findMinima(cls, array, tolerance, edgeMode=EXLUDE_EDGES):
+		'''
+		Returns an array holding the minima positions. 
+		'''
+		minima = MaximumFinder.findMinima(array, tolerance, edgeMode)
+		return minima
+
+	@classmethod
+	def fourier(cls, array, windowType=NO_WINDOW):
+		'''
+		Calculates and returns the Fourier amplitudes of array. 
+		
+		WindowType can be "none", "Hamming", "Hann", or "flat-top", 
+		or may be omitted (meaning "none"). 
+		
+		See the `TestArrayFourier`_ macro for an example and more documentation. 
+
+		.. _`TestArrayFourier`: https://imagej.net/macros/examples/TestArrayFourier.txt
+		'''
+		wt = [cls.NO_WINDOW, cls.HAMMING, cls.HANN, cls.FLAT_TOP].index(windowType)
+		result = FHT().fourier1D(array, wt)
+		return result
+		
 def close(pattern=""):
 	'''
 	Closes the active image. 
@@ -91,7 +219,7 @@ def getThreshold():
 	The function has no parameters and returns a tupel. This is different from the ij-macro function which has two result parameters.
 
 	See also: 
-	---------
+	=========
 	setThreshold, resetThreshold
 	'''
 	image = IJ.getImage()
@@ -99,7 +227,33 @@ def getThreshold():
 	t1 = processor.getMinThreshold()
 	t2 = processor.getMaxThreshold()
 	return t1, t2
+
+def lengthOf(aListOrString):
+	'''
+	Returns the length of a string or array. 
+	Can be replaced with str.length (1.52t or later) or arr.length in ijm but not in ijmpy.
+	Use lengthOf(a) or len(a) instead of a.length. 
+	'''
+	return len(aListOrString)
 	
+def newArray(*args):
+	'''
+	Returns a new array containing size elements. You can also create arrays by listing the elements, for example newArray(1,4,7) or 
+	newArray("a","b","c"). For more examples, see the Arrays_ macro.
+	
+	The ImageJ macro language does not directly support 2D arrays. Use python lists instead.
+
+	ijmpy uses python lists as arrays. The macro code a.length will not work. Use either the ijm-command lengthOf(a) or the python 
+	command len(a) instead.
+
+	The newArray-function is here for compability with ij-macros. Consider using python lists directly.
+	
+	.. _Arrays: https://imagej.net/macros/Arrays.txt
+	'''
+	if len(args)==1 and isinstance(args[0], int):
+		return [0] * args[0]
+	return list(args)
+
 def newImage(title, imageType, width, height, depthOrChannels, depth=1, frames=1):
 	'''
 	Opens a new image or stack using the name title. 
@@ -280,7 +434,7 @@ def setAutoThreshold(method="Default"):
 	.. _`AutoThresholdingDemo`: https://imagej.net/macros/examples/AutoThresholdingDemo.txt
 
 	See also: 
-	---------
+	=========
 	setThreshold, `getThreshold`_, resetThreshold
 
 	.. _`getThreshold`: redirect.html#mripy.ijmpy.getThreshold

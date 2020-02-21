@@ -14,9 +14,6 @@
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
-  <!-- Home link -->
-      <th bgcolor="#70b0f0" class="navbar-select"
-          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -59,11 +56,51 @@
 <p>ijmpy is a python wrapper of the imagej-macro-language</p>
 <p>It allows to move ij-macro code to python (mostly) without modifications (yes, you can keep the ';')
 The aim is to facilitate the step of moving from macro to scripting. You can record your
-macro and use the familiar macro language and learn how to profit from the better code organization
-and data-structures (list, tupels, dictinoary, ...) in python.</p>
+macro, use the familiar macro language and learn how to profit from the better code organization
+and data-structures (list, tupels, dictionary, ...) in python.</p>
 <p>written 2020 by <a class="rst-reference external" href="https://github.com/volker-baecker" target="_top">Volker Baecker</a>, <a class="rst-reference external" href="http://www.mri.cnrs.fr" target="_top">Montpellier Ressources Imagerie</a>, Biocampus Montpellier, UM, INSERM, CNRS</p>
 <p>Have fun!</p>
+<div class="rst-section" id="rst-unimplemented-functions">
+<h1 class="heading">Unimplemented functions</h1>
+<div class="rst-section" id="rst-abs">
+<h2 class="heading">abs()</h2>
+<p>When you call 'abs()' the python 'abs()' function is called. The behaviour should be identical.</p>
+</div>
+<div class="rst-section" id="rst-acos">
+<h2 class="heading">acos()</h2>
+<p>Import the function from python's math module instead.</p>
+<pre class="rst-code rst-python rst-literal-block">
+<span class="rst-keyword rst-namespace">from</span> <span class="rst-name rst-namespace">math</span> <span class="rst-keyword rst-namespace">import</span> <span class="rst-name">acos</span>
+</pre>
+</div>
+</div>
 
+<!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Classes"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.ijmpy.Array-class.html" class="summary-name">Array</a><br />
+      These functions operate on arrays. Refer to the <a class="rst-reference external" href="https://imagej.net/macros/examples/ArrayFunctions.txt" target="_top">ArrayFunctions</a> macro for examples.
+    </td>
+  </tr>
+</table>
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -126,6 +163,43 @@ and data-structures (list, tupels, dictinoary, ...) in python.</p>
       Returns the lower and upper threshold levels.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mripy.ijmpy-pysrc.html#getThreshold">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="lengthOf"></a><span class="summary-sig-name">lengthOf</span>(<span class="summary-sig-arg">aListOrString</span>)</span><br />
+      Returns the length of a string or array.
+Can be replaced with str.length (1.52t or later) or arr.length in ijm but not in ijmpy.
+Use lengthOf(a) or len(a) instead of a.length.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#lengthOf">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#newArray" class="summary-sig-name">newArray</a>(<span class="summary-sig-arg">*args</span>)</span><br />
+      Returns a new array containing size elements. You can also create arrays by listing the elements, for example newArray(1,4,7) or
+newArray(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;). For more examples, see the <a class="rst-reference external" href="https://imagej.net/macros/Arrays.txt" target="_top">Arrays</a> macro.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#newArray">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -373,8 +447,32 @@ Note that pixels in RGB images contain red, green and blue components that need 
 <p>The function has no parameters and returns a tupel. This is different from the ij-macro function which has two result parameters.</p>
 <div class="rst-section" id="rst-see-also">
 <h1 class="heading">See also:</h1>
-<p>setThreshold, resetThreshold.</p>
+<p>setThreshold, resetThreshold</p>
 </div>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="newArray"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">newArray</span>(<span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#newArray">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns a new array containing size elements. You can also create arrays by listing the elements, for example newArray(1,4,7) or
+newArray(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;). For more examples, see the <a class="rst-reference external" href="https://imagej.net/macros/Arrays.txt" target="_top">Arrays</a> macro.</p>
+<p>The ImageJ macro language does not directly support 2D arrays. Use python lists instead.</p>
+<p>ijmpy uses python lists as arrays. The macro code a.length will not work. Use either the ijm-command lengthOf(a) or the python
+command len(a) instead.</p>
+<p>The newArray-function is here for compability with ij-macros. Consider using python lists directly.</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -569,7 +667,7 @@ as was the case with the Image&gt;Adjust&gt;Threshold &quot;Auto&quot; option in
 function to get a list of the available methods. Concatenate &quot; dark&quot; to the method name if the image has a dark background.
 For an example, see the <a class="rst-reference external" href="https://imagej.net/macros/examples/AutoThresholdingDemo.txt" target="_top">AutoThresholdingDemo</a> macro.</p>
 <div class="rst-section" id="rst-see-also">
-<h1 class="heading">See Also</h1>
+<h1 class="heading">See also:</h1>
 <p>setThreshold, <a class="rst-reference external" href="redirect.html#mripy.ijmpy.getThreshold" target="_top">getThreshold</a>, resetThreshold</p>
 </div>
   <dl class="fields">
@@ -581,9 +679,6 @@ For an example, see the <a class="rst-reference external" href="https://imagej.n
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
-  <!-- Home link -->
-      <th bgcolor="#70b0f0" class="navbar-select"
-          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -604,7 +699,7 @@ For an example, see the <a class="rst-reference external" href="https://imagej.n
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Mon Feb 10 23:42:21 2020
+    on Fri Feb 21 00:29:41 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
