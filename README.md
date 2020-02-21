@@ -54,6 +54,27 @@ Duplicate.run(image)
 ## bialangsj 
 bialangsj (sj for sci-java) is a bio-image analyst centric jython wrapper for the ImageJ2 api. The idea is to create the same classes and functions as in bialang but implemented in ImageJ2 and sci-java.
 
+##  How to use it
+
+Clone or download the repository. Copy the mripy-folder into the folder jars/Lib. Import the package you want to use in your iython image analysis script.
+
+```python
+from mripy.ijmpy import *
+```
+
+```python
+from mripy.bialang import *
+from mripy.bialangsj import *
+```
+or 
+
+```python
+from mripy import bialang as bl
+from mripy import bialangsj as blsj
+```
+
+Have a look at the unit tests for code-examples.
+
 ## Notes:
 
 21.02.2020: **Currently it's only the beginning of a proove of concept.** 
