@@ -1,5 +1,5 @@
 # mripy
-MRI ImageJ related python (jython) module.
+MRI ImageJ related python (jython) package.
 
 * [api-doc](https://montpellierressourcesimagerie.github.io/mripy/)
 
@@ -56,7 +56,7 @@ bialangsj (sj for sci-java) is a bio-image analyst centric jython wrapper for th
 
 ##  How to use it
 
-Clone or download the repository. Copy the mripy-folder into the folder jars/Lib of your FIJI installation. Import the package you want to use in your iython image analysis script.
+Clone or download the repository. Copy the mripy-folder into the folder jars/Lib of your FIJI installation. Import the module you want to use in your iython image analysis script.
 
 ```python
 from mripy.ijmpy import *
