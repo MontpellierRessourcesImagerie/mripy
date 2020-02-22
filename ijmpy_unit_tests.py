@@ -7,6 +7,7 @@ from ij.gui import Roi
 import sys
 
 class ArrayTest(unittest.TestCase):
+		
 	def testConcat(self):
 		array1 = newArray(1, 2, 3)
 		array2 = newArray("a", "b")
@@ -81,6 +82,81 @@ class ArrayTest(unittest.TestCase):
 		fourier = Array.fourier(array)
 		self.assertEquals(fourier[0], 0.25)
 		self.assertEquals(round(fourier[8],4), 0.3536)
+
+	def testGetSequence(self):
+		seq = Array.getSequence(4)
+		self.assertEquals(len(seq), 4)
+		self.assertEquals(seq[0], 0)
+		self.assertEquals(seq[1], 1)
+		self.assertEquals(seq[2], 2)
+		self.assertEquals(seq[3], 3)
+
+	def testGetStatistics(self):
+		array = [1, 2, 3, 4, 5, 6, 7 ,8, 9, 10]
+		min, max, mean, stddev = Array.getStatistics(array)
+		self.assertEquals(min, 1)
+		self.assertEquals(max, 10)
+		self.assertEquals(mean, 5.5)
+		self.assertEquals(round(stddev, 4), 3.0277) 
+
+	def testPrint(self):
+		array = [1, 2, 3, 'a', 'b']
+		Array.print(array)
+		content = IJ.getLog()
+		lines = content.split("\n")
+		self.assertEquals(lines[-2], "1, 2, 3, a, b")
+
+	def testRankPositionsInt(self):
+		array = [10, 9, 8, 7, 7, 6 ,5]
+		ranks = Array.rankPositions(array)
+		self.assertEquals(ranks[0], 6)
+		self.assertEquals(ranks[1], 5)
+		self.assertEquals(ranks[2], 3)
+		self.assertEquals(ranks[3], 4)
+		self.assertEquals(ranks[4], 2)
+		self.assertEquals(ranks[5], 1)
+		self.assertEquals(ranks[6], 0)
+
+	def testRankPositionsString(self):
+		array = ["the", "quick", "brown", "fox"]
+		ranks = Array.rankPositions(array)
+		self.assertEquals(ranks[0], 2)
+		self.assertEquals(ranks[1], 3)
+		self.assertEquals(ranks[2], 1)
+		self.assertEquals(ranks[3], 0)
+
+	def testResampleBigger(self):
+		array = [1, 2, 3, 4, 5]
+		resampled = Array.resample(array, 10)
+		self.assertEquals(len(resampled), 10)
+		self.assertEquals(resampled[0], 1)
+		self.assertEquals(resampled[-1], 5)
+
+	def testResampleSmaller(self):
+		array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+		resampled = Array.resample(array, 5)
+		self.assertEquals(len(resampled), 5)
+		self.assertEquals(resampled[0], 1)
+		self.assertEquals(resampled[-1], 10)
+
+	def testReverse(self):
+		array = [1, 2, 3]
+		Array.reverse(array)
+		self.assertEquals(array[0], 3)
+		self.assertEquals(array[1], 2)
+		self.assertEquals(array[2], 1)
+
+	def testShowOneArray(self):
+		array = [1.234, 2.345, 3.456, 4.567]
+		rt = Array.show(array);
+		run('Close')
+		self.assertEquals(rt.getTitle(), "array")
+		self.assertEquals(rt.getColumnHeading(0), "Value")
+		values = rt.getColumn(0)
+		self.assertEquals(round(values[0], 3), 1.234)
+		self.assertEquals(round(values[1], 3), 2.345)
+		self.assertEquals(round(values[2], 3), 3.456)
+		self.assertEquals(round(values[3], 3), 4.567)
 		
 class CloseTest(unittest.TestCase):
 	def setUp(self):
@@ -288,7 +364,7 @@ class ThresholdTest(unittest.TestCase):
 
 def suite():
 	suite = unittest.TestSuite()
-
+	
 	suite.addTest(ArrayTest('testConcat'))
 	suite.addTest(ArrayTest('testCopy'))
 	suite.addTest(ArrayTest('testDeleteValue'))
@@ -297,6 +373,15 @@ def suite():
 	suite.addTest(ArrayTest('testFindMaxima'))
 	suite.addTest(ArrayTest('testFindMinima'))
 	suite.addTest(ArrayTest('testFourier'))
+	suite.addTest(ArrayTest('testGetSequence'))
+	suite.addTest(ArrayTest('testGetStatistics'))
+	suite.addTest(ArrayTest('testPrint'))
+	suite.addTest(ArrayTest('testRankPositionsInt'))
+	suite.addTest(ArrayTest('testRankPositionsString'))
+	suite.addTest(ArrayTest('testResampleBigger'))
+	suite.addTest(ArrayTest('testResampleSmaller'))
+	suite.addTest(ArrayTest('testReverse'))
+	suite.addTest(ArrayTest('testShowOneArray'))
 	
 	suite.addTest(CloseTest('testCloseNoParameter'))
 	suite.addTest(CloseTest('testCloseWithParameter'))

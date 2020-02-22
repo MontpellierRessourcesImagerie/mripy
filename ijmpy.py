@@ -29,6 +29,29 @@ Import the function from python's math module instead.
 .. code-block:: python
 
 	from math import acos
+
+Other differences with the ij-macro language
+============================================
+
+output parameter
+----------------
+
+Functions that take output parameter in the macro language are implemented without these parameters 
+and return the results as an n-tupel instead.
+
+For example, use:
+
+	min, max, mean, stddev = Array.getStatistics(anArray)
+
+instead of
+
+	Array.getStatistics(anArray, min, max, mean, stddev)
+
+Only in the case that the parameter modified in the function is an array, it is modified in place.
+For example:
+
+	Array.fill(array, 0)
+	Array.reverse(array)
 '''
 from __future__ import print_function					# we will overwrite python's print command
 import __builtin__										# to use the python print command: __builtin__.print(<text>)
@@ -37,6 +60,11 @@ from ij.process import FloatProcessor, ColorProcessor
 from ij.plugin.frame import RoiManager
 from ij.plugin.filter import MaximumFinder
 from ij.process import FHT
+from ij.util import Tools
+from java.lang import Double
+from ij.measure import ResultsTable
+from ij.plugin.filter import Analyzer
+import math
 
 class Array(object):
 	'''
@@ -108,7 +136,8 @@ class Array(object):
 		'''
 		for i in range(0, len(array)):
 			array[i] = value
-
+		return array
+		
 	@classmethod
 	def findMaxima(cls, array, tolerance, edgeMode=EXLUDE_EDGES):
 		'''
@@ -146,7 +175,145 @@ class Array(object):
 		wt = [cls.NO_WINDOW, cls.HAMMING, cls.HANN, cls.FLAT_TOP].index(windowType)
 		result = FHT().fourier1D(array, wt)
 		return result
+
+	@classmethod
+	def getSequence(cls, n):
+		'''
+		 Returns an array containing the numeric sequence 0,1,2...n-1. 
+		'''
+		return range(n)
+
+	@classmethod
+	def getStatistics(cls, aList):
+		'''
+		Returns the min, max, mean, and stdDev of array, which must contain all numbers. 
+
+		The ij-macro function takes output parameters. The ijmpy version only takes the list as
+		parameter and returns the tupel of the calculated values (min, max, mean, stdDev). This
+		means instead of 
+
+			Array.getStatistics(anArray, min, max, mean, stddev)
+
+		you have to write
+
+			min, max, mean, stddev = Array.getStatistics(anArray)
+
+		It could be implemented as  
 		
+			min, max, mean, stddev = Array.getStatistics(anArray, min, max, mean, stddev)
+
+		But then 
+
+			Array.getStatistics(anArray, min, max, mean, stddev)
+		
+		would silently fail.
+		'''
+		sum = sum2 = 0
+		min = Double.POSITIVE_INFINITY;
+		max = Double.NEGATIVE_INFINITY
+
+		for value in aList:
+			sum = sum + value
+			sum2 = sum2 + (value*value)
+			if value<min:
+				min = value
+			if value>max:
+				max = value
+		n = len(aList)
+		mean = sum / float(n)
+		stdDev = ((n*sum2)-(sum*sum))/float(n)
+		stdDev = math.sqrt(stdDev / float(n-1))
+		return min, max, mean, stdDev
+
+	@classmethod
+	def print(cls, aList):
+		'''
+		Prints the array on a single line.
+		'''
+		string = str(aList)
+		string = string.replace('[', '').replace(']', '').replace("'", "")
+		IJ.log(string)
+		return string
+
+	@classmethod
+	def rankPositions(cls, array):
+		'''
+		Returns, as an array, the rank position indexes of array, starting with the index of the smallest value (`example`_). 
+
+		.. _`example`: https://imagej.net/macros/examples/ArraySortingDemo.txt
+		'''
+
+		return Tools.rank(array)
+
+	@classmethod
+	def resample(cls, array, len):
+		'''
+		Returns an array which is linearly resampled to a different length.
+		'''
+		return Tools.resampleArray(array, len)
+
+	@classmethod
+	def reverse(cls, array):
+		'''
+		Reverses (inverts) the order of the elements in array. 
+
+		Note that the method reverses the list passed as a parameter. For convenience it also
+		returns the refernce to the list.
+		'''
+		return array.reverse()
+
+	@classmethod
+	def show(cls, *args):
+		'''
+		Displays one or more arrays in a Results window (`examples`_). 
+		
+		If title (optional) is "Results", the window will be the active Results window, otherwise, 
+		it will be a dormant Results window (see also `IJ.renameResults`_). If title ends with "(indexes)", 
+		a 0-based Index column is shown. If title ends with "(row numbers)", the row number column is shown. 
+
+		.. _`examples`: https://imagej.net/macros/examples/ShowArrayDemo.txt
+		.. _`IJ.renameResults`: https://imagej.net/developer/macro/functions.html#IJ.renameResults 
+		'''
+
+		if len(args)==0 or (len(args)==1 and not isinstance(args[0], list)):
+			raise Exception('Array show needs at least one array')
+
+		title = "Arrays"
+		if len(args)==1:
+			title = getNameOfArg(args[0])
+			column = "Value"
+			rt = ResultsTable()
+			for value in args[0]:
+				rt.incrementCounter()
+				rt.addValue(column, value)
+			rt.show(title)
+			return rt
+		indexes = False
+		rowNumbers = False
+		if (isinstance(args[0], str)):
+			title = args[0]
+			if title.find('(indexes)')>=0:
+				indexes = True
+				title = title.replace('(indexes)', '')
+			if title.find('(row numbers)')>=0:
+				rowNumbers = True
+				title = title.replace('(row numbers)', '')
+		if (title.lower=='results'):
+			rt = Analyzer.getResultsTable()
+		else:
+			rt = ResultsTable()
+		for array in args:
+			if isinstance(array, str):
+				continue
+			for value in array:
+				column = getNameOfArg(array)
+				rt.incrementCounter()
+				rt.addValue(column, value)
+		rt.showRowIndexes(indexes)
+		rt.showRowNumbers(rowNumbers)
+		rt.show(title)
+		return rt
+			
 def close(pattern=""):
 	'''
 	Closes the active image. 
@@ -454,7 +621,20 @@ def print(text):
 	For now just writes to the ImageJ-log window.
 	'''
 	IJ.log(text)
-	
+
+def getNameOfArg(arg):
+	'''
+	Utility function to get the name of the variable that was passed as an argument 
+	to the function.	
+	'''
+	import inspect
+	name = None
+	outerFrameLocals = inspect.currentframe().f_back.f_back.f_locals	
+	for key in outerFrameLocals.keys():
+		if id(outerFrameLocals[key])==id(arg):
+			name = key
+	return name
+
 def example():
 	'''
 	An example of how to use the macro commands.
@@ -462,5 +642,4 @@ def example():
 	run("Blobs (25K)");
 	run("Invert");
 	setAutoThreshold();
-	roiManager("Select", 0);
 	close();
