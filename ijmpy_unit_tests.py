@@ -157,6 +157,124 @@ class ArrayTest(unittest.TestCase):
 		self.assertEquals(round(values[1], 3), 2.345)
 		self.assertEquals(round(values[2], 3), 3.456)
 		self.assertEquals(round(values[3], 3), 4.567)
+
+	def testShowTwoArrays(self):
+		array1 = [1.234, 2.345, 3.456, 4.567]
+		array2 = [5.678, 6.789, 7.890, 8.901]
+		rt = Array.show(array1, array2);
+		run('Close')
+		self.assertEquals(rt.getTitle(), "Arrays")
+		self.assertEquals(rt.getColumnHeading(0), "array1")
+		self.assertEquals(rt.getColumnHeading(1), "array2")
+		values = rt.getColumn(0)
+		self.assertEquals(round(values[0], 3), 1.234)
+		self.assertEquals(round(values[1], 3), 2.345)
+		self.assertEquals(round(values[2], 3), 3.456)
+		self.assertEquals(round(values[3], 3), 4.567)
+		values = rt.getColumn(1)
+		self.assertEquals(round(values[0], 3), 5.678)
+		self.assertEquals(round(values[1], 3), 6.789)
+		self.assertEquals(round(values[2], 3), 7.890)
+		self.assertEquals(round(values[3], 3), 8.901)
+
+	def testShowArrayWithTitle(self):
+		array = [1.234, 2.345, 3.456, 4.567]
+		rt = Array.show('data', array);
+		run('Close')
+		self.assertEquals(rt.getTitle(), "data")
+		self.assertEquals(rt.getColumnHeading(0), "Value")
+		values = rt.getColumn(0)
+		self.assertEquals(round(values[0], 3), 1.234)
+		self.assertEquals(round(values[1], 3), 2.345)
+		self.assertEquals(round(values[2], 3), 3.456)
+		self.assertEquals(round(values[3], 3), 4.567)
+
+	def testShowTwoArraysWithTitle(self):
+		array1 = [1.234, 2.345, 3.456, 4.567]
+		array2 = [5.678, 6.789, 7.890, 8.901]
+		rt = Array.show('data', array1, array2);
+		run('Close')
+		self.assertEquals(rt.getTitle(), "data")
+		self.assertEquals(rt.getColumnHeading(0), "array1")
+		self.assertEquals(rt.getColumnHeading(1), "array2")
+		values = rt.getColumn(0)
+		self.assertEquals(round(values[0], 3), 1.234)
+		self.assertEquals(round(values[1], 3), 2.345)
+		self.assertEquals(round(values[2], 3), 3.456)
+		self.assertEquals(round(values[3], 3), 4.567)
+		values = rt.getColumn(1)
+		self.assertEquals(round(values[0], 3), 5.678)
+		self.assertEquals(round(values[1], 3), 6.789)
+		self.assertEquals(round(values[2], 3), 7.890)
+		self.assertEquals(round(values[3], 3), 8.901)
+
+	def testShowTwoArraysWithIndexes(self):
+		array1 = [1.234, 2.345, 3.456, 4.567]
+		array2 = [5.678, 6.789, 7.890, 8.901]
+		rt = Array.show('data (indexes)', array1, array2);
+		run('Close')
+		self.assertEquals(rt.getTitle(), "data")
+		self.assertEquals(rt.getColumnHeading(0), "array1")
+		self.assertEquals(rt.getColumnHeading(1), "array2")
+		
+		row = rt.getRowAsString(0)
+		columns = row.split("\t")
+		self.assertEquals(columns[0], '0')
+		
+		row = rt.getRowAsString(3)
+		columns = row.split("\t")
+		self.assertEquals(columns[0], '3')
+		
+		values = rt.getColumn(0)
+		self.assertEquals(round(values[0], 3), 1.234)
+		self.assertEquals(round(values[1], 3), 2.345)
+		self.assertEquals(round(values[2], 3), 3.456)
+		self.assertEquals(round(values[3], 3), 4.567)
+		values = rt.getColumn(1)
+		self.assertEquals(round(values[0], 3), 5.678)
+		self.assertEquals(round(values[1], 3), 6.789)
+		self.assertEquals(round(values[2], 3), 7.890)
+		self.assertEquals(round(values[3], 3), 8.901)
+
+	def testShowTwoArraysWithRowNumbers(self):
+		array1 = [1.234, 2.345, 3.456, 4.567]
+		array2 = [5.678, 6.789, 7.890, 8.901]
+		rt = Array.show('data (row numbers)', array1, array2);
+		run('Close')
+		self.assertEquals(rt.getTitle(), "data")
+		self.assertEquals(rt.getColumnHeading(0), "array1")
+		self.assertEquals(rt.getColumnHeading(1), "array2")
+		
+		row = rt.getRowAsString(0)
+		columns = row.split("\t")
+		self.assertEquals(columns[0], '1')
+		
+		row = rt.getRowAsString(3)
+		columns = row.split("\t")
+		self.assertEquals(columns[0], '4')
+		
+		values = rt.getColumn(0)
+		self.assertEquals(round(values[0], 3), 1.234)
+		self.assertEquals(round(values[1], 3), 2.345)
+		self.assertEquals(round(values[2], 3), 3.456)
+		self.assertEquals(round(values[3], 3), 4.567)
+		values = rt.getColumn(1)
+		self.assertEquals(round(values[0], 3), 5.678)
+		self.assertEquals(round(values[1], 3), 6.789)
+		self.assertEquals(round(values[2], 3), 7.890)
+		self.assertEquals(round(values[3], 3), 8.901)
+
+	def testShowArrayResults(self):
+		array = [1.234, 2.345, 3.456, 4.567]
+		rt = Array.show('Results', array);
+		self.assertEquals(rt.getTitle(), "Results")
+		self.assertEquals(rt.getColumnHeading(0), "Value")
+		values = rt.getColumn(0)
+		self.assertEquals(round(values[0], 3), 1.234)
+		self.assertEquals(round(values[1], 3), 2.345)
+		self.assertEquals(round(values[2], 3), 3.456)
+		self.assertEquals(round(values[3], 3), 4.567)
+		run('Close')
 		
 class CloseTest(unittest.TestCase):
 	def setUp(self):
@@ -382,6 +500,12 @@ def suite():
 	suite.addTest(ArrayTest('testResampleSmaller'))
 	suite.addTest(ArrayTest('testReverse'))
 	suite.addTest(ArrayTest('testShowOneArray'))
+	suite.addTest(ArrayTest('testShowTwoArrays'))
+	suite.addTest(ArrayTest('testShowArrayWithTitle'))
+	suite.addTest(ArrayTest('testShowTwoArraysWithTitle'))
+	suite.addTest(ArrayTest('testShowTwoArraysWithIndexes'))
+	suite.addTest(ArrayTest('testShowTwoArraysWithRowNumbers'))
+	suite.addTest(ArrayTest('testShowArrayResults'))
 	
 	suite.addTest(CloseTest('testCloseNoParameter'))
 	suite.addTest(CloseTest('testCloseWithParameter'))

@@ -275,42 +275,77 @@ class Array(object):
 		.. _`IJ.renameResults`: https://imagej.net/developer/macro/functions.html#IJ.renameResults 
 		'''
 
-		if len(args)==0 or (len(args)==1 and not isinstance(args[0], list)):
+		if len(args)==0 or (len(args)==1 and not isinstance(args[0], list)):			#@TODO: refactor!!!
 			raise Exception('Array show needs at least one array')
 
 		title = "Arrays"
-		if len(args)==1:
-			title = getNameOfArg(args[0])
+		if len(args)==1 or (len(args)==2 and isinstance(args[0], str)):					# one array with or without title
+			if isinstance(args[0], str):
+				title = args[0]
+				array = args[1]
+			else:
+				title = getNameOfArg(args[0])
+				array = args[0]
 			column = "Value"
-			rt = ResultsTable()
-			for value in args[0]:
+			indexes = False;
+			rowNumbers = False;
+			if title.find('(indexes)')>=0:
+				indexes = True
+				title = title.replace('(indexes)', '').strip()
+			if title.find('(row numbers)')>=0:
+				rowNumbers = True
+				title = title.replace('(row numbers)', '').strip()
+			if (indexes): 
+				rt.showRowNumbers(False)	
+				rt.showRowIndexes(True)
+			if (rowNumbers): 
+				rt.showRowIndexes(False)
+				rt.showRowNumbers(True)	
+			if (title.lower()=='results'):
+				rt = Analyzer.getResultsTable()
+			else:
+				rt = ResultsTable()
+			for value in array:
 				rt.incrementCounter()
 				rt.addValue(column, value)
 			rt.show(title)
 			return rt
-		indexes = False
+			
+		indexes = False											# More than one array
 		rowNumbers = False
 		if (isinstance(args[0], str)):
 			title = args[0]
 			if title.find('(indexes)')>=0:
 				indexes = True
-				title = title.replace('(indexes)', '')
+				title = title.replace('(indexes)', '').strip()
+				__builtin__.print(title)
 			if title.find('(row numbers)')>=0:
 				rowNumbers = True
-				title = title.replace('(row numbers)', '')
-		if (title.lower=='results'):
+				title = title.replace('(row numbers)', '').strip()
+		if (title.lower()=='results'):
 			rt = Analyzer.getResultsTable()
 		else:
 			rt = ResultsTable()
+		isFirstColumn = True;
 		for array in args:
 			if isinstance(array, str):
 				continue
+			row = 0	
 			for value in array:
 				column = getNameOfArg(array)
-				rt.incrementCounter()
-				rt.addValue(column, value)
-		rt.showRowIndexes(indexes)
-		rt.showRowNumbers(rowNumbers)
+				if (isFirstColumn):
+					rt.incrementCounter()
+					rt.addValue(column, value)
+				else:
+					rt.setValue(column, row, value)
+					row = row + 1
+			isFirstColumn = False
+		if (indexes): 
+			rt.showRowNumbers(False)	
+			rt.showRowIndexes(True)
+		if (rowNumbers): 
+			rt.showRowIndexes(False)
+			rt.showRowNumbers(True)	
 		rt.show(title)
 		return rt
 			
