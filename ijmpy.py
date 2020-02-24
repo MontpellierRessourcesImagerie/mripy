@@ -21,15 +21,6 @@ abs()
 
 When you call 'abs()' the python 'abs()' function is called. The behaviour should be identical.
 
-acos()
-------
-
-Import the function from python's math module instead. 
-
-.. code-block:: python
-
-	from math import acos
-
 Other differences with the ij-macro language
 ============================================
 
@@ -53,19 +44,32 @@ For example:
 	Array.fill(array, 0)
 	Array.reverse(array)
 '''
-from __future__ import print_function					# we will overwrite python's print command
-import __builtin__										# to use the python print command: __builtin__.print(<text>)
-from ij import IJ, WindowManager
+from __future__ import print_function, division 						# we will overwrite python's print command
+import __builtin__														# to use the python print command: __builtin__.print(<text>)
+from java.lang import Double, String
+from java.awt import Font, Color
+from ij import IJ, WindowManager, Prefs
 from ij.process import FloatProcessor, ColorProcessor
+from ij.plugin import Colors
 from ij.plugin.frame import RoiManager
-from ij.plugin.filter import MaximumFinder
+from ij.plugin.filter import MaximumFinder, Analyzer
 from ij.process import FHT
 from ij.util import Tools
-from java.lang import Double
 from ij.measure import ResultsTable
-from ij.plugin.filter import Analyzer
-import math
+from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog
+from collections import deque 
+import math, sys, importlib
 
+AUTO_UPDATE = True
+NaN = Double.NaN
+PI = math.pi
+
+def acos(n):
+	'''
+	Returns the inverse cosine (in radians) of n.
+	'''
+	return math.acos(n)
+	
 class Array(object):
 	'''
 	These functions operate on arrays. Refer to the `ArrayFunctions`_ macro for examples. 
@@ -284,7 +288,7 @@ class Array(object):
 				title = args[0]
 				array = args[1]
 			else:
-				title = getNameOfArg(args[0])
+				title = __getNameOfArg(args[0])
 				array = args[0]
 			column = "Value"
 			indexes = False;
@@ -318,7 +322,6 @@ class Array(object):
 			if title.find('(indexes)')>=0:
 				indexes = True
 				title = title.replace('(indexes)', '').strip()
-				__builtin__.print(title)
 			if title.find('(row numbers)')>=0:
 				rowNumbers = True
 				title = title.replace('(row numbers)', '').strip()
@@ -332,7 +335,7 @@ class Array(object):
 				continue
 			row = 0	
 			for value in array:
-				column = getNameOfArg(array)
+				column = __getNameOfArg(array)
 				if (isFirstColumn):
 					rt.incrementCounter()
 					rt.addValue(column, value)
@@ -348,7 +351,203 @@ class Array(object):
 			rt.showRowNumbers(True)	
 		rt.show(title)
 		return rt
-			
+
+	@classmethod
+	def slice(cls, array, start, stop=None):
+		'''
+		Extracts a part of an array and returns it. (`examples`_).
+
+		.. _`examples`: https://imagej.net/macros/examples/ArraySliceExamples.txt
+		'''
+		if (stop is None):
+			stop = len(array)
+		return array[start:stop]
+
+	@classmethod
+	def sort(cls, array):
+		'''
+		Sorts array, which must contain all numbers or all strings. String sorts are case-insensitive in v1.44i or later. 
+		'''
+		if (len(array)==0):
+			return array
+		if (isinstance(array[0],  str)):
+			return array.sort(key=lambda y: y.lower())
+		return array.sort()
+
+	@classmethod
+	def trim(cls, array, n):
+		'''
+		Returns an array that contains the first n elements of array. 
+		'''
+		return array[:n]
+
+	@classmethod
+	def rotate(cls, array, d):
+		'''
+		Rotates the array elements by 'd' steps (positive 'd' = rotate right). Requires 1.51n. `Examples`_. 
+
+		.. _`Examples`: https://imagej.net/macros/examples/RotateArray.txt
+		'''
+		if len(array) == 0:
+			return array
+		rotated = deque(array) 
+		rotated.rotate(d)
+		for i in range(0, len(array)):
+			array[i] = rotated[i]
+		return array 
+
+	@classmethod
+	def getVertexAngles(cls, xArr, yArr, arm):
+		'''
+		From a closed contour given by 'xArr', 'yArr', an array is returned holding vertex angles in degrees 
+		(straight=0, convex = positive if contour is clockwise). 
+		
+		Set 'arm'=1 to calculate the angle from the closest vertex points left and right, or use arm>1 for 
+		more distant neighbours and smoother results. Requires 1.51n. `Examples`_.
+
+		.. _`Examples`: https://imagej.net/macros/examples/VertexAngles.txt
+		'''
+		if len(xArr)!=len(yArr):
+			raise Exception('Same size expected')
+		length = len(xArr)
+		vAngles = [0]*length
+		x = xArr
+		y = yArr
+		for mid in range(0, length):
+			left = (mid + 10 * length - arm) % length
+			right = (mid + arm) % length
+			dotprod = (x[right] - x[mid]) * (x[left] - x[mid]) + (y[right] - y[mid]) * (y[left] - y[mid])
+			crossprod = (x[right] - x[mid]) * (y[left] - y[mid]) - (y[right] - y[mid]) * (x[left] - x[mid])
+			phi = 180.0 - 180.0 / math.pi * math.atan2(crossprod, dotprod)
+			while phi >= 180.0:
+				phi -= 360.0
+			vAngles[mid] = phi
+		return vAngles
+
+def asin(n):
+	'''
+	Returns the inverse sine (in radians) of n.
+	'''
+	return math.asin(n)
+
+def atan(n):
+	'''
+	Calculates the inverse tangent (arctangent) of n. 
+	
+	Returns a value in the range -PI/2 through PI/2. 
+	'''
+	return math.atan(n)
+
+def atan2(y, x):
+	'''
+	Calculates the inverse tangent of y/x and returns an angle in the range -PI to PI, 
+	using the signs of the arguments to determine the quadrant. 
+	
+	Multiply the result by 180/PI to convert to degrees. 
+	'''
+	return math.atan2(y, x)
+
+def autoUpdate(aBoolean):
+	'''
+	If boolean is true, the display is refreshed each time lineTo(), drawLine(), drawString(), etc. are called,
+	otherwise, the display is refreshed only when updateDisplay() is called or when the macro terminates. 
+	'''
+	global AUTO_UPDATE
+	AUTO_UPDATE = aBoolean
+	
+def isAutoUpdate():
+	'''
+	Returns true if auto-update is active and false otherwise.
+	'''
+	global AUTO_UPDATE
+	return AUTO_UPDATE
+
+def beep():
+	'''
+	Emits an audible beep.
+	'''
+	IJ.beep()
+
+def bitDepth():
+	'''
+	Returns the bit depth of the active image: 8, 16, 24 (RGB) or 32 (float). 
+	'''
+	return IJ.getImage().getBitDepth()
+
+def calibrate(value):
+	'''
+	Uses the calibration function of the active image to convert a raw pixel value to a density calibrated value. 
+	
+	The argument must be an integer in the range 0-255 (for 8-bit images) or 0-65535 (for 16-bit images). 
+	Returns the same value if the active image does not have a calibration function. 
+	'''
+	cValue = IJ.getImage().getCalibration().getCValue(value)
+	return cValue
+
+def call(classAndMethodName, *args):
+	'''
+	Calls a public static method in a Java class, passing an arbitrary number of string arguments, and returning a string. 
+	
+	Refer to the `CallJavaDemo`_ macro and the `ImpProps`_ plugin for examples. 
+
+	.. _`CallJavaDemo`: https://imagej.net/macros/CallJavaDemo.txt
+	.. _`ImpProps`: https://imagej.net/plugins/imp-props.html
+	'''
+	index = classAndMethodName.rfind('.')
+	className = classAndMethodName[0:index]
+	methodName = classAndMethodName[index+1:len(classAndMethodName)]
+	aClass = importlib.import_module(className)
+	res = getattr(aClass, methodName)(*args)
+	return res
+
+def changeValues(low, high, newValue):
+	'''
+	Changes pixels in the image or selection that have a value in the range v1-v2 to v3. 
+	
+	For example, changeValues(0,5,5) changes all pixels less than 5 to 5, and changeValues(0x0000ff,0x0000ff,0xff0000) 
+	changes all blue pixels in an RGB image to red. 
+	
+	In ImageJ 1.52d or later, use changeValues(NaN,NaN,value) to replaces NaN values. 
+	'''
+	image = IJ.getImage()
+	ip = image.getProcessor()
+	roi = image.getRoi()
+	width = image.getWidth()
+	height = image.getHeight()
+	isFloat = image.getBitDepth()==32
+	if image.getBitDepth()==24: 
+		low = int(low&0xffffff)
+		high = int(high&0xffffff)
+	if roi is None:
+		roi = Roi(0,0,width,height)
+	replaceNaN = False
+	if Double.isNaN(low) and Double.isNaN(high):
+		replaceNaN = True
+	for p in roi:
+		if isFloat:
+			value = ip.getPixelValue(p.x,p.y)
+		else:
+			value = ip.getPixel(p.x,p.y)&0xffffff;
+		if (value>=low and value<=high) or replaceNaN:
+			if isFloat:
+				ip.putPixelValue(p.x, p.y, newValue)
+			else:
+				ip.putPixel(p.x, p.y, int(newValue));
+	image.updateAndDraw()
+
+def charCodeAt(aString, index):
+	'''
+	Returns the Unicode value of the character at the specified index in string. 
+	
+	Index values can range from 0 to lengthOf(string). 
+	Use the fromCharCode() function to convert one or more Unicode characters to a string.
+	'''
+	if index<0 or index>len(aString)-1:
+		raise Exception("Index ("+str(index)+") is outside of the "+str(0)+"-"+str(len(aString)-1)+" range")
+	uString = aString.decode("utf-8")
+	ch = uString[index]
+	return ord(ch)	
+
 def close(pattern=""):
 	'''
 	Closes the active image. 
@@ -377,6 +576,116 @@ def close(pattern=""):
 		value = IJ.runMacro(macro)
 	return value
 
+def cos(angle):
+	'''
+	Returns the cosine of an angle (in radians). 
+	'''
+	return math.cos(angle)
+
+def d2s(n, decimalPlaces):
+	'''
+	Converts the number n into a string using the specified number of decimal places. 
+	
+	Uses scientific notation if 'decimalPlaces is negative. Note that d2s stands for "double to string". 
+
+	Note: In python 2 the division a/b is an integer division. To use float division make one of the operands a float, or 
+	change the general behaviour with 
+	
+		from __future__ import division
+	'''
+	return IJ.d2s(n, decimalPlaces)
+
+def debug(arg):
+	'''
+	Start debugging.
+	
+	We can't use the ij-debugger for python. Call pdb instead, but this will only
+	work when running from an interactive shell not from the editor.
+	'''
+	import pdb; pdb.set_trace()
+
+class Dialog:
+	'''
+	Dialog.create(title) creates a modal dialog box with the specified title, or use Dialog.createNonBlocking("Title") to create a non-modal dialog. 
+	
+	Call Dialog.addString(), Dialog.addNumber(), etc. to add components to the dialog. Call Dialog.show() to display the dialog 
+	and Dialog.getString(), Dialog.getNumber(), etc. to retrieve the values entered by the user. 
+	
+	Refer to the `DialogDemo`_ macro for an example.
+
+	.. _`DialogDemo`: https://imagej.net/macros/DialogDemo.txt
+	'''
+	GD = None
+
+	@classmethod
+	def create(cls, title):
+		'''
+		Creates a modal dialog box with the specified title.
+		'''
+		cls.GD = GenericDialog(title)
+		return cls.GD
+
+	@classmethod
+	def createNonBlocking(cls, title):
+		'''
+		Creates a non-modal dialog box with the specified title.
+		'''
+		cls.GD = NonBlockingGenericDialog(title)
+		return cls.GD
+
+	@classmethod
+	def addMessage(cls, string, fontSize=None, fontColor=None):
+		'''
+		Adds a message to the dialog using a specified font size and color (`example`_). 
+
+		The message can be broken into multiple lines by inserting new line characters ("\\n") into the string. 
+		The 'fontSize' and 'fontColor' arguments are optional. Requires 1.52q. 
+
+		.. _`example`: https://imagej.net/macros/examples/DialogMessageDemo.txt
+		'''
+		if (fontSize is None):
+			cls.GD.addMessage(string)
+			return cls.GD
+		font = Font("SansSerif", Font.PLAIN, int((fontSize*Prefs.getGuiScale())));	
+		if (fontColor is None):
+			cls.GD.addMessage(string, font)
+			return cls.GD
+		color = Colors.decode(fontColor, Color.BLACK)
+		cls.GD.addMessage(string, font, color)
+		return cls.GD
+
+	@classmethod
+	def addString(cls, label, initialText, columns=8):
+		'''
+		Adds a text field to the dialog, where *columns* specifies the field width in characters. 
+		'''
+		cls.GD.addStringField(label, initialText, columns)
+		return cls.GD
+	
+	@classmethod
+	def show(cls):
+		'''
+		Displays the dialog and waits until the user clicks "OK" or "Cancel". 
+		
+		In ij the macro terminates if the user clicks "Cancel". This doesn't work in ijmpy.
+		This means the variables will be set to the default values even if the user cancels 
+		the dialog. To avoid this, use: 
+
+			if  not Dialog.show().wasCanceled():
+				name = Dialog.getString();
+				...
+				
+		'''
+		cls.GD.showDialog()
+		return cls.GD
+
+	@classmethod
+	def getString(cls):
+		'''
+		Returns a string containing the contents of the next text field. 
+		'''
+		return cls.GD.getNextString();
+		
 def getPixel(x, y=None):
 	'''
 	Returns the raw value of the pixel at (x,y). 
@@ -657,7 +966,7 @@ def print(text):
 	'''
 	IJ.log(text)
 
-def getNameOfArg(arg):
+def __getNameOfArg(arg):
 	'''
 	Utility function to get the name of the variable that was passed as an argument 
 	to the function.	

@@ -1,11 +1,33 @@
-from __future__ import print_function
+from __future__ import print_function, division
 import __builtin__
 from mripy.ijmpy import *
 import unittest
 from ij import WindowManager
 from ij.gui import Roi
-import sys
+import sys, time
 
+class MathTest(unittest.TestCase):
+	
+	def testAcos(self):
+		value = acos(0.5)
+		self.assertEquals(round(value, 3), 1.047)
+
+	def testAsin(self):
+		value = asin(0.5)
+		self.assertEquals(round(value, 3), 0.524)
+
+	def testAtan(self):
+		value = atan(0.5)
+		self.assertEquals(round(value, 3), 0.464)
+
+	def testAtan2(self):
+		value = atan2(2, 1)
+		self.assertEquals(round(value,4), 1.1071)
+
+	def testCos(self):
+		res = cos(2*PI)
+		self.assertEquals(res, 1)
+		
 class ArrayTest(unittest.TestCase):
 		
 	def testConcat(self):
@@ -275,7 +297,87 @@ class ArrayTest(unittest.TestCase):
 		self.assertEquals(round(values[2], 3), 3.456)
 		self.assertEquals(round(values[3], 3), 4.567)
 		run('Close')
-		
+
+	def testSlice(self):
+		array = [1, 2, 3, 4, 5]
+		# remove first element
+		sliced = Array.slice(array, 1)
+		self.assertEquals(sliced[0], 2)
+		# remove last element
+		sliced = Array.slice(array, 0, len(array)-1);
+		self.assertEquals(sliced[-1], 4)
+		# extract first two elements
+		sliced = Array.slice(array, 0, 2)
+		self.assertEquals(sliced[0], 1)
+		self.assertEquals(sliced[1], 2)
+		self.assertEquals(len(sliced), 2)
+		# extract last two elements
+		sliced = Array.slice(array, len(array)-2);
+		self.assertEquals(sliced[0], 4)
+		self.assertEquals(sliced[1], 5)
+		self.assertEquals(len(sliced), 2)
+
+	def testSort(self):
+		array = ["delta", "alpha", "Gamma", "Beta"]
+		Array.sort(array)
+		self.assertEquals(array[0], 'alpha')
+		self.assertEquals(array[1], 'Beta')
+		self.assertEquals(array[2], 'delta')
+		self.assertEquals(array[3], 'Gamma')
+		array = [4, 2, 3, 1]
+		Array.sort(array)
+		self.assertEquals(array[0], 1)
+		self.assertEquals(array[1], 2)
+		self.assertEquals(array[2], 3)
+		self.assertEquals(array[3], 4)
+
+	def testTrim(self):
+		array = [1, 2, 3, 4, 5, 6, 7, 8]
+		trimmed = Array.trim(array, 3)
+		self.assertEquals(len(trimmed), 3)
+		self.assertEquals(trimmed[0], 1)
+		self.assertEquals(trimmed[1], 2)
+		self.assertEquals(trimmed[2], 3)
+		array = [1, 2, 3]
+		trimmed = Array.trim(array, 5)
+		self.assertEquals(len(trimmed), 3)
+		self.assertEquals(trimmed[0], 1)
+		self.assertEquals(trimmed[1], 2)
+		self.assertEquals(trimmed[2], 3)
+
+	def testRotate(self):
+		array = [0, 1, 2, "three", 4, 5, 6, 7, 8, 9]
+		Array.rotate(array, 1)
+		self.assertEquals(len(array), 10)
+		self.assertEquals(array[0], 9)
+		self.assertEquals(array[-1], 8)
+		array = [0, 1, 2, "three", 4, 5, 6, 7, 8, 9]
+		Array.rotate(array, -3)
+		self.assertEquals(len(array), 10)
+		self.assertEquals(array[0], 'three')
+		self.assertEquals(array[-1], 2)
+
+	def testGetVertexAngles(self):
+		x = [260.0004, 242.7981, 197.8065, 142.1838, 97.1959, 79.9999, 97.2080, 142.2034, 197.8261, 242.8102]
+		y = [170, 222.8958, 255.6012, 255.5979, 222.8874, 169.9895, 117.0956, 84.3954, 84.4054, 117.1212]
+		angles = Array.getVertexAngles(x, y, 1)
+		self.assertEquals(len(angles), 10)
+		self.assertEquals(round(angles[0]), 36.0)
+		self.assertEquals(round(angles[9]), 36.0)
+
+class CallTest(unittest.TestCase):
+
+	def testNoParameter(self):
+		ver = call('ij.IJ.getVersion')
+		containsPoint = (ver.find('.') >=0)
+		containsSlash = (ver.find('/') >=0)
+		self.assertEquals(containsPoint, True)
+		self.assertEquals(containsSlash, True)
+
+	def testWithParameter(self):
+		 demoString = call("ij.Prefs.get", "demo.string", "Text for preferences file")
+		 self.assertEquals(demoString, "Text for preferences file")
+
 class CloseTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -300,6 +402,124 @@ class CloseTest(unittest.TestCase):
 		close("*");
 		self.assertEqual(nImages(), 0)
 
+class AutoUpdateTest(unittest.TestCase):
+
+	def testAutoUpdate(self):
+		autoUpdate(False)
+		self.assertEquals(isAutoUpdate(), False)
+		autoUpdate(True)
+		self.assertEquals(isAutoUpdate(), True)
+
+class BeepTest(unittest.TestCase):
+
+	def testBeep(self):
+		beep()
+		self.assertEquals(True, True)
+
+class BitDepthTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+	
+	def testBitDepth8(self):
+		newImage("Ramp", "8-bit ramp", 256, 256, 1);
+		bd = bitDepth()
+		self.assertEquals(bd, 8)
+
+	def testBitDepth16(self):
+		newImage("Ramp", "16-bit ramp", 256, 256, 1);
+		bd = bitDepth()
+		self.assertEquals(bd, 16)
+
+	def testBitDepth24(self):
+		newImage("Ramp", "RGB ramp", 256, 256, 1);
+		bd = bitDepth()
+		self.assertEquals(bd, 24)
+
+	def testBitDepth32(self):
+		newImage("Ramp", "32-bit ramp", 256, 256, 1);
+		bd = bitDepth()
+		self.assertEquals(bd, 32)
+
+class CalibrateTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+
+	def testCalibrateNone(self):
+		newImage("Ramp", "8-bit ramp", 256, 256, 1);
+		cv = calibrate(128)
+		self.assertEquals(cv, 128)
+
+	def testCalibrate(self):
+		imp = newImage("Ramp", "8-bit ramp", 256, 256, 1);
+		IJ.run(imp, "Calibrate...", "function=[Straight Line] unit=[Gray Value] text1=[0 255] text2=[0 1]");
+		cv = calibrate(0)
+		self.assertEquals(cv, 0)
+		cv = calibrate(255)
+		self.assertEquals(cv, 1)
+
+class ChangeValuesTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+
+	def test8BitWithoutRoi(self):
+		imp = newImage("Ramp", "8-bit ramp", 256, 256, 1);
+		changeValues(100, 110, 255);
+		self.assertEquals(getPixel(99, 0), 99)
+		self.assertEquals(getPixel(100, 0), 255)
+		self.assertEquals(getPixel(110, 0), 255)
+		self.assertEquals(getPixel(111, 0), 111)
+
+	def test8BitWithRoi(self):
+		imp = newImage("Ramp", "8-bit ramp", 256, 256, 1);
+		IJ.makeRectangle(10, 10, 10, 10)
+		changeValues(0, 100, 255);
+		self.assertEquals(getPixel(9, 15), 9)
+		self.assertEquals(getPixel(10, 15), 255)
+		self.assertEquals(getPixel(19, 15), 255)
+		self.assertEquals(getPixel(20, 15), 20)
+
+	def test16Bit(self):
+		imp = newImage("Ramp", "16-bit ramp", 256, 256, 1);
+		changeValues(100*256, 110*256, 255);
+		self.assertEquals(getPixel(99, 0), 99*256)
+		self.assertEquals(getPixel(100, 0), 255)
+		self.assertEquals(getPixel(110, 0), 255)
+		self.assertEquals(getPixel(111, 0), 111*256)
+
+	def test32Bit(self):
+		imp = newImage("Ramp", "32-bit ramp", 256, 256, 1);
+		changeValues(100/256.0, 110/256.0, 1);
+		self.assertEquals(getPixel(99, 0), 99/256.0)
+		self.assertEquals(getPixel(100, 0), 1)
+		self.assertEquals(getPixel(110, 0), 1)
+		self.assertEquals(getPixel(111, 0), 111/256.0)
+
+class CharCodeAtTest(unittest.TestCase):
+	def testCharCodeAt(self):
+		name = 'Bäcker'
+		code = charCodeAt(name, 1)
+		self.assertEquals(code, 228)
+
+class D2STest(unittest.TestCase):
+	def testD2S(self):
+		res = d2s(2/3.0, 2)
+		self.assertEquals(res, '0.67')
+	
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -462,7 +682,13 @@ class RunTest(unittest.TestCase):
 		newImage("Ramp", "8-bit ramp", 256, 256, 1);
 
 		run("Scale...", "x=2 y=2 width=512 height=512 interpolation=Bilinear create");
-		self.assertEqual(getWidth(), 512)													# arbitrarily passes and fails! Why?
+
+		# the new window, is not always the active window, manually make sure it is
+		win = WindowManager.getWindow("Ramp-1")
+		WindowManager.setCurrentWindow(win)
+		width = getWidth()
+		
+		self.assertEqual(width, 512)												
 
 class ThresholdTest(unittest.TestCase):
 	def setUp(self):
@@ -482,6 +708,12 @@ class ThresholdTest(unittest.TestCase):
 
 def suite():
 	suite = unittest.TestSuite()
+
+	suite.addTest(MathTest('testAcos'))
+	suite.addTest(MathTest('testAsin'))
+	suite.addTest(MathTest('testAtan'))
+	suite.addTest(MathTest('testAtan2'))
+	suite.addTest(MathTest('testCos'))
 	
 	suite.addTest(ArrayTest('testConcat'))
 	suite.addTest(ArrayTest('testCopy'))
@@ -506,9 +738,38 @@ def suite():
 	suite.addTest(ArrayTest('testShowTwoArraysWithIndexes'))
 	suite.addTest(ArrayTest('testShowTwoArraysWithRowNumbers'))
 	suite.addTest(ArrayTest('testShowArrayResults'))
+	suite.addTest(ArrayTest('testSlice'))
+	suite.addTest(ArrayTest('testSort'))
+	suite.addTest(ArrayTest('testTrim'))
+	suite.addTest(ArrayTest('testRotate'))
+	suite.addTest(ArrayTest('testGetVertexAngles'))
+
+	suite.addTest(AutoUpdateTest('testAutoUpdate'))
+
+	suite.addTest(BeepTest('testBeep'))
+
+	suite.addTest(ChangeValuesTest('test8BitWithoutRoi'))
+	suite.addTest(ChangeValuesTest('test8BitWithRoi'))
+	suite.addTest(ChangeValuesTest('test16Bit'))
+	suite.addTest(ChangeValuesTest('test32Bit'))
+	
+	suite.addTest(BitDepthTest('testBitDepth8'))
+	suite.addTest(BitDepthTest('testBitDepth16'))
+	suite.addTest(BitDepthTest('testBitDepth24'))
+	suite.addTest(BitDepthTest('testBitDepth32'))
+
+	suite.addTest(CalibrateTest('testCalibrateNone'))
+	suite.addTest(CalibrateTest('testCalibrate'))
+
+	suite.addTest(CallTest('testNoParameter'))
+	suite.addTest(CallTest('testWithParameter'))
+
+	suite.addTest(CharCodeAtTest('testCharCodeAt'))
 	
 	suite.addTest(CloseTest('testCloseNoParameter'))
 	suite.addTest(CloseTest('testCloseWithParameter'))
+
+	suite.addTest(D2STest('testD2S'))
 
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))

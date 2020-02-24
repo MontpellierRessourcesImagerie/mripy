@@ -397,6 +397,103 @@ value have been deleted (<a class="rst-reference external" href="https://imagej.
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="slice"></a><span class="summary-sig-name">slice</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">array</span>,
+        <span class="summary-sig-arg">start</span>,
+        <span class="summary-sig-arg">stop</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Extracts a part of an array and returns it. (<a class="rst-reference external" href="https://imagej.net/macros/examples/ArraySliceExamples.txt" target="_top">examples</a>).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Array.slice">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="sort"></a><span class="summary-sig-name">sort</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">array</span>)</span><br />
+      Sorts array, which must contain all numbers or all strings. String sorts are case-insensitive in v1.44i or later.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Array.sort">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="trim"></a><span class="summary-sig-name">trim</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">array</span>,
+        <span class="summary-sig-arg">n</span>)</span><br />
+      Returns an array that contains the first n elements of array.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Array.trim">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="rotate"></a><span class="summary-sig-name">rotate</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">array</span>,
+        <span class="summary-sig-arg">d</span>)</span><br />
+      Rotates the array elements by 'd' steps (positive 'd' = rotate right). Requires 1.51n. <a class="rst-reference external" href="https://imagej.net/macros/examples/RotateArray.txt" target="_top">Examples</a>.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Array.rotate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Array-class.html#getVertexAngles" class="summary-sig-name">getVertexAngles</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">xArr</span>,
+        <span class="summary-sig-arg">yArr</span>,
+        <span class="summary-sig-arg">arm</span>)</span><br />
+      From a closed contour given by 'xArr', 'yArr', an array is returned holding vertex angles in degrees
+(straight=0, convex = positive if contour is clockwise).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Array.getVertexAngles">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 </table>
 <!-- ==================== CLASS VARIABLES ==================== -->
 <a name="section-ClassVariables"></a>
@@ -689,6 +786,32 @@ a 0-based Index column is shown. If title ends with &quot;(row numbers)&quot;, t
   </dl>
 </td></tr></table>
 </div>
+<a name="getVertexAngles"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">getVertexAngles</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">xArr</span>,
+        <span class="sig-arg">yArr</span>,
+        <span class="sig-arg">arm</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Array.getVertexAngles">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>From a closed contour given by 'xArr', 'yArr', an array is returned holding vertex angles in degrees
+(straight=0, convex = positive if contour is clockwise).</p>
+<p>Set 'arm'=1 to calculate the angle from the closest vertex points left and right, or use arm&gt;1 for
+more distant neighbours and smoother results. Requires 1.51n. <a class="rst-reference external" href="https://imagej.net/macros/examples/VertexAngles.txt" target="_top">Examples</a>.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -714,7 +837,7 @@ a 0-based Index column is shown. If title ends with &quot;(row numbers)&quot;, t
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Sat Feb 22 16:19:36 2020
+    on Mon Feb 24 01:11:53 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

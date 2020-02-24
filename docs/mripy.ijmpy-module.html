@@ -66,13 +66,6 @@ and data-structures (list, tupels, dictionary, ...) in python.</p>
 <h2 class="heading">abs()</h2>
 <p>When you call 'abs()' the python 'abs()' function is called. The behaviour should be identical.</p>
 </div>
-<div class="rst-section" id="rst-acos">
-<h2 class="heading">acos()</h2>
-<p>Import the function from python's math module instead.</p>
-<pre class="rst-code rst-python rst-literal-block">
-<span class="rst-keyword rst-namespace">from</span> <span class="rst-name rst-namespace">math</span> <span class="rst-keyword rst-namespace">import</span> <span class="rst-name">acos</span>
-</pre>
-</div>
 </div>
 <div class="rst-section" id="rst-other-differences-with-the-ij-macro-language">
 <h1 class="heading">Other differences with the ij-macro language</h1>
@@ -119,6 +112,14 @@ Array.reverse(array)</blockquote>
       These functions operate on arrays. Refer to the <a class="rst-reference external" href="https://imagej.net/macros/examples/ArrayFunctions.txt" target="_top">ArrayFunctions</a> macro for examples.
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.ijmpy.Dialog-class.html" class="summary-name">Dialog</a><br />
+      Dialog.create(title) creates a modal dialog box with the specified title, or use Dialog.createNonBlocking(&quot;Title&quot;) to create a non-modal dialog.
+    </td>
+  </tr>
 </table>
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -143,10 +144,273 @@ Array.reverse(array)</blockquote>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="acos"></a><span class="summary-sig-name">acos</span>(<span class="summary-sig-arg">n</span>)</span><br />
+      Returns the inverse cosine (in radians) of n.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#acos">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="asin"></a><span class="summary-sig-name">asin</span>(<span class="summary-sig-arg">n</span>)</span><br />
+      Returns the inverse sine (in radians) of n.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#asin">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#atan" class="summary-sig-name">atan</a>(<span class="summary-sig-arg">n</span>)</span><br />
+      Calculates the inverse tangent (arctangent) of n.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#atan">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#atan2" class="summary-sig-name">atan2</a>(<span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">x</span>)</span><br />
+      Calculates the inverse tangent of y/x and returns an angle in the range -PI to PI,
+using the signs of the arguments to determine the quadrant.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#atan2">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="autoUpdate"></a><span class="summary-sig-name">autoUpdate</span>(<span class="summary-sig-arg">aBoolean</span>)</span><br />
+      If boolean is true, the display is refreshed each time lineTo(), drawLine(), drawString(), etc. are called,
+otherwise, the display is refreshed only when updateDisplay() is called or when the macro terminates.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#autoUpdate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isAutoUpdate"></a><span class="summary-sig-name">isAutoUpdate</span>()</span><br />
+      Returns true if auto-update is active and false otherwise.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#isAutoUpdate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="beep"></a><span class="summary-sig-name">beep</span>()</span><br />
+      Emits an audible beep.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#beep">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="bitDepth"></a><span class="summary-sig-name">bitDepth</span>()</span><br />
+      Returns the bit depth of the active image: 8, 16, 24 (RGB) or 32 (float).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#bitDepth">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#calibrate" class="summary-sig-name">calibrate</a>(<span class="summary-sig-arg">value</span>)</span><br />
+      Uses the calibration function of the active image to convert a raw pixel value to a density calibrated value.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#calibrate">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#call" class="summary-sig-name">call</a>(<span class="summary-sig-arg">classAndMethodName</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Calls a public static method in a Java class, passing an arbitrary number of string arguments, and returning a string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#call">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#changeValues" class="summary-sig-name">changeValues</a>(<span class="summary-sig-arg">low</span>,
+        <span class="summary-sig-arg">high</span>,
+        <span class="summary-sig-arg">newValue</span>)</span><br />
+      Changes pixels in the image or selection that have a value in the range v1-v2 to v3.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#changeValues">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#charCodeAt" class="summary-sig-name">charCodeAt</a>(<span class="summary-sig-arg">aString</span>,
+        <span class="summary-sig-arg">index</span>)</span><br />
+      Returns the Unicode value of the character at the specified index in string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#charCodeAt">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#close" class="summary-sig-name">close</a>(<span class="summary-sig-arg">pattern</span>=<span class="summary-sig-default">&quot;&quot;</span>)</span><br />
       Closes the active image.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mripy.ijmpy-pysrc.html#close">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="cos"></a><span class="summary-sig-name">cos</span>(<span class="summary-sig-arg">angle</span>)</span><br />
+      Returns the cosine of an angle (in radians).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#cos">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#d2s" class="summary-sig-name">d2s</a>(<span class="summary-sig-arg">n</span>,
+        <span class="summary-sig-arg">decimalPlaces</span>)</span><br />
+      Converts the number n into a string using the specified number of decimal places.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#d2s">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#debug" class="summary-sig-name">debug</a>(<span class="summary-sig-arg">arg</span>)</span><br />
+      Start debugging.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#debug">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -353,17 +617,17 @@ newArray(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;). For more examples, see the 
       
     </td>
   </tr>
-<tr>
+<tr class="private">
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="getNameOfArg"></a><span class="summary-sig-name">getNameOfArg</span>(<span class="summary-sig-arg">arg</span>)</span><br />
+          <td><span class="summary-sig"><a name="__getNameOfArg"></a><span class="summary-sig-name">__getNameOfArg</span>(<span class="summary-sig-arg">arg</span>)</span><br />
       Utility function to get the name of the variable that was passed as an argument
 to the function.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#getNameOfArg">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#__getNameOfArg">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -389,6 +653,45 @@ to the function.</td>
     </td>
   </tr>
 </table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="AUTO_UPDATE"></a><span class="summary-name">AUTO_UPDATE</span> = <code title="True">True</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="NaN"></a><span class="summary-name">NaN</span> = <code title="Double.NaN">Double.NaN</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI"></a><span class="summary-name">PI</span> = <code title="math.pi">math.pi</code>
+    </td>
+  </tr>
+</table>
 <!-- ==================== FUNCTION DETAILS ==================== -->
 <a name="section-FunctionDetails"></a>
 <table class="details" border="1" cellpadding="3"
@@ -407,6 +710,136 @@ to the function.</td>
   </td>
 </tr>
 </table>
+<a name="atan"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">atan</span>(<span class="sig-arg">n</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#atan">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calculates the inverse tangent (arctangent) of n.</p>
+<p>Returns a value in the range -PI/2 through PI/2.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="atan2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">atan2</span>(<span class="sig-arg">y</span>,
+        <span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#atan2">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calculates the inverse tangent of y/x and returns an angle in the range -PI to PI,
+using the signs of the arguments to determine the quadrant.</p>
+<p>Multiply the result by 180/PI to convert to degrees.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="calibrate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">calibrate</span>(<span class="sig-arg">value</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#calibrate">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Uses the calibration function of the active image to convert a raw pixel value to a density calibrated value.</p>
+<p>The argument must be an integer in the range 0-255 (for 8-bit images) or 0-65535 (for 16-bit images).
+Returns the same value if the active image does not have a calibration function.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="call"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">call</span>(<span class="sig-arg">classAndMethodName</span>,
+        <span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#call">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Calls a public static method in a Java class, passing an arbitrary number of string arguments, and returning a string.</p>
+<p>Refer to the <a class="rst-reference external" href="https://imagej.net/macros/CallJavaDemo.txt" target="_top">CallJavaDemo</a> macro and the <a class="rst-reference external" href="https://imagej.net/plugins/imp-props.html" target="_top">ImpProps</a> plugin for examples.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="changeValues"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">changeValues</span>(<span class="sig-arg">low</span>,
+        <span class="sig-arg">high</span>,
+        <span class="sig-arg">newValue</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#changeValues">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Changes pixels in the image or selection that have a value in the range v1-v2 to v3.</p>
+<p>For example, changeValues(0,5,5) changes all pixels less than 5 to 5, and changeValues(0x0000ff,0x0000ff,0xff0000)
+changes all blue pixels in an RGB image to red.</p>
+<p>In ImageJ 1.52d or later, use changeValues(NaN,NaN,value) to replaces NaN values.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="charCodeAt"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">charCodeAt</span>(<span class="sig-arg">aString</span>,
+        <span class="sig-arg">index</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#charCodeAt">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the Unicode value of the character at the specified index in string.</p>
+<p>Index values can range from 0 to lengthOf(string).
+Use the fromCharCode() function to convert one or more Unicode characters to a string.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <a name="close"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -437,6 +870,52 @@ The most recent macro window is never closed.</dd>
 <dt>close(&quot;Others&quot;)</dt>
 <dd>Closes all images except for the front image.</dd>
 </dl>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="d2s"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">d2s</span>(<span class="sig-arg">n</span>,
+        <span class="sig-arg">decimalPlaces</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#d2s">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Converts the number n into a string using the specified number of decimal places.</p>
+<p>Uses scientific notation if 'decimalPlaces is negative. Note that d2s stands for &quot;double to string&quot;.</p>
+<p>Note: In python 2 the division a/b is an integer division. To use float division make one of the operands a float, or
+change the general behaviour with</p>
+<blockquote>
+from __future__ import division</blockquote>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="debug"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">debug</span>(<span class="sig-arg">arg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#debug">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Start debugging.</p>
+<p>We can't use the ij-debugger for python. Call pdb instead, but this will only
+work when running from an interactive shell not from the editor.</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -736,7 +1215,7 @@ For an example, see the <a class="rst-reference external" href="https://imagej.n
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Sat Feb 22 16:19:36 2020
+    on Mon Feb 24 01:11:53 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
