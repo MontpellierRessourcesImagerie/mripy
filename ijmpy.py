@@ -63,6 +63,8 @@ import math, sys, importlib
 AUTO_UPDATE = True
 NaN = Double.NaN
 PI = math.pi
+true = 1
+false = 0
 
 def acos(n):
 	'''
@@ -604,7 +606,7 @@ def debug(arg):
 	'''
 	import pdb; pdb.set_trace()
 
-class Dialog:
+class Dialog(object):
 	'''
 	Dialog.create(title) creates a modal dialog box with the specified title, or use Dialog.createNonBlocking("Title") to create a non-modal dialog. 
 	
@@ -661,7 +663,153 @@ class Dialog:
 		'''
 		cls.GD.addStringField(label, initialText, columns)
 		return cls.GD
-	
+
+	@classmethod
+	def addNumber(cls, label, default, decimalPlaces=None, columns=6, units=""):
+		'''
+		Adds a numeric field, using the specified label and default value. 
+		
+		DecimalPlaces specifies the number of digits to right of decimal point, columns specifies 
+		the field width in characters and units is a string that is displayed to the right of the field. 
+		'''
+		if decimalPlaces is None:
+			if isinstance(default, int):
+				decimalPlaces = 0
+			else:
+				decimalPlaces = 3
+		cls.GD.addNumericField(label, default, decimalPlaces, columns, units)
+		return cls.GD
+
+	@classmethod
+	def addSlider(cls, label, minimum, maximum, default):
+		'''
+		Adds a slider controlled numeric field to the dialog, using the specified label, and min, max and default values (`example`_).
+		
+		Values with decimal points are used when (max-min)<=5 and min, max or default are non-integer.
+		
+		.. _`example`: https://imagej.net/macros/examples/SliderDemo.txt
+		'''
+		stepSize = 0.0
+		if ((maximum - minimum) <= 5) and (isinstance(minimum, float) or isinstance(maximum, float) or isinstance(default, float)):
+			stepSize = (maximum - minimum) / 100.0
+		if stepSize is 0.0:
+			cls.GD.addSlider(label, minimum, maximum, default)
+		else:
+			cls.GD.addSlider(label, minimum, maximum, default, stepSize)
+		return cls.GD
+
+	@classmethod
+	def addCheckbox(cls, label, default):
+		'''
+		Adds a checkbox to the dialog, using the specified label and default state (true or false).
+		'''
+		if default:
+			default = True
+		else:
+			default = False
+		cls.GD.addCheckbox(label, default)
+		return cls.GD
+
+	@classmethod
+	def addCheckboxGroup(cls, rows, columns, labels, defaults):
+		'''
+		Adds a rowsxcolumns grid of checkboxes to the dialog, using the specified labels and default states (`example`_). 
+
+		.. _`example`: https://imagej.net/macros/AddCheckboxGroupDemo.txt
+		
+		if not len(labels) is len(defaults):
+			raise Exception('labels.length!=states.length')
+		
+		cls.GD.addCheckboxGroup(rows, columns, labels, defaults)
+		return cls.GD
+		'''
+		if not len(labels) is len(defaults):
+			raise Exception('labels.length!=states.length')
+		states = [aBool and True for aBool in defaults]
+		cls.GD.addCheckboxGroup(rows, columns, labels, states)
+		return cls.GD
+
+	@classmethod
+	def addRadioButtonGroup(cls, label, items, rows, columns, default):
+		'''
+		Adds a group of radio buttons to the dialog.
+		
+		'label' is the group label, 'items' is an array containing the button labels, 
+		'rows' and 'columns' specify the grid size, and 'default' is the label of the default button. (`example`_).
+
+		.. _`example`: https://imagej.net/macros/examples/RadioButtonDemo.txt 
+		'''
+
+		cls.GD.addRadioButtonGroup(label, items, rows, columns, default)
+		return cls.GD
+
+	@classmethod
+	def addChoice(cls, label, items, default=None):
+		'''
+		Adds a popup menu.
+		
+		items is a string array containing the choices and default is the default choice. 
+		'''
+
+		if default==None:
+			default = items[0]
+		cls.GD.addChoice(label, items, default)
+		return cls.GD
+
+	@classmethod
+	def addHelp(cls, urlOrHTML):
+		'''
+		Adds a "Help" button that opens the specified URL in the default browser. 
+		 
+		This can be used to supply a help page for this dialog or macro. With v1.46b or later, 
+		displays an HTML formatted message if 'url' starts with "<html>" (`example`_). 
+
+		.. _`example`: https://imagej.net/macros/examples/DialogWithHelp.txt
+		'''
+		cls.GD.addHelp(urlOrHTML)
+		return cls.GD
+
+	@classmethod
+	def addToSameRow(cls):
+		'''
+		Makes the next item added appear on the same row as the previous item. 
+		
+		May be used for addNumericField, addSlider, addChoice, addCheckbox, addString, addMessage, 
+		and before the showDialog() method. In the latter case, the buttons appear to the right of 
+		the previous item. 
+		
+		Note that addMessage (and addString if a width of more than 8 is specified) use the remaining width, 
+		so it must be the last item of a row. Requires 1.51r. 
+		'''	
+		cls.GD.addToSameRow()
+		return cls.GD
+
+	@classmethod
+	def setInsets(cls, top, left, bottom):
+		'''
+		Overrides the default insets (margins) used for the next component added to the dialog.
+
+		Default insets:
+		
+			addMessage: 0,20,0 (empty string) or 10,20,0
+			addCheckbox: 15,20,0 (first checkbox) or 0,20,0
+			addCheckboxGroup: 10,0,0
+			addNumericField: 5,0,3 (first field) or 0,0,3
+			addStringField: 5,0,5 (first field) or 0,0,5
+			addChoice: 5,0,5 (first field) or 0,0,5
+			
+		'''
+		cls.GD.setInsets(top, left, bottom)
+		return cls.GD
+
+	@classmethod
+	def setLocation(cls, x, y):
+		'''
+		Sets the screen location where this dialog will be displayed.
+		'''
+		cls.GD.setLocation(x, y)
+		return cls.GD
+		
 	@classmethod
 	def show(cls):
 		'''
@@ -684,7 +832,38 @@ class Dialog:
 		'''
 		Returns a string containing the contents of the next text field. 
 		'''
-		return cls.GD.getNextString();
+		return cls.GD.getNextString()
+
+	@classmethod
+	def getNumber(cls):
+		'''
+		Returns the contents of the next numeric field. 
+		'''
+		return cls.GD.getNextNumber()
+		
+	@classmethod
+	def getCheckbox(cls):
+		'''
+		Returns the state (true or false) of the next checkbox. 
+		'''
+		if cls.GD.getNextBoolean():
+			return true
+		else:
+			return false
+
+	@classmethod
+	def getRadioButton(cls):
+		'''
+		Returns the selected item (a string) from the next radio button group. 
+		'''
+		return cls.GD.getNextRadioButton()
+
+	@classmethod
+	def getChoice(cls):
+		'''
+		 Returns the selected item (a string) from the next popup menu. 
+		'''
+		return cls.GD.getNextChoice()
 		
 def getPixel(x, y=None):
 	'''
@@ -960,11 +1139,13 @@ def getWidth():
 	image = IJ.getImage()
 	return image.getWidth()
 
-def print(text):
+def print(*args):
 	'''
 	For now just writes to the ImageJ-log window.
 	'''
-	IJ.log(text)
+	stringList = [str(item) for item in list(args)]
+	message = ', '.join(stringList)
+	IJ.log(message)
 
 def __getNameOfArg(arg):
 	'''

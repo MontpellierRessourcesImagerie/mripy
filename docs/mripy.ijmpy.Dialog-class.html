@@ -54,11 +54,55 @@
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Dialog</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+object --+
+         |
+        <strong class="uidshort">Dialog</strong>
+</pre>
+
+<hr />
 <p>Dialog.create(title) creates a modal dialog box with the specified title, or use Dialog.createNonBlocking(&quot;Title&quot;) to create a non-modal dialog.</p>
 <p>Call Dialog.addString(), Dialog.addNumber(), etc. to add components to the dialog. Call Dialog.show() to display the dialog
 and Dialog.getString(), Dialog.getNumber(), etc. to retrieve the values entered by the user.</p>
 <p>Refer to the <a class="rst-reference external" href="https://imagej.net/macros/DialogDemo.txt" target="_top">DialogDemo</a> macro for an example.</p>
 
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
 <!-- ==================== CLASS METHODS ==================== -->
 <a name="section-ClassMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -158,6 +202,205 @@ and Dialog.getString(), Dialog.getNumber(), etc. to retrieve the values entered 
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#addNumber" class="summary-sig-name">addNumber</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">label</span>,
+        <span class="summary-sig-arg">default</span>,
+        <span class="summary-sig-arg">decimalPlaces</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">columns</span>=<span class="summary-sig-default">6</span>,
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">&quot;&quot;</span>)</span><br />
+      Adds a numeric field, using the specified label and default value.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addNumber">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#addSlider" class="summary-sig-name">addSlider</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">label</span>,
+        <span class="summary-sig-arg">minimum</span>,
+        <span class="summary-sig-arg">maximum</span>,
+        <span class="summary-sig-arg">default</span>)</span><br />
+      Adds a slider controlled numeric field to the dialog, using the specified label, and min, max and default values (<a class="rst-reference external" href="https://imagej.net/macros/examples/SliderDemo.txt" target="_top">example</a>).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addSlider">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="addCheckbox"></a><span class="summary-sig-name">addCheckbox</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">label</span>,
+        <span class="summary-sig-arg">default</span>)</span><br />
+      Adds a checkbox to the dialog, using the specified label and default state (true or false).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addCheckbox">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#addCheckboxGroup" class="summary-sig-name">addCheckboxGroup</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">rows</span>,
+        <span class="summary-sig-arg">columns</span>,
+        <span class="summary-sig-arg">labels</span>,
+        <span class="summary-sig-arg">defaults</span>)</span><br />
+      Adds a rowsxcolumns grid of checkboxes to the dialog, using the specified labels and default states (<a class="rst-reference external" href="https://imagej.net/macros/AddCheckboxGroupDemo.txt" target="_top">example</a>).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addCheckboxGroup">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#addRadioButtonGroup" class="summary-sig-name">addRadioButtonGroup</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">label</span>,
+        <span class="summary-sig-arg">items</span>,
+        <span class="summary-sig-arg">rows</span>,
+        <span class="summary-sig-arg">columns</span>,
+        <span class="summary-sig-arg">default</span>)</span><br />
+      Adds a group of radio buttons to the dialog.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addRadioButtonGroup">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#addChoice" class="summary-sig-name">addChoice</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">label</span>,
+        <span class="summary-sig-arg">items</span>,
+        <span class="summary-sig-arg">default</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Adds a popup menu.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addChoice">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#addHelp" class="summary-sig-name">addHelp</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">urlOrHTML</span>)</span><br />
+      Adds a &quot;Help&quot; button that opens the specified URL in the default browser.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addHelp">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#addToSameRow" class="summary-sig-name">addToSameRow</a>(<span class="summary-sig-arg">cls</span>)</span><br />
+      Makes the next item added appear on the same row as the previous item.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addToSameRow">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#setInsets" class="summary-sig-name">setInsets</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">top</span>,
+        <span class="summary-sig-arg">left</span>,
+        <span class="summary-sig-arg">bottom</span>)</span><br />
+      Overrides the default insets (margins) used for the next component added to the dialog.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.setInsets">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="setLocation"></a><span class="summary-sig-name">setLocation</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>)</span><br />
+      Sets the screen location where this dialog will be displayed.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.setLocation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mripy.ijmpy.Dialog-class.html#show" class="summary-sig-name">show</a>(<span class="summary-sig-arg">cls</span>)</span><br />
       Displays the dialog and waits until the user clicks &quot;OK&quot; or &quot;Cancel&quot;.</td>
           <td align="right" valign="top">
@@ -179,6 +422,74 @@ and Dialog.getString(), Dialog.getNumber(), etc. to retrieve the values entered 
       Returns a string containing the contents of the next text field.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.getString">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getNumber"></a><span class="summary-sig-name">getNumber</span>(<span class="summary-sig-arg">cls</span>)</span><br />
+      Returns the contents of the next numeric field.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.getNumber">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getCheckbox"></a><span class="summary-sig-name">getCheckbox</span>(<span class="summary-sig-arg">cls</span>)</span><br />
+      Returns the state (true or false) of the next checkbox.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.getCheckbox">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getRadioButton"></a><span class="summary-sig-name">getRadioButton</span>(<span class="summary-sig-arg">cls</span>)</span><br />
+      Returns the selected item (a string) from the next radio button group.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.getRadioButton">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getChoice"></a><span class="summary-sig-name">getChoice</span>(<span class="summary-sig-arg">cls</span>)</span><br />
+      Returns the selected item (a string) from the next popup menu.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.getChoice">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -209,6 +520,31 @@ and Dialog.getString(), Dialog.getNumber(), etc. to retrieve the values entered 
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="GD"></a><span class="summary-name">GD</span> = <code title="None">None</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
     </td>
   </tr>
 </table>
@@ -251,6 +587,218 @@ and Dialog.getString(), Dialog.getNumber(), etc. to retrieve the values entered 
   <p>Adds a message to the dialog using a specified font size and color (<a class="rst-reference external" href="https://imagej.net/macros/examples/DialogMessageDemo.txt" target="_top">example</a>).</p>
 <p>The message can be broken into multiple lines by inserting new line characters (&quot;n&quot;) into the string.
 The 'fontSize' and 'fontColor' arguments are optional. Requires 1.52q.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addNumber"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addNumber</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">label</span>,
+        <span class="sig-arg">default</span>,
+        <span class="sig-arg">decimalPlaces</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">columns</span>=<span class="sig-default">6</span>,
+        <span class="sig-arg">units</span>=<span class="sig-default">&quot;&quot;</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addNumber">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Adds a numeric field, using the specified label and default value.</p>
+<p>DecimalPlaces specifies the number of digits to right of decimal point, columns specifies
+the field width in characters and units is a string that is displayed to the right of the field.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addSlider"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addSlider</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">label</span>,
+        <span class="sig-arg">minimum</span>,
+        <span class="sig-arg">maximum</span>,
+        <span class="sig-arg">default</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addSlider">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Adds a slider controlled numeric field to the dialog, using the specified label, and min, max and default values (<a class="rst-reference external" href="https://imagej.net/macros/examples/SliderDemo.txt" target="_top">example</a>).</p>
+<p>Values with decimal points are used when (max-min)&lt;=5 and min, max or default are non-integer.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addCheckboxGroup"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addCheckboxGroup</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">rows</span>,
+        <span class="sig-arg">columns</span>,
+        <span class="sig-arg">labels</span>,
+        <span class="sig-arg">defaults</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addCheckboxGroup">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Adds a rowsxcolumns grid of checkboxes to the dialog, using the specified labels and default states (<a class="rst-reference external" href="https://imagej.net/macros/AddCheckboxGroupDemo.txt" target="_top">example</a>).</p>
+<dl class="rst-docutils">
+<dt>if not len(labels) is len(defaults):</dt>
+<dd>raise Exception('labels.length!=states.length')</dd>
+</dl>
+<p>cls.GD.addCheckboxGroup(rows, columns, labels, defaults)
+return cls.GD</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addRadioButtonGroup"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addRadioButtonGroup</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">label</span>,
+        <span class="sig-arg">items</span>,
+        <span class="sig-arg">rows</span>,
+        <span class="sig-arg">columns</span>,
+        <span class="sig-arg">default</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addRadioButtonGroup">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Adds a group of radio buttons to the dialog.</p>
+<p>'label' is the group label, 'items' is an array containing the button labels,
+'rows' and 'columns' specify the grid size, and 'default' is the label of the default button. (<a class="rst-reference external" href="https://imagej.net/macros/examples/RadioButtonDemo.txt" target="_top">example</a>).</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addChoice"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addChoice</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">label</span>,
+        <span class="sig-arg">items</span>,
+        <span class="sig-arg">default</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addChoice">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Adds a popup menu.</p>
+<p>items is a string array containing the choices and default is the default choice.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addHelp"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addHelp</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">urlOrHTML</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addHelp">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Adds a &quot;Help&quot; button that opens the specified URL in the default browser.</p>
+<p>This can be used to supply a help page for this dialog or macro. With v1.46b or later,
+displays an HTML formatted message if 'url' starts with &quot;&lt;html&gt;&quot; (<a class="rst-reference external" href="https://imagej.net/macros/examples/DialogWithHelp.txt" target="_top">example</a>).</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addToSameRow"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addToSameRow</span>(<span class="sig-arg">cls</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.addToSameRow">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Makes the next item added appear on the same row as the previous item.</p>
+<p>May be used for addNumericField, addSlider, addChoice, addCheckbox, addString, addMessage,
+and before the showDialog() method. In the latter case, the buttons appear to the right of
+the previous item.</p>
+<p>Note that addMessage (and addString if a width of more than 8 is specified) use the remaining width,
+so it must be the last item of a row. Requires 1.51r.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="setInsets"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">setInsets</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">top</span>,
+        <span class="sig-arg">left</span>,
+        <span class="sig-arg">bottom</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Dialog.setInsets">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Overrides the default insets (margins) used for the next component added to the dialog.</p>
+<p>Default insets:</p>
+<blockquote>
+addMessage: 0,20,0 (empty string) or 10,20,0
+addCheckbox: 15,20,0 (first checkbox) or 0,20,0
+addCheckboxGroup: 10,0,0
+addNumericField: 5,0,3 (first field) or 0,0,3
+addStringField: 5,0,5 (first field) or 0,0,5
+addChoice: 5,0,5 (first field) or 0,0,5</blockquote>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -310,7 +858,7 @@ the dialog. To avoid this, use:</p>
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Mon Feb 24 01:11:53 2020
+    on Tue Feb 25 00:56:07 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
