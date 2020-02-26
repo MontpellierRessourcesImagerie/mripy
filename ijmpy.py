@@ -49,18 +49,23 @@ import __builtin__														# to use the python print command: __builtin__.p
 from java.lang import Double, String
 from java.awt import Font, Color
 from ij import IJ, WindowManager, Prefs
-from ij.process import FloatProcessor, ColorProcessor
+from ij.process import FloatProcessor, ColorProcessor, ImageProcessor
 from ij.plugin import Colors
 from ij.plugin.frame import RoiManager
 from ij.plugin.filter import MaximumFinder, Analyzer
 from ij.process import FHT
 from ij.util import Tools
 from ij.measure import ResultsTable
-from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog
+from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog, Toolbar
 from collections import deque 
 import math, sys, importlib
 
 AUTO_UPDATE = True
+UPDATE_NEEDED = False
+FONT = None
+JUSTIFICATION = ImageProcessor.LEFT_JUSTIFY
+ANTIALIASED_TEXT = False
+GLOBAL_COLOR = None
 NaN = Double.NaN
 PI = math.pi
 true = 1
@@ -864,7 +869,100 @@ class Dialog(object):
 		 Returns the selected item (a string) from the next popup menu. 
 		'''
 		return cls.GD.getNextChoice()
-		
+
+def doCommand(command):
+	'''
+	Runs an ImageJ menu command in a separate thread and returns immediately. 
+	
+	As an example, doCommand("Start Animation") starts animating the current stack in a separate thread 
+	and the macro continues to execute. Use run("Start Animation") and the macro hangs until the user stops the animation. 
+	'''
+	if command == "Start Animation":
+		command = "Start Animation [\\]"
+	IJ.doCommand(command)
+
+def doWand(x, y, tolerance=0, mode=None):
+	'''
+	Equivalent to clicking on the current image at (x,y) with the wand tool. 
+	
+	Note that some objects, especially one pixel wide lines, may not be reliably traced unless they have been 
+	thresholded (highlighted in red) using `setThreshold`_. 
+
+	Traces the boundary of the area with pixel values within 'tolerance' of the value of the pixel at (x,y). 
+	'mode' can be "4-connected", "8-connected" or "Legacy". "Legacy" is for compatibility with previous versions of ImageJ; 
+	it is ignored if 'tolerance' > 0. If 'mode' contains 'smooth', the contour is smoothed by interpolation (`example`_). 
+
+	.. _`setTreshold`: redirect.html#mripy.ijmpy.setThreshold
+	.. _`example`: https://imagej.net/macros/examples/SmoothLetters.txt
+	'''
+	IJ.doWand(x, y, tolerance, mode)
+	return IJ.getImage().getRoi()
+
+def drawLine(x1, y1, x2, y2):
+	'''
+	Draws a line between (x1, y1) and (x2, y2). 
+	
+	Use setColor() to specify the color of the line and setLineWidth() to vary the line width. 
+	
+	See also:
+	=========
+	Overlay.drawLine
+	''' 
+	imp = IJ.getImage()
+	imp.getProcessor().drawLine(x1, y1, x2, y2)
+	__updateAndDraw()
+	return imp
+
+def drawOval(x, y, width, height):
+	'''
+	Draws the outline of an oval using the current color and line width. 
+	
+	See also: 
+	=========
+	fillOval, setColor, setLineWidth, autoUpdate and Overlay.drawEllipse. 
+	'''
+	imp = IJ.getImage()
+	imp.getProcessor().drawOval(x, y, width, height)
+	__updateAndDraw()
+	return imp
+
+def drawRect(x, y, width, height):
+	'''
+	Draws the outline of a rectangle using the current color and line width. 
+	
+	See also: 
+	=========
+	fillRect, setColor, setLineWidth, autoUpdate and Overlay.drawRect 
+	'''
+	imp = IJ.getImage()
+	imp.getProcessor().drawRect(x, y, width, height)
+	__updateAndDraw()
+	return imp
+
+def drawString(aText, x, y, background=None):
+	'''
+	Draws text at the specified location with a filled background. 
+
+	The first character is drawn obove and to the right of (x,y). Call setFont() to specify the font. 
+	Call setJustification() to have the text centered or right justified. Call getStringWidth() to get 
+	the width of the text in pixels. Refer to the TextDemo macro for examples and to DrawTextWithBackground 
+	to see how to draw text with a background. 
+	'''
+	ip = IJ.getImage().getProcessor()
+	if not FONT is None:
+		ip.setFont(FONT)
+	ip.setJustification(JUSTIFICATION);
+	ip.setAntialiasedText(ANTIALIASED_TEXT)
+	if not background is None:
+		aColor = __getColor(background)
+		ip.drawString(aText, x, y, aColor)
+	else:
+		if not GLOBAL_COLOR is None:
+			ip.drawString(aText, x, y, GLOBAL_COLOR)
+		else: 
+	    	ip.drawString(aText, x, y, Toolbar.getForegroundColor())
+	__updateAndDraw()
+
 def getPixel(x, y=None):
 	'''
 	Returns the raw value of the pixel at (x,y). 
@@ -1159,6 +1257,28 @@ def __getNameOfArg(arg):
 		if id(outerFrameLocals[key])==id(arg):
 			name = key
 	return name
+
+def __updateAndDraw():
+	if AUTO_UPDATE:
+		imp = IJ.getImage()
+		imp.updateChannelAndDraw()
+		imp.changes = True
+	else:
+		UPDATE_NEEDED = True
+
+def __getColor(aColor):
+	aColor = aColor.lower()
+	if aColor.startswith('#'):
+		return Colors.decode(aColor, Color.black)
+	colors = {
+	 'black': Color.black, 'white': Color.white, 'red': Color.red, 'green': Color.green, 'blue': Color.blue,
+	 'cyan': Color.cyan, 'magenta': Color.magenta, 'yellow': Color.yellow,
+	 'darkgray': Color.darkGray, 'gray': Color.gray, 'lightgray': Color.lightGray,
+	 'orange': Color.orange, 'pink': Color.pink
+	}
+	if not aColor in colors:
+		raise Exception("'red', 'green', or '#0000ff' etc. expected")
+	return colors[aColor]
 
 def example():
 	'''

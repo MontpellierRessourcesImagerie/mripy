@@ -519,7 +519,80 @@ class D2STest(unittest.TestCase):
 	def testD2S(self):
 		res = d2s(2/3.0, 2)
 		self.assertEquals(res, '0.67')
-	
+
+class DoCommandTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+
+	def testDoCommand(self):
+		newImage("HyperStack", "8-bit composite-mode label", 400, 400, 1, 1, 20);
+		doCommand("Start Animation");
+		scriptIsStillRunning = True
+		self.assertEquals(scriptIsStillRunning, True)
+
+class DoWandTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+
+	def testDoWand(self):	
+		imp = newImage("test", "8-bit black", 256, 256, 1);
+		IJ.makeRectangle(10, 10, 100, 100)
+		IJ.setForegroundColor(255, 255, 255);
+		run("Fill", "slice");
+		run("Select None");
+
+		doWand(50, 50);
+		roi = IJ.getImage().getRoi()
+
+		self.assertEquals(len(roi.getContainedPoints()), 10000)
+
+class DrawTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+		imp = newImage("test", "8-bit black", 256, 256, 1);
+		
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+
+	def testDrawLine(self):
+		IJ.setForegroundColor(255, 255, 255)
+		drawLine(10, 10, 100, 100);
+		v1 = getPixel(9, 9);
+		v2 = getPixel(10, 10);
+		v3 = getPixel(50, 50);
+		v4 = getPixel(100, 100);
+		v5 = getPixel(101, 101);
+
+		self.assertEquals(v1, 0)
+		self.assertEquals(v2, 255)
+		self.assertEquals(v3, 255)
+		self.assertEquals(v4, 255)
+		self.assertEquals(v5, 0)
+
+	def testDrawOval(self):
+		IJ.setForegroundColor(255, 255, 255)
+		drawOval(128, 128, 50, 50);
+		roi = doWand(150, 150)
+		self.assertEquals(len(roi.getContainedPoints()), 1877)
+		
+	def testDrawRect(self):
+		IJ.setForegroundColor(255, 255, 255)
+		drawRect(128, 128, 50, 50);
+		roi = doWand(150, 150)
+		self.assertEquals(len(roi.getContainedPoints()), 2304)
+		
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -683,9 +756,14 @@ class RunTest(unittest.TestCase):
 
 		run("Scale...", "x=2 y=2 width=512 height=512 interpolation=Bilinear create");
 
-		# the new window, is not always the active window, manually make sure it is
-		win = WindowManager.getWindow("Ramp-1")
+		# the new window, is not always the active window, manually make sure it is			
+		# Still fails arbirarly 
+		win = None
+		while not win:
+			win = WindowManager.getWindow("Ramp-1")	
+			time.sleep(0.3)
 		WindowManager.setCurrentWindow(win)
+		time.sleep(0.3)
 		width = getWidth()
 		
 		self.assertEqual(width, 512)												
@@ -770,7 +848,13 @@ def suite():
 	suite.addTest(CloseTest('testCloseWithParameter'))
 
 	suite.addTest(D2STest('testD2S'))
+	suite.addTest(DoCommandTest('testDoCommand'))
+	suite.addTest(DoWandTest('testDoWand'))
 
+	suite.addTest(DrawTest('testDrawLine'))
+	suite.addTest(DrawTest('testDrawOval'))
+	suite.addTest(DrawTest('testDrawRect'))
+	
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))
 	suite.addTest(GetPixelTest('testGetPixelGrey16Bit'))
