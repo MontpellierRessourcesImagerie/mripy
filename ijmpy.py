@@ -58,7 +58,7 @@ from ij.util import Tools
 from ij.measure import ResultsTable
 from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog, Toolbar
 from collections import deque 
-import math, sys, importlib, java, types, inspect, keyword, tokenize, os
+import math, sys, importlib, java, types, inspect, keyword, tokenize, os, subprocess
 
 NaN = Double.NaN
 PI = math.pi
@@ -1055,7 +1055,9 @@ def eval(macroOrLang, argsOrScript=None):
 
 	See also: 
 	=========
-	EvalDemo macro and runMacro function.
+	`EvalDemo`_ macro and runMacro function.
+
+	.. _`EvalDemo`: https://imagej.net/macros/EvalDemo.txt
 
 	'''
 	if macroOrLang == "script" or macroOrLang == "js":
@@ -1069,6 +1071,85 @@ def eval(macroOrLang, argsOrScript=None):
 
 	return IJ.runMacro(macroOrLang, argsOrScript);
 
+def Exec(*args):
+	'''
+	Executes a native command and returns the output of that command as a
+	string. 
+	
+	Also opens Web pages in the default browser and documents in
+	other applications (e.g., Excel). With commands with multiple arguments,
+	each argument should be passed as a separate string. For example
+	exec("open", "/Users/wayne/test.jpg", "-a", "/Applications/Gimp.app");
+	Refer to the `ExecExamples`_ macro for examples.
+
+	It doesn't seem to be possible to override the python keyword echo, although it
+	seemed to have worked for eval. For now use "Exec", but this is likely to change.
+	
+	.. _`ExecExamples`: <@TODO>
+	'''
+	out = subprocess.check_output(list(args))
+	return out
+
+def exit(message=None, **kargs):
+	'''
+	Terminates execution of the script and displays an error message.
+
+	In ijmpy you can specify an exit status, for example:
+
+		exit(status=0)
+		
+	'''
+	if not message == None:
+		IJ.showMessage('Script', message)
+	# raise SystemExit
+	if 'status' in kargs:
+		sys.exit(kargs['status'])
+	else:
+		sys.exit()
+
+def exp(n):
+	'''
+	Returns the exponential number e (i.e., 2.718...) raised to the power of n.
+	'''
+	return math.exp(n)
+
+class ExtMeta(type):
+	'''
+	Handle a priori unknown calls to Ext.
+	'''
+	def __getattr__(self, name):
+		return lambda *args: self.handleCall(name, *args) 	
+
+	def handleCall(self, method, *args):
+		if method == 'install':
+			parts = args[0].split('.')
+			module = '.'.join(parts[0:len(parts)-1])
+			pluginName = parts[-1]
+			print(module, pluginName)
+			cls = getattr(importlib.import_module(module), pluginName)
+			self.plugin = cls()
+			if not self.plugin:
+				raise Exception('Plugin not found')
+		else:
+			descriptorList = self.plugin.getExtensionFunctions()
+			functions = [desc.name for desc in descriptorList]
+			if not method in functions:
+				raise Exception('Unrecognized Ext function') 
+			res = self.plugin.handleExtension(method, list(args))
+			return res
+
+class Ext(object):
+	'''
+	Implements the (Macro Extension) Functions handling.
+	
+	These are functions that have been added to the macro language by
+	plugins using the MacroExtension interface. The Image5D_Extensions
+	plugin, for example, adds functions that work with Image5D. The Serial
+	Macro Extensions plugin adds functions, such as Ext.open("COM8",9600,"")
+	and Ext.write("a"), that talk to serial devices.
+	'''
+	__metaclass__ = ExtMeta
+	
 def getPixel(x, y=None):
 	'''
 	Returns the raw value of the pixel at (x,y). 

@@ -127,6 +127,22 @@ Array.reverse(array)</blockquote>
       Dialog.create(title) creates a modal dialog box with the specified title, or use Dialog.createNonBlocking(&quot;Title&quot;) to create a non-modal dialog.
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.ijmpy.ExtMeta-class.html" class="summary-name">ExtMeta</a><br />
+      Handle a priori unknown calls to Ext.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.ijmpy.Ext-class.html" class="summary-name">Ext</a><br />
+      Implements the (Macro Extension) Functions handling.
+    </td>
+  </tr>
 </table>
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -588,6 +604,59 @@ otherwise, the display is refreshed only when updateDisplay() is called or when 
       Evaluates (runs) one or more lines of macro code.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mripy.ijmpy-pysrc.html#eval">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#Exec" class="summary-sig-name">Exec</a>(<span class="summary-sig-arg">*args</span>)</span><br />
+      Executes a native command and returns the output of that command as a
+string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#Exec">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#exit" class="summary-sig-name">exit</a>(<span class="summary-sig-arg">message</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**kargs</span>)</span><br />
+      Terminates execution of the script and displays an error message.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#exit">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="exp"></a><span class="summary-sig-name">exp</span>(<span class="summary-sig-arg">n</span>)</span><br />
+      Returns the exponential number e (i.e., 2.718...) raised to the power of n.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#exp">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -1367,8 +1436,58 @@ returns either &quot;true&quot; or &quot;false&quot;.</dd>
 </dl>
 <div class="rst-section" id="rst-see-also">
 <h1 class="heading">See also:</h1>
-<p>EvalDemo macro and runMacro function.</p>
+<p><a class="rst-reference external" href="https://imagej.net/macros/EvalDemo.txt" target="_top">EvalDemo</a> macro and runMacro function.</p>
 </div>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="Exec"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Exec</span>(<span class="sig-arg">*args</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#Exec">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Executes a native command and returns the output of that command as a
+string.</p>
+<p>Also opens Web pages in the default browser and documents in
+other applications (e.g., Excel). With commands with multiple arguments,
+each argument should be passed as a separate string. For example
+exec(&quot;open&quot;, &quot;/Users/wayne/test.jpg&quot;, &quot;-a&quot;, &quot;/Applications/Gimp.app&quot;);
+Refer to the <a class="rst-reference external" href="&lt;&#64;TODO&gt;" target="_top">ExecExamples</a> macro for examples.</p>
+<p>It doesn't seem to be possible to override the python keyword echo, although it
+seemed to have worked for eval. For now use &quot;Exec&quot;, but this is likely to change.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="exit"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">exit</span>(<span class="sig-arg">message</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**kargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#exit">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Terminates execution of the script and displays an error message.</p>
+<p>In ijmpy you can specify an exit status, for example:</p>
+<blockquote>
+exit(status=0)</blockquote>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -1668,7 +1787,7 @@ For an example, see the <a class="rst-reference external" href="https://imagej.n
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Sat Feb 29 02:45:40 2020
+    on Sat Feb 29 23:16:42 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

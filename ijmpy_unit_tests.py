@@ -1,11 +1,10 @@
 from __future__ import print_function, division
 import __builtin__
-from mripy.ijmpy import *
-import unittest
+import sys, time, unittest, math
 from ij import WindowManager
 from ij.gui import Roi
-import sys, time
 from ij.macro import Interpreter
+from mripy.ijmpy import *
 
 class MathTest(unittest.TestCase):
 	
@@ -28,6 +27,12 @@ class MathTest(unittest.TestCase):
 	def testCos(self):
 		res = cos(2*PI)
 		self.assertEquals(res, 1)
+
+	def testExp(self):
+		res1 = exp(1)
+		res2 = exp(2)
+		self.assertEquals(res1, math.e)
+		self.assertEquals(round(res2, 14), round(math.e**2, 14))
 		
 class ArrayTest(unittest.TestCase):
 		
@@ -599,6 +604,58 @@ class DrawTest(unittest.TestCase):
 		drawString("The quick brown fox...", 50, 50);
 		roi = doWand(54, 38);
 		self.assertEquals(len(roi.getContainedPoints()), 15)
+
+class EndsWithTest(unittest.TestCase):
+	def testEndsWith(self):
+		self.assertEquals(endsWith('ijmpy.py','py'), True)
+		self.assertEquals(endsWith('ijmpy.py','ijm'), False) 
+
+class EvalTest(unittest.TestCase):
+	def testEvalScript(self):
+		resText = eval("script", '"ijmpy".bold();')
+		self.assertEquals(resText, '<b>ijmpy</b>');
+
+	def testEvalJS(self):
+		resText = eval("js", '"ijmpy".blink();')
+		self.assertEquals(resText, '<blink>ijmpy</blink>');
+
+	def testEvalBsh(self):
+		resText = eval("bsh", '2 + 2;')
+		self.assertEquals(resText, '4');
+
+	def testEvalPython(self):
+		resText = eval('python', 'import ij\nij.IJ.log("py")')
+		log = IJ.getLog()
+		log = log.split('\n')
+		self.assertEquals(log[-2], "py")
+
+	def testEvalMacro(self):
+		resText = eval('sqrt(getArgument())', '9')
+		log = IJ.getLog()
+		log = log.split('\n')
+		self.assertEquals(log[-2], "3")
+
+class ExecTest(unittest.TestCase):
+	def testExec(self):
+		out = Exec('echo', 'hi echo')
+		self.assertEquals(out, 'hi echo\n')
+
+class ExtTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+	def testExt(self):
+		IJ.run("New Image5D", "name=Untitled type=8-bit fill=Ramp width=256 height=256 channels=3 slices=1 frames=1");
+		Ext.install('sc.fiji.i5d.plugin.Image5D_Extensions')
+		Ext.setDisplayMode('overlay')
+		dm = Ext.getDisplayMode()
+		self.assertEquals(dm, 'overlay')
+		Ext.setDisplayMode('color')
+		dm = Ext.getDisplayMode()
+		self.assertEquals(dm, 'color')
 		
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
@@ -793,6 +850,7 @@ def suite():
 	suite.addTest(MathTest('testAtan'))
 	suite.addTest(MathTest('testAtan2'))
 	suite.addTest(MathTest('testCos'))
+	suite.addTest(MathTest('testExp'))
 	
 	suite.addTest(ArrayTest('testConcat'))
 	suite.addTest(ArrayTest('testCopy'))
@@ -856,6 +914,18 @@ def suite():
 	suite.addTest(DrawTest('testDrawOval'))
 	suite.addTest(DrawTest('testDrawRect'))
 	suite.addTest(DrawTest('testDrawString'))
+
+	suite.addTest(EndsWithTest('testEndsWith'))
+
+	suite.addTest(EvalTest('testEvalScript'))
+	suite.addTest(EvalTest('testEvalJS'))
+	suite.addTest(EvalTest('testEvalBsh'))
+	suite.addTest(EvalTest('testEvalPython'))
+	suite.addTest(EvalTest('testEvalMacro'))
+
+	suite.addTest(ExecTest('testExec'))
+
+	suite.addTest(ExtTest('testExt'))
 	
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))
@@ -886,3 +956,4 @@ def suite():
 
 runner = unittest.TextTestRunner(sys.stdout, verbosity=1)
 runner.run(suite())
+
