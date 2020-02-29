@@ -108,6 +108,13 @@ Array.reverse(array)</blockquote>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="mripy.ijmpy.Settings-class.html" class="summary-name">Settings</a>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="mripy.ijmpy.Array-class.html" class="summary-name">Array</a><br />
       These functions operate on arrays. Refer to the <a class="rst-reference external" href="https://imagej.net/macros/examples/ArrayFunctions.txt" target="_top">ArrayFunctions</a> macro for examples.
     </td>
@@ -541,6 +548,59 @@ otherwise, the display is refreshed only when updateDisplay() is called or when 
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#dump" class="summary-sig-name">dump</a>()</span><br />
+      Writes the contents of the symbol table, the tokenized script code and the variable stack to the &quot;Log&quot; window.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#dump">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#endsWith" class="summary-sig-name">endsWith</a>(<span class="summary-sig-arg">string</span>,
+        <span class="summary-sig-arg">suffix</span>)</span><br />
+      Returns True if string ends with suffix.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#endsWith">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#eval" class="summary-sig-name">eval</a>(<span class="summary-sig-arg">macroOrLang</span>,
+        <span class="summary-sig-arg">argsOrScript</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Evaluates (runs) one or more lines of macro code.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#eval">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#getPixel" class="summary-sig-name">getPixel</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>)</span><br />
       Returns the raw value of the pixel at (x,y).</td>
@@ -672,7 +732,7 @@ newArray(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;). For more examples, see the 
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#run" class="summary-sig-name">run</a>(<span class="summary-sig-arg">command</span>,
-        <span class="summary-sig-arg">parameters</span>=<span class="summary-sig-default">&quot;&quot;</span>)</span><br />
+        <span class="summary-sig-arg">parameters</span>=<span class="summary-sig-default">None</span>)</span><br />
       Executes an ImageJ menu command.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mripy.ijmpy-pysrc.html#run">source&nbsp;code</a></span>
@@ -819,48 +879,6 @@ to the function.</td>
     </table>
   </td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="AUTO_UPDATE"></a><span class="summary-name">AUTO_UPDATE</span> = <code title="True">True</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="UPDATE_NEEDED"></a><span class="summary-name">UPDATE_NEEDED</span> = <code title="False">False</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="FONT"></a><span class="summary-name">FONT</span> = <code title="None">None</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="JUSTIFICATION"></a><span class="summary-name">JUSTIFICATION</span> = <code title="ImageProcessor.LEFT_JUSTIFY">ImageProcessor.LEFT_JUSTIFY</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="ANTIALIASED_TEXT"></a><span class="summary-name">ANTIALIASED_TEXT</span> = <code title="False">False</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="GLOBAL_COLOR"></a><span class="summary-name">GLOBAL_COLOR</span> = <code title="None">None</code>
-    </td>
-  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -1156,20 +1174,12 @@ and the macro continues to execute. Use run(&quot;Start Animation&quot;) and the
     </td>
   </tr></table>
   
-  <pre class="literalblock">
-
-Equivalent to clicking on the current image at (x,y) with the wand tool. 
-
-Note that some objects, especially one pixel wide lines, may not be reliably traced unless they have been 
-thresholded (highlighted in red) using `setThreshold`_. 
-Traces the boundary of the area with pixel values within 'tolerance' of the value of the pixel at (x,y). 
-'mode' can be &quot;4-connected&quot;, &quot;8-connected&quot; or &quot;Legacy&quot;. &quot;Legacy&quot; is for compatibility with previous versions of ImageJ; 
-it is ignored if 'tolerance' &gt; 0. If 'mode' contains 'smooth', the contour is smoothed by interpolation (`example`_). 
-
-.. _`setTreshold`: redirect.html#mripy.ijmpy.setThreshold
-.. _`example`: https://imagej.net/macros/examples/SmoothLetters.txt
-
-</pre>
+  <p>Equivalent to clicking on the current image at (x,y) with the wand tool.</p>
+<p>Note that some objects, especially one pixel wide lines, may not be reliably traced unless they have been
+thresholded (highlighted in red) using setThreshold.
+Traces the boundary of the area with pixel values within <code class="link">tolerance</code> of the value of the pixel at (x,y).
+<code class="link">mode</code> can be &quot;4-connected&quot;, &quot;8-connected&quot; or &quot;Legacy&quot;. &quot;Legacy&quot; is for compatibility with previous versions of ImageJ;
+it is ignored if &quot;tolerance &gt; 0&quot;. If <code class="link">mode</code> contains &quot;smooth&quot;, the contour is smoothed by interpolation (<a class="rst-reference external" href="https://imagej.net/macros/examples/SmoothLetters.txt" target="_top">example</a>).</p>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -1275,6 +1285,90 @@ it is ignored if 'tolerance' &gt; 0. If 'mode' contains 'smooth', the contour is
 Call setJustification() to have the text centered or right justified. Call getStringWidth() to get
 the width of the text in pixels. Refer to the TextDemo macro for examples and to DrawTextWithBackground
 to see how to draw text with a background.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="dump"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">dump</span>()</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#dump">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Writes the contents of the symbol table, the tokenized script code and the variable stack to the &quot;Log&quot; window.</p>
+<p>In ijmpy you need to save the script before creating a dump.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="endsWith"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">endsWith</span>(<span class="sig-arg">string</span>,
+        <span class="sig-arg">suffix</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#endsWith">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns True if string ends with suffix.</p>
+<div class="rst-section" id="rst-see-also">
+<h1 class="heading">See also:</h1>
+<p>startsWith, indexOf, substring, matches.</p>
+</div>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="eval"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">eval</span>(<span class="sig-arg">macroOrLang</span>,
+        <span class="sig-arg">argsOrScript</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#eval">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Evaluates (runs) one or more lines of macro code.</p>
+<p>An optional second argument can be used to pass a string to the macro being evaluated.</p>
+<dl class="rst-docutils">
+<dt>eval(&quot;script&quot;, javascript)</dt>
+<dd>Evaluates the JavaScript code contained in the string javascript and returns, as a string,
+the value of the last statement executed.
+For example eval(&quot;script&quot;,&quot;IJ.getInstance().setAlwaysOnTop(true);&quot;).
+See also: runMacro(path,arg).</dd>
+<dt>eval(&quot;js&quot;, script)</dt>
+<dd>Evaluates the JavaScript code contained in the string script and returns, as a string,
+the value of the last statement executed. For example eval(&quot;js&quot;,&quot;Prefs.blackBackground&quot;)
+returns either &quot;true&quot; or &quot;false&quot;.</dd>
+<dt>eval(&quot;bsh&quot;, script)</dt>
+<dd>Evaluates the BeanShell code contained in the string script.</dd>
+<dt>eval(&quot;python&quot;, script)</dt>
+<dd>Evaluates the Python code contained in the string script.</dd>
+</dl>
+<div class="rst-section" id="rst-see-also">
+<h1 class="heading">See also:</h1>
+<p>EvalDemo macro and runMacro function.</p>
+</div>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -1504,7 +1598,7 @@ after the next ROI Manager command is executed.</dd>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">run</span>(<span class="sig-arg">command</span>,
-        <span class="sig-arg">parameters</span>=<span class="sig-default">&quot;&quot;</span>)</span>
+        <span class="sig-arg">parameters</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#run">source&nbsp;code</a></span>&nbsp;
@@ -1574,7 +1668,7 @@ For an example, see the <a class="rst-reference external" href="https://imagej.n
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Wed Feb 26 01:24:11 2020
+    on Sat Feb 29 02:45:40 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

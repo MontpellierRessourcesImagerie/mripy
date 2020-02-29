@@ -5,6 +5,7 @@ import unittest
 from ij import WindowManager
 from ij.gui import Roi
 import sys, time
+from ij.macro import Interpreter
 
 class MathTest(unittest.TestCase):
 	
@@ -296,7 +297,7 @@ class ArrayTest(unittest.TestCase):
 		self.assertEquals(round(values[1], 3), 2.345)
 		self.assertEquals(round(values[2], 3), 3.456)
 		self.assertEquals(round(values[3], 3), 4.567)
-		run('Close')
+		close('Results')
 
 	def testSlice(self):
 		array = [1, 2, 3, 4, 5]
@@ -592,6 +593,12 @@ class DrawTest(unittest.TestCase):
 		drawRect(128, 128, 50, 50);
 		roi = doWand(150, 150)
 		self.assertEquals(len(roi.getContainedPoints()), 2304)
+
+	def testDrawString(self):
+		IJ.setForegroundColor(255, 255, 255)
+		drawString("The quick brown fox...", 50, 50);
+		roi = doWand(54, 38);
+		self.assertEquals(len(roi.getContainedPoints()), 15)
 		
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
@@ -740,10 +747,12 @@ class RunTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
 		run("Close All");
+		print('\\Clear');
 
 	def tearDown(self):
 		unittest.TestCase.tearDown(self)
 		run("Close All");
+		print('\\Clear');
 
 	def testRunNoParameter(self):
 		newImage("Ramp", "8-bit ramp", 256, 256, 1);
@@ -752,20 +761,12 @@ class RunTest(unittest.TestCase):
 		self.assertEqual(getPixel(0, 0), 255)
 
 	def testRunWithParameterString(self):
-		newImage("Ramp", "8-bit ramp", 256, 256, 1);
-
+		image = newImage("Ramp", "8-bit ramp", 256, 256, 1);
+		image.show();
+		Interpreter.batchMode = True
 		run("Scale...", "x=2 y=2 width=512 height=512 interpolation=Bilinear create");
-
-		# the new window, is not always the active window, manually make sure it is			
-		# Still fails arbirarly 
-		win = None
-		while not win:
-			win = WindowManager.getWindow("Ramp-1")	
-			time.sleep(0.3)
-		WindowManager.setCurrentWindow(win)
-		time.sleep(0.3)
+		Interpreter.batchMode = False
 		width = getWidth()
-		
 		self.assertEqual(width, 512)												
 
 class ThresholdTest(unittest.TestCase):
@@ -854,6 +855,7 @@ def suite():
 	suite.addTest(DrawTest('testDrawLine'))
 	suite.addTest(DrawTest('testDrawOval'))
 	suite.addTest(DrawTest('testDrawRect'))
+	suite.addTest(DrawTest('testDrawString'))
 	
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))
@@ -880,7 +882,6 @@ def suite():
 	suite.addTest(RunTest('testRunWithParameterString'))
 
 	suite.addTest(ThresholdTest('testSetAutoThreshold'))
-
 	return suite
 
 runner = unittest.TextTestRunner(sys.stdout, verbosity=1)

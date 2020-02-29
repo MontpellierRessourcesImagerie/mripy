@@ -46,11 +46,11 @@ For example:
 '''
 from __future__ import print_function, division 						# we will overwrite python's print command
 import __builtin__														# to use the python print command: __builtin__.print(<text>)
-from java.lang import Double, String
+from java.lang import Double, String, Thread
 from java.awt import Font, Color
 from ij import IJ, WindowManager, Prefs
 from ij.process import FloatProcessor, ColorProcessor, ImageProcessor
-from ij.plugin import Colors
+from ij.plugin import Colors, Macro_Runner
 from ij.plugin.frame import RoiManager
 from ij.plugin.filter import MaximumFinder, Analyzer
 from ij.process import FHT
@@ -58,18 +58,21 @@ from ij.util import Tools
 from ij.measure import ResultsTable
 from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog, Toolbar
 from collections import deque 
-import math, sys, importlib
+import math, sys, importlib, java, types, inspect, keyword, tokenize, os
 
-AUTO_UPDATE = True
-UPDATE_NEEDED = False
-FONT = None
-JUSTIFICATION = ImageProcessor.LEFT_JUSTIFY
-ANTIALIASED_TEXT = False
-GLOBAL_COLOR = None
 NaN = Double.NaN
 PI = math.pi
 true = 1
 false = 0
+
+class Settings(object):
+	AUTO_UPDATE = True
+	UPDATE_NEEDED = False
+	FONT = None
+	JUSTIFICATION = ImageProcessor.LEFT_JUSTIFY
+	ANTIALIASED_TEXT = False
+	GLOBAL_COLOR = None
+
 
 def acos(n):
 	'''
@@ -459,15 +462,13 @@ def autoUpdate(aBoolean):
 	If boolean is true, the display is refreshed each time lineTo(), drawLine(), drawString(), etc. are called,
 	otherwise, the display is refreshed only when updateDisplay() is called or when the macro terminates. 
 	'''
-	global AUTO_UPDATE
-	AUTO_UPDATE = aBoolean
+	Settings.AUTO_UPDATE = aBoolean
 	
 def isAutoUpdate():
 	'''
 	Returns true if auto-update is active and false otherwise.
 	'''
-	global AUTO_UPDATE
-	return AUTO_UPDATE
+	return Settings.AUTO_UPDATE
 
 def beep():
 	'''
@@ -886,13 +887,11 @@ def doWand(x, y, tolerance=0, mode=None):
 	Equivalent to clicking on the current image at (x,y) with the wand tool. 
 	
 	Note that some objects, especially one pixel wide lines, may not be reliably traced unless they have been 
-	thresholded (highlighted in red) using `setThreshold`_. 
+	thresholded (highlighted in red) using setThreshold. 
+	Traces the boundary of the area with pixel values within `tolerance` of the value of the pixel at (x,y). 
+	`mode` can be "4-connected", "8-connected" or "Legacy". "Legacy" is for compatibility with previous versions of ImageJ; 
+	it is ignored if "tolerance > 0". If `mode` contains "smooth", the contour is smoothed by interpolation (`example`_). 
 
-	Traces the boundary of the area with pixel values within 'tolerance' of the value of the pixel at (x,y). 
-	'mode' can be "4-connected", "8-connected" or "Legacy". "Legacy" is for compatibility with previous versions of ImageJ; 
-	it is ignored if 'tolerance' > 0. If 'mode' contains 'smooth', the contour is smoothed by interpolation (`example`_). 
-
-	.. _`setTreshold`: redirect.html#mripy.ijmpy.setThreshold
 	.. _`example`: https://imagej.net/macros/examples/SmoothLetters.txt
 	'''
 	IJ.doWand(x, y, tolerance, mode)
@@ -949,19 +948,126 @@ def drawString(aText, x, y, background=None):
 	to see how to draw text with a background. 
 	'''
 	ip = IJ.getImage().getProcessor()
-	if not FONT is None:
-		ip.setFont(FONT)
-	ip.setJustification(JUSTIFICATION);
-	ip.setAntialiasedText(ANTIALIASED_TEXT)
+	if not Settings.FONT is None:
+		ip.setFont(Settings.FONT)
+	ip.setJustification(Settings.JUSTIFICATION);
+	ip.setAntialiasedText(Settings.ANTIALIASED_TEXT)
 	if not background is None:
 		aColor = __getColor(background)
 		ip.drawString(aText, x, y, aColor)
 	else:
-		if not GLOBAL_COLOR is None:
-			ip.drawString(aText, x, y, GLOBAL_COLOR)
-		else: 
-	    	ip.drawString(aText, x, y, Toolbar.getForegroundColor())
+		if not Settings.GLOBAL_COLOR is None:
+			ip.setColor(Settings.GLOBAL_COLOR)
+		else:
+			ip.setColor(Toolbar.getForegroundColor())
+		ip.drawString(aText, x, y)
 	__updateAndDraw()
+
+def dump():
+	'''
+	Writes the contents of the symbol table, the tokenized script code and the variable stack to the "Log" window. 
+	
+	In ijmpy you need to save the script before creating a dump.
+	'''
+	bfuncs = [name for name, function in sorted(vars(__builtin__).items()) if inspect.isbuiltin(function) or inspect.isfunction(function)]
+	locs = inspect.currentframe().f_back.f_globals
+	keys = locs.keys()
+	wantedKeys = []
+	for key in keys:
+		if type(locs[key]) in [types.TypeType, types.FunctionType]:
+			wantedKeys.append(key)
+	all = keyword.kwlist + bfuncs +wantedKeys
+	all.sort()
+	index = 0
+	print("\nSymbol Table")
+	for name in all:
+		print(str(index) + " " +name)
+		index = index + 1
+
+	globs = inspect.currentframe().f_back.f_globals
+	i = 1
+	keys = globs.keys()
+	wantedKeys = []
+	for key in keys:
+		if key in ['__builtin__', '__builtins__', 'java'] or type(globs[key]) in [java.lang.Class, type, types.FunctionType, types.InstanceType, types.ModuleType]:
+			continue
+		else:
+			wantedKeys.append(key)
+	wantedKeys.reverse()
+
+	print ("\nTokenized Program")
+	tokens = []
+	def cons(*args):
+		name = args[1]
+		if name=='\n':
+			name = '\\n'
+		tokens.append(str(args[2][0]) +', '+ str(args[2][1]) + ' - ' + str(args[3][0]) + ', ' + str(args[3][1]) + " " + "'" +name + "'")
+		
+	filename = globs['javax.script.filename']
+	result = 'You need to save the script to get the tokens.'
+	if os.path.isfile(filename): 
+		with open(filename, 'r') as myfile:
+			tokenize.tokenize(myfile.readline, cons)
+	
+		for token in tokens:
+			print(token)
+			
+	if len(tokens)==0:
+		print(result)
+	
+	print('\nStack')
+	for key in wantedKeys:
+		print(len(wantedKeys)-i, key + ' = ' + str(globs[key]))
+		i = i + 1
+
+def endsWith(string, suffix):
+	'''
+	Returns True if string ends with suffix. 
+	
+	See also: 
+	=========
+	startsWith, indexOf, substring, matches. 
+	'''
+	return string.endswith(suffix)
+
+def eval(macroOrLang, argsOrScript=None):
+	'''
+	Evaluates (runs) one or more lines of macro code. 
+	
+	An optional second argument can be used to pass a string to the macro being evaluated. 
+	
+	eval("script", javascript)
+		Evaluates the JavaScript code contained in the string javascript and returns, as a string, 
+		the value of the last statement executed. 
+		For example eval("script","IJ.getInstance().setAlwaysOnTop(true);"). 
+		See also: runMacro(path,arg).
+	
+	eval("js", script)
+		Evaluates the JavaScript code contained in the string script and returns, as a string, 
+		the value of the last statement executed. For example eval("js","Prefs.blackBackground") 
+		returns either "true" or "false".
+	
+	eval("bsh", script)
+		Evaluates the BeanShell code contained in the string script.
+	
+	eval("python", script)
+		Evaluates the Python code contained in the string script. 
+
+	See also: 
+	=========
+	EvalDemo macro and runMacro function.
+
+	'''
+	if macroOrLang == "script" or macroOrLang == "js":
+		return Macro_Runner().runJavaScript(argsOrScript, "")
+
+	if macroOrLang == "bsh":
+		return Macro_Runner.runBeanShell(argsOrScript, "")
+
+	if macroOrLang == "python":
+		return Macro_Runner.runPython(argsOrScript, "")
+
+	return IJ.runMacro(macroOrLang, argsOrScript);
 
 def getPixel(x, y=None):
 	'''
@@ -1191,7 +1297,7 @@ def roiManager(command, parameter=""):
 		IJ.runMacro('roiManager("'+command+'",'+str(parameter)+')')
 	return None
 		
-def run(command, parameters=""):
+def run(command, parameters=None):
 	'''
 	Executes an ImageJ menu command. 
 	
@@ -1203,10 +1309,7 @@ def run(command, parameters=""):
 	
 	.. _ArgumentPassingDemo: https://imagej.net/macros/ArgumentPassingDemo.txt
 	''' 
-	if parameters=="":
-		IJ.run(command)
-	else:
-		IJ.run(command, parameters)
+	IJ.run(command, parameters)
 
 def setAutoThreshold(method="Default"):
 	'''
@@ -1250,7 +1353,6 @@ def __getNameOfArg(arg):
 	Utility function to get the name of the variable that was passed as an argument 
 	to the function.	
 	'''
-	import inspect
 	name = None
 	outerFrameLocals = inspect.currentframe().f_back.f_back.f_locals	
 	for key in outerFrameLocals.keys():
@@ -1259,12 +1361,12 @@ def __getNameOfArg(arg):
 	return name
 
 def __updateAndDraw():
-	if AUTO_UPDATE:
+	if Settings.AUTO_UPDATE:
 		imp = IJ.getImage()
 		imp.updateChannelAndDraw()
 		imp.changes = True
 	else:
-		UPDATE_NEEDED = True
+		Settings.UPDATE_NEEDED = True
 
 def __getColor(aColor):
 	aColor = aColor.lower()
