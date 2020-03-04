@@ -46,9 +46,12 @@ For example:
 '''
 from __future__ import print_function, division 						# we will overwrite python's print command
 import __builtin__														# to use the python print command: __builtin__.print(<text>)
+import math, sys, importlib, java, types, inspect, keyword, tokenize, os, subprocess, shutil
+from collections import deque 
 from java.lang import Double, String, Thread
 from java.awt import Font, Color
 from ij import IJ, WindowManager, Prefs
+from ij.io import SaveDialog
 from ij.process import FloatProcessor, ColorProcessor, ImageProcessor
 from ij.plugin import Colors, Macro_Runner
 from ij.plugin.frame import RoiManager
@@ -57,13 +60,13 @@ from ij.process import FHT
 from ij.util import Tools
 from ij.measure import ResultsTable
 from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog, Toolbar
-from collections import deque 
-import math, sys, importlib, java, types, inspect, keyword, tokenize, os, subprocess
 
 NaN = Double.NaN
 PI = math.pi
 true = 1
 false = 0
+
+py_open = open
 
 class Settings(object):
 	AUTO_UPDATE = True
@@ -72,7 +75,7 @@ class Settings(object):
 	JUSTIFICATION = ImageProcessor.LEFT_JUSTIFY
 	ANTIALIASED_TEXT = False
 	GLOBAL_COLOR = None
-
+	FILE = None
 
 def acos(n):
 	'''
@@ -1149,7 +1152,76 @@ class Ext(object):
 	and Ext.write("a"), that talk to serial devices.
 	'''
 	__metaclass__ = ExtMeta
+
+class File(object):
+	'''
+	These functions allow you to get information about a file, read or write a text file, create a directory, 
+	or to delete, rename or move a file or directory. 
 	
+	Note that these functions return a string, with the exception of File.length, File.exists, File.isDirectory, 
+	File.rename and File.delete when used in an assignment statement, 	for example "length=File.length(path)". 
+	The `FileDemo`_ macro demonstrates how to use these functions. 
+	
+	See also:
+	=========
+	getDirectory and getFileList. 
+
+	.. _`FileDemo`: https://imagej.net/macros/FileDemo.txt
+	'''
+	@classmethod
+	def append(cls, string, path):
+		'''
+		Appends string to the end of the specified file. 
+		'''
+		if os.path.exists(path) and not os.path.isfile(path):
+			raise Exception(path + ' is a directory.')
+		if not os.path.exists(os.path.dirname(path)):
+			raise Exception('path not found: ' + os.path.dirname(path))
+		with open(path, "a") as aFile:
+			aFile.write(string)
+
+	@classmethod
+	def open(cls, path='', defaultName=None):
+		'''
+		Creates a new text file and returns a file variable that refers to it. 
+		
+		To write to the file, pass the file variable to the print function. 
+		Displays a file save dialog box if path is an empty string. The file is closed 
+		when the macro exits. Currently, only one file can be open at a time. For an example, 
+		refer to the `SaveTextFileDemo`_ macro.
+
+		.. _`SaveTextFileDemo`: https://imagej.net/macros/SaveTextFileDemo.txt
+		'''
+		if path=='' or not defaultName is None:
+			title = path if defaultName else "openFile"
+			defaultName = defaultName if defaultName else "log.txt"
+			sd = SaveDialog(title, defaultName, ".txt")
+			if not sd.getFileName():
+				return ""
+			path = sd.getDirectory()+sd.getFileName()
+		file_extension = '.'+path.split('.')[-1]
+		if os.path.exists(path) and not file_extension in ['.txt', '.java', '.xls', '.ijm', '.html', '.htm']:
+			raise Exception("File exists and suffix is not '.txt', '.java', etc.")
+		try:
+			Settings.FILE = py_open(path, 'w')
+		except IOError, e:
+			raise Exception('File open error \n"'+str(e)+'"')
+		return Settings.FILE
+
+	@classmethod
+	def close(cls, aFile):
+		'''
+		Closes the specified file, which must have been opened using File.open().
+		'''
+		aFile.close()
+
+	@classmethod
+	def copy(cls, path1, path2):
+		'''
+		Copies a file. 
+		'''
+		shutil.copy2(path1, path2)
+		
 def getPixel(x, y=None):
 	'''
 	Returns the raw value of the pixel at (x,y). 
@@ -1425,6 +1497,9 @@ def print(*args):
 	'''
 	For now just writes to the ImageJ-log window.
 	'''
+	if Settings.FILE and args[0]==Settings.FILE:
+		Settings.FILE.write(args[1])
+		return
 	stringList = [str(item) for item in list(args)]
 	message = ', '.join(stringList)
 	IJ.log(message)

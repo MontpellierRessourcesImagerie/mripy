@@ -1,6 +1,6 @@
 from __future__ import print_function, division
 import __builtin__
-import sys, time, unittest, math
+import sys, time, unittest, math, os
 from ij import WindowManager
 from ij.gui import Roi
 from ij.macro import Interpreter
@@ -656,6 +656,52 @@ class ExtTest(unittest.TestCase):
 		Ext.setDisplayMode('color')
 		dm = Ext.getDisplayMode()
 		self.assertEquals(dm, 'color')
+
+class FileTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		if os.path.exists('./test.txt'):
+			os.remove('./test.txt')
+
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		if os.path.exists('./test.txt'):
+			os.remove('./test.txt')
+
+	def testAppend(self):
+		File.append('THE END', './test.txt')
+		with open('./test.txt', 'r') as aFile:
+			content = aFile.read()
+		lines = content.split('\n')
+		self.assertEquals(lines[-1], 'THE END') 
+
+	def testOpen(self):
+		aFile = File.open('./test.txt')
+		print(aFile, 'test test')
+		File.close(aFile)
+
+		with open ("/home/baecker/test.txt", "r") as myfile:
+			data=myfile.readlines()[0]
+
+		self.assertEquals(data, 'test test')
+
+	def testClose(self):
+		aFile = File.open('./test.txt')
+		print(aFile, 'test test')
+		File.close(aFile)
+
+		self.assertEquals(aFile.closed, True)
+
+	def testCopy(self):
+		aFile = File.open('./test.txt')
+		print(aFile, 'test test')
+		File.close(aFile)
+		File.copy('./test.txt', './test2.txt')
+		with open ("./test2.txt", "r") as myfile:
+			data=myfile.readlines()[0]
+
+		self.assertEquals(data, 'test test')
+		os.remove('./test2.txt')
 		
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
@@ -926,7 +972,12 @@ def suite():
 	suite.addTest(ExecTest('testExec'))
 
 	suite.addTest(ExtTest('testExt'))
-	
+
+	suite.addTest(FileTest('testAppend'))
+	suite.addTest(FileTest('testOpen'))
+	suite.addTest(FileTest('testClose'))
+	suite.addTest(FileTest('testCopy'))
+
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))
 	suite.addTest(GetPixelTest('testGetPixelGrey16Bit'))

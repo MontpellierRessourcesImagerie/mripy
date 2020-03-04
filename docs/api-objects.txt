@@ -49,6 +49,7 @@ mripy.ijmpy.cos	mripy.ijmpy-module.html#cos
 mripy.ijmpy.true	mripy.ijmpy-module.html#true
 mripy.ijmpy.doCommand	mripy.ijmpy-module.html#doCommand
 mripy.ijmpy.example	mripy.ijmpy-module.html#example
+mripy.ijmpy.py_open	mripy.ijmpy-module.html#py_open
 mripy.ijmpy.false	mripy.ijmpy-module.html#false
 mripy.ijmpy.calibrate	mripy.ijmpy-module.html#calibrate
 mripy.ijmpy.setAutoThreshold	mripy.ijmpy-module.html#setAutoThreshold
@@ -57,11 +58,11 @@ mripy.ijmpy.d2s	mripy.ijmpy-module.html#d2s
 mripy.ijmpy.NaN	mripy.ijmpy-module.html#NaN
 mripy.ijmpy.roiManager	mripy.ijmpy-module.html#roiManager
 mripy.ijmpy.doWand	mripy.ijmpy-module.html#doWand
+mripy.ijmpy.exp	mripy.ijmpy-module.html#exp
 mripy.ijmpy.atan	mripy.ijmpy-module.html#atan
 mripy.ijmpy.eval	mripy.ijmpy-module.html#eval
 mripy.ijmpy.atan2	mripy.ijmpy-module.html#atan2
 mripy.ijmpy.endsWith	mripy.ijmpy-module.html#endsWith
-mripy.ijmpy.exp	mripy.ijmpy-module.html#exp
 mripy.ijmpy.newImage	mripy.ijmpy-module.html#newImage
 mripy.bialang.FindEdges	mripy.bialang.FindEdges-class.html
 mripy.bialang.ImageOperation.run	mripy.bialang.ImageOperation-class.html#run
@@ -130,10 +131,16 @@ mripy.ijmpy.Ext.__metaclass__	mripy.ijmpy.ExtMeta-class.html
 mripy.ijmpy.ExtMeta	mripy.ijmpy.ExtMeta-class.html
 mripy.ijmpy.ExtMeta.__getattr__	mripy.ijmpy.ExtMeta-class.html#__getattr__
 mripy.ijmpy.ExtMeta.handleCall	mripy.ijmpy.ExtMeta-class.html#handleCall
+mripy.ijmpy.File	mripy.ijmpy.File-class.html
+mripy.ijmpy.File.close	mripy.ijmpy.File-class.html#close
+mripy.ijmpy.File.copy	mripy.ijmpy.File-class.html#copy
+mripy.ijmpy.File.open	mripy.ijmpy.File-class.html#open
+mripy.ijmpy.File.append	mripy.ijmpy.File-class.html#append
 mripy.ijmpy.Settings	mripy.ijmpy.Settings-class.html
 mripy.ijmpy.Settings.JUSTIFICATION	mripy.ijmpy.Settings-class.html#JUSTIFICATION
 mripy.ijmpy.Settings.UPDATE_NEEDED	mripy.ijmpy.Settings-class.html#UPDATE_NEEDED
 mripy.ijmpy.Settings.ANTIALIASED_TEXT	mripy.ijmpy.Settings-class.html#ANTIALIASED_TEXT
 mripy.ijmpy.Settings.AUTO_UPDATE	mripy.ijmpy.Settings-class.html#AUTO_UPDATE
 mripy.ijmpy.Settings.GLOBAL_COLOR	mripy.ijmpy.Settings-class.html#GLOBAL_COLOR
+mripy.ijmpy.Settings.FILE	mripy.ijmpy.Settings-class.html#FILE
 mripy.ijmpy.Settings.FONT	mripy.ijmpy.Settings-class.html#FONT

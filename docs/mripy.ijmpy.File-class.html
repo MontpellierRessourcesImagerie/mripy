@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>mripy.bialang.FindEdges</title>
+  <title>mripy.ijmpy.File</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -35,8 +35,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         Package&nbsp;mripy ::
-        <a href="mripy.bialang-module.html">Module&nbsp;bialang</a> ::
-        Class&nbsp;FindEdges
+        <a href="mripy.ijmpy-module.html">Module&nbsp;ijmpy</a> ::
+        Class&nbsp;File
       </span>
     </td>
     <td>
@@ -46,26 +46,30 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="mripy.bialang.FindEdges-class.html"
+            >]&nbsp;|&nbsp;<a href="mripy.ijmpy.File-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class FindEdges</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.bialang-pysrc.html#FindEdges">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Class File</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.ijmpy-pysrc.html#File">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-    object --+    
-             |    
-<a href="mripy.bialang.ImageOperation-class.html">ImageOperation</a> --+
-                 |
-                <strong class="uidshort">FindEdges</strong>
+object --+
+         |
+        <strong class="uidshort">File</strong>
 </pre>
 
 <hr />
-<p>Apply an edge-filter to the image.</p>
-<p>Edges will have high values in the resulting image.
-Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
+<p>These functions allow you to get information about a file, read or write a text file, create a directory,
+or to delete, rename or move a file or directory.</p>
+<p>Note that these functions return a string, with the exception of File.length, File.exists, File.isDirectory,
+File.rename and File.delete when used in an assignment statement,       for example &quot;length=File.length(path)&quot;.
+The <a class="rst-reference external" href="https://imagej.net/macros/FileDemo.txt" target="_top">FileDemo</a> macro demonstrates how to use these functions.</p>
+<div class="rst-section" id="rst-see-also">
+<h1 class="heading">See also:</h1>
+<p>getDirectory and getFileList.</p>
+</div>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -84,29 +88,8 @@ Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
     </table>
   </td>
 </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="mripy.bialang.FindEdges-class.html#apply" class="summary-sig-name">apply</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">inputImage</span>)</span><br />
-      Apply the operation to the image.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="mripy.bialang-pysrc.html#FindEdges.apply">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mripy.bialang.ImageOperation-class.html">ImageOperation</a></code></b>:
-      <code><a href="mripy.bialang.ImageOperation-class.html#run">run</a></code>
-      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
       <code>__format__</code>,
@@ -122,6 +105,99 @@ Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
       <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS METHODS ==================== -->
+<a name="section-ClassMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="append"></a><span class="summary-sig-name">append</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">string</span>,
+        <span class="summary-sig-arg">path</span>)</span><br />
+      Appends string to the end of the specified file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.append">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.File-class.html#open" class="summary-sig-name">open</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">path</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">defaultName</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Creates a new text file and returns a file variable that refers to it.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.open">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="close"></a><span class="summary-sig-name">close</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">aFile</span>)</span><br />
+      Closes the specified file, which must have been opened using File.open().</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.close">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="copy"></a><span class="summary-sig-name">copy</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">path1</span>,
+        <span class="summary-sig-arg">path2</span>)</span><br />
+      Copies a file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.copy">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>
@@ -168,29 +244,29 @@ Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
   </td>
 </tr>
 </table>
-<a name="apply"></a>
+<a name="open"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">apply</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">inputImage</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">open</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">path</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">defaultName</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">Class Method</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mripy.bialang-pysrc.html#FindEdges.apply">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.open">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Apply the operation to the image.</p>
-<p>Return an image or other data calculated from the image.
-Abstract method that must be overridden by subclasses.</p>
+  <p>Creates a new text file and returns a file variable that refers to it.</p>
+<p>To write to the file, pass the file variable to the print function.
+Displays a file save dialog box if path is an empty string. The file is closed
+when the macro exits. Currently, only one file can be open at a time. For an example,
+refer to the <a class="rst-reference external" href="https://imagej.net/macros/SaveTextFileDemo.txt" target="_top">SaveTextFileDemo</a> macro.</p>
   <dl class="fields">
-    <dt>Overrides:
-        <a href="mripy.bialang.ImageOperation-class.html#apply">ImageOperation.apply</a>
-        <dd><em class="note">(inherited documentation)</em></dd>
-    </dt>
   </dl>
 </td></tr></table>
 </div>
