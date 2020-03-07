@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>mripy.bialang.FindEdges</title>
+  <title>mripy.ijmpy.FileMeta</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -35,8 +35,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         Package&nbsp;mripy ::
-        <a href="mripy.bialang-module.html">Module&nbsp;bialang</a> ::
-        Class&nbsp;FindEdges
+        <a href="mripy.ijmpy-module.html">Module&nbsp;ijmpy</a> ::
+        Class&nbsp;FileMeta
       </span>
     </td>
     <td>
@@ -46,27 +46,23 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="mripy.bialang.FindEdges-class.html"
+            >]&nbsp;|&nbsp;<a href="mripy.ijmpy.FileMeta-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
-<!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class FindEdges</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.bialang-pysrc.html#FindEdges">source&nbsp;code</a></span></p>
+<!-- ==================== TYPE DESCRIPTION ==================== -->
+<h1 class="epydoc">Type FileMeta</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-    object --+    
-             |    
-<a href="mripy.bialang.ImageOperation-class.html">ImageOperation</a> --+
-                 |
-                <strong class="uidshort">FindEdges</strong>
+object --+    
+         |    
+      type --+
+             |
+            <strong class="uidshort">FileMeta</strong>
 </pre>
 
 <hr />
-<p>Apply an edge-filter to the image.</p>
-<p>Edges will have high values in the resulting image.
-Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
-
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -90,11 +86,44 @@ Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mripy.bialang.FindEdges-class.html#apply" class="summary-sig-name">apply</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">inputImage</span>)</span><br />
-      Apply the operation to the image.</td>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FileMeta-class.html#directory" class="summary-sig-name">directory</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      The directory path of the last file opened using a file open dialog, a file save dialog, drag and drop, open(path) or runMacro(path).</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mripy.bialang-pysrc.html#FindEdges.apply">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.directory">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FileMeta-class.html#name" class="summary-sig-name">name</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      The name of the last file opened using a file open dialog, a file save dialog, drag and drop, or the open(path) function.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.name">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FileMeta-class.html#nameWithoutExtension" class="summary-sig-name">nameWithoutExtension</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      The name of the last file opened with the extension removed.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.nameWithoutExtension">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -104,20 +133,30 @@ Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="mripy.bialang.ImageOperation-class.html">ImageOperation</a></code></b>:
-      <code><a href="mripy.bialang.ImageOperation-class.html#run">run</a></code>
-      </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code>type</code></b>:
+      <code>__call__</code>,
       <code>__delattr__</code>,
-      <code>__format__</code>,
+      <code>__eq__</code>,
+      <code>__ge__</code>,
       <code>__getattribute__</code>,
+      <code>__gt__</code>,
       <code>__hash__</code>,
       <code>__init__</code>,
+      <code>__instancecheck__</code>,
+      <code>__le__</code>,
+      <code>__lt__</code>,
+      <code>__ne__</code>,
       <code>__new__</code>,
-      <code>__reduce__</code>,
-      <code>__reduce_ex__</code>,
       <code>__repr__</code>,
       <code>__setattr__</code>,
+      <code>__subclasscheck__</code>,
+      <code>__subclasses__</code>,
+      <code>mro</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__format__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
       <code>__sizeof__</code>,
       <code>__str__</code>,
       <code>__subclasshook__</code>
@@ -144,6 +183,18 @@ Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
 </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>type</code></b>:
+      <code>__abstractmethods__</code>,
+      <code>__base__</code>,
+      <code>__bases__</code>,
+      <code>__basicsize__</code>,
+      <code>__dictoffset__</code>,
+      <code>__flags__</code>,
+      <code>__itemsize__</code>,
+      <code>__mro__</code>,
+      <code>__name__</code>,
+      <code>__weakrefoffset__</code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
       </p>
@@ -168,29 +219,72 @@ Uses a radius 1 (3x3)-pixel Sobel-filter.</p>
   </td>
 </tr>
 </table>
-<a name="apply"></a>
+<a name="directory"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">apply</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">inputImage</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">directory</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mripy.bialang-pysrc.html#FindEdges.apply">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.directory">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Apply the operation to the image.</p>
-<p>Return an image or other data calculated from the image.
-Abstract method that must be overridden by subclasses.</p>
+  The directory path of the last file opened using a file open dialog, a file save dialog, drag and drop, open(path) or runMacro(path).
   <dl class="fields">
-    <dt>Overrides:
-        <a href="mripy.bialang.ImageOperation-class.html#apply">ImageOperation.apply</a>
-        <dd><em class="note">(inherited documentation)</em></dd>
-    </dt>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="name"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">name</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.name">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  The name of the last file opened using a file open dialog, a file save dialog, drag and drop, or the open(path) function.
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="nameWithoutExtension"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nameWithoutExtension</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.nameWithoutExtension">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  The name of the last file opened with the extension removed.
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>

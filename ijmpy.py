@@ -46,12 +46,12 @@ For example:
 '''
 from __future__ import print_function, division 						# we will overwrite python's print command
 import __builtin__														# to use the python print command: __builtin__.print(<text>)
-import math, sys, importlib, java, types, inspect, keyword, tokenize, os, subprocess, shutil
+import math, sys, importlib, java, types, inspect, keyword, tokenize, os, subprocess, shutil, struct, urllib2
 from collections import deque 
 from java.lang import Double, String, Thread
 from java.awt import Font, Color
 from ij import IJ, WindowManager, Prefs
-from ij.io import SaveDialog
+from ij.io import SaveDialog, OpenDialog
 from ij.process import FloatProcessor, ColorProcessor, ImageProcessor
 from ij.plugin import Colors, Macro_Runner
 from ij.plugin.frame import RoiManager
@@ -1153,6 +1153,37 @@ class Ext(object):
 	'''
 	__metaclass__ = ExtMeta
 
+class FileMeta(type):
+
+	@property
+	def directory(self):
+		'''
+		The directory path of the last file opened using a file open dialog, a file save dialog, drag and drop, open(path) or runMacro(path).
+		'''
+		lastDir = OpenDialog.getLastDirectory()
+		result = lastDir if lastDir else "" 
+		return result
+
+	@property
+	def name(self):
+		'''
+		The name of the last file opened using a file open dialog, a file save dialog, drag and drop, or the open(path) function.
+		'''
+		lastName = OpenDialog.getLastName()
+		result = lastName if lastName else "" 
+		return result
+
+	@property
+	def nameWithoutExtension(self):
+		'''
+		The name of the last file opened with the extension removed.		
+		'''
+		lastName = OpenDialog.getLastName()
+		result = lastName if lastName else "" 
+		parts = result.split('.')
+		result = '.'.join(parts[0:len(parts)-1])
+		return result
+		
 class File(object):
 	'''
 	These functions allow you to get information about a file, read or write a text file, create a directory, 
@@ -1168,6 +1199,7 @@ class File(object):
 
 	.. _`FileDemo`: https://imagej.net/macros/FileDemo.txt
 	'''
+	__metaclass__ = FileMeta
 	@classmethod
 	def append(cls, string, path):
 		'''
@@ -1221,6 +1253,167 @@ class File(object):
 		Copies a file. 
 		'''
 		shutil.copy2(path1, path2)
+
+	@classmethod
+	def dateLastModified(cls, path):
+		'''
+		Returns the date and time the specified file was last modified.
+		'''
+		return time.ctime(os.path.getmtime(path))
+
+	@classmethod
+	def delete(cls, path):
+		'''
+		Deletes the specified file or directory. 
+		
+		With v1.41e or later, returns True if the file or directory was successfully deleted. 
+		If the file is a directory, it must be empty. 
+		'''
+		if os.path.isfile(path):
+			os.remove(path)
+			return True
+		if os.path.isdir(path):
+			os.rmdir(path)
+			return True
+		return False
+
+	@classmethod
+	def exists(cls, path):
+		'''
+		Returns True if the specified file exists.
+		'''
+		return os.path.isfile(path) or os.path.isdir(path)
+
+	@classmethod
+	def getName(cls, path):
+		'''
+		Returns the file name (e.g., "blobs.tif") from path.
+		'''
+		return os.path.basename(path)
+
+	@classmethod
+	def getNameWithoutExtension(cls, path):
+		'''
+		Returns the name (e.g., "blobs") from path without the extension.
+		'''
+		return os.path.basename(path).split('.')[0]
+
+	@classmethod
+	def getDirectory(cls, path):
+		'''
+		Returns the name (e.g., "blobs") from path without the extension.
+		'''
+		path, filename = os.path.split(path)
+		return path
+
+	@classmethod
+	def getDefaultDir(cls):
+		'''
+		 Returns the current working directory.
+		'''
+		return os.getcwd()
+
+	@classmethod
+	def setDefaultDir(cls, directoryPath):
+		'''
+		Set the default working directory.
+		'''
+		os.chdir(directoryPath)
+	
+	@classmethod
+	def getParent(cls, path):
+		'''
+		Returns the parent of the file specified by path.
+		'''
+		parts = path.split('/')
+		firstParts = parts[0:len(parts)-1]
+		
+		return '/'.join(firstParts)
+
+	@classmethod
+	def isDirectory(cls, path):
+		'''
+		Returns True if the specified file is a directory.
+		'''
+		return os.path.isdir(path)
+
+	@classmethod
+	def lastModified(cls, path):
+		'''
+		Returns the time the specified file was last modified as the number of milliseconds since January 1, 1970.
+		'''
+		return os.path.getmtime(path)
+
+	@classmethod
+	def length(cls, path):
+		'''
+		Returns the length in bytes of the specified file.
+		
+		For example: 
+			length=File.length(path). 
+			
+		'''
+		return os.path.getsize(path)
+
+	@classmethod
+	def makeDirectory(cls, path):
+		'''
+		Creates a directory.
+		'''
+		os.mkdir(path)
+
+	@classmethod
+	def openAsString(cls, path):
+		'''
+		Opens a text file and returns the contents as a string. 
+				
+		Displays a file open dialog box if path is an empty string. 
+		Use lines=split(str,"\\n") to convert the string to an array of lines.		
+		'''
+		return IJ.openAsString(path)
+
+	@classmethod
+	def openAsRawString(cls, path, count=None):
+		'''
+		Opens a file and returns up to the first 5,000 bytes as a string. 
+		
+		Returns all the bytes in the file if the name ends with ".txt". 
+		Refer to the `First10Bytes`_ and `ZapGremlins`_ macros for examples. 
+
+		.. _`First10Bytes`: https://imagej.net/macros/First10Bytes.txt
+		.. _`ZapGremlins`: https://imagej.net/macros/ZapGremlins.txt
+		'''
+		if path=='':
+			od = OpenDialog("Open As String", "")
+			directory = od.getDirectory()
+			name = od.getFileName()
+			if (name==None):
+				return ""
+			path = directory + name;
+		maxLength = count
+		if (not count):
+			maxLength = 5000
+		length = os.path.getsize(path)
+		if maxLength>length or (path.endswith('.txt') and not count):
+			maxLength = length
+		f = open(path, 'rb')
+		chars = struct.unpack(str(maxLength) + "c", f.read(maxLength))
+		out = ''.join(chars)
+		return out
+
+	@classmethod
+	def openUrlAsString(cls, url):
+		'''
+		Opens a URL and returns the contents as a string. 
+		
+		Returns an emptly string if the host or file cannot be found. 
+		With v1.41i and later, returns "<Error: message>" if there any error, including host or file not found. 
+		'''
+		try:
+			contents = urllib2.urlopen(url).read()
+		except (urllib2.URLError, ValueError), e:
+			contents = ('<Error: ' + str(e) + '>')
+		return contents
 		
 def getPixel(x, y=None):
 	'''

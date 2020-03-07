@@ -662,12 +662,16 @@ class FileTest(unittest.TestCase):
 		unittest.TestCase.setUp(self)
 		if os.path.exists('./test.txt'):
 			os.remove('./test.txt')
+		if os.path.exists('./test'):
+			os.rmdir('./test')
 
 	def tearDown(self):
 		unittest.TestCase.tearDown(self)
 		if os.path.exists('./test.txt'):
 			os.remove('./test.txt')
-
+		if os.path.exists('./test'):
+			os.rmdir('./test')
+			
 	def testAppend(self):
 		File.append('THE END', './test.txt')
 		with open('./test.txt', 'r') as aFile:
@@ -702,7 +706,127 @@ class FileTest(unittest.TestCase):
 
 		self.assertEquals(data, 'test test')
 		os.remove('./test2.txt')
+
+	def testDateLastModified(self):
+		before = time.ctime()
+		f = File.open('test.txt')
+		print(f, "test test")
+		File.close(f)
+		mtime = time.ctime(os.path.getmtime("test.txt"))
+		after = time.ctime()
+		self.assertEquals(before<=mtime, True)
+		self.assertEquals(mtime<=after, True)
+
+	def testDelete(self):
+		f = File.open('test.txt')
+		print(f, "test test")
+		File.close(f)
+		self.assertEquals(os.path.isfile('test.txt'), True)
+
+		File.delete('test.txt')
+		self.assertEquals(os.path.isfile('test.txt'), False)
+
+	def testDirectory(self):
+		aDir = File.directory
+		self.assertEquals(os.path.isdir(aDir) or aDir=='', True)
+
+	def testGetDefaultDir(self):
+		cDir = File.getDefaultDir()
+		self.assertEquals(os.path.isdir(cDir), True)
+
+	def testSetDefaultDir(self):
+		dd = File.getDefaultDir()
+		os.mkdir('./ijmpytest')
+		File.setDefaultDir('./ijmpytest')
+		self.assertEquals(File.getDefaultDir(), dd + '/ijmpytest')
+		File.setDefaultDir(dd)
+		File.delete('./ijmpytest')
 		
+	def testExists(self):
+		res = File.exists('.')
+		self.assertEquals(res, True)
+		res = File.exists('/mumpitz')
+		self.assertEquals(res, False)
+		f = File.open('test.txt')
+		print(f, "test test")
+		File.close(f)
+		res = File.exists('test.txt')
+		self.assertEquals(res, True)
+
+	def testGetName(self):
+		name = File.getName('a/b/c/blobs.tif')
+		self.assertEquals(name, 'blobs.tif')
+
+	def testGetNameWithoutExtension(self):
+		name = File.getNameWithoutExtension('a/b/c/blobs.tif')
+		self.assertEquals(name, 'blobs')
+
+	def testGetDirectory(self):
+		aDir = File.getDirectory('a/b/c/blobs.tif')
+		self.assertEquals(aDir, 'a/b/c')
+
+	def testGetParent(self):
+		parent = File.getParent('/a/b/c')
+		self.assertEquals(parent, '/a/b')
+
+	def testIsDirectory(self):
+		self.assertEquals(File.isDirectory("./"), True)
+		self.assertEquals(File.isDirectory("./test.txt"), False)
+
+	def testLastModified(self):
+		before = round(time.time(), 0) - 1
+		f = File.open('test.txt')
+		print(f, "test test")
+		File.close(f)
+		lastModified = File.lastModified('./test.txt')
+		after = time.time()
+		print(before, lastModified, after)
+		self.assertEquals(before<=lastModified, True)
+		self.assertEquals(lastModified<=after, True)
+
+	def testLength(self):
+		f = File.open('test.txt')
+		print(f, "test test")
+		File.close(f)
+		l = File.length('test.txt')
+		self.assertEquals(l, 9)
+
+	def testMakeDirectory(self):
+		File.makeDirectory('test')
+		self.assertEquals(File.isDirectory('test'), True)
+		File.delete('test')
+
+	def testName(self):
+		aName = File.name
+		aDir = File.directory		
+		self.assertEquals(os.path.isfile(aDir+'/'+aName) or aName=='' or aDir=='', True)
+
+	def testNameWithoutExtension(self):
+		aNameWithExt = File.name
+		aNameWithoutExt = File.nameWithoutExtension
+		n = len(aNameWithExt.split('.')) - len(aNameWithoutExt.split('.')) 
+		self.assertEquals(aNameWithExt=='' or (n>=0 and n<2), True)
+
+	def testOpenAsString(self):
+		f = File.open('test.txt')
+		print(f, "test test")
+		File.close(f)
+		text = File.openAsString('test.txt')
+		self.assertEquals(text, "test test\n")
+
+	def testOpenAsRawString(self):
+		iconPath = IJ.getDirectory('imagej') + 'images/icon.png'
+		out = File.openAsRawString(iconPath)
+		self.assertEquals(len(out), 5000)
+
+	def testOpenUrlAsString(self):
+		content = File.openUrlAsString('https://imagej.net/developer/macro/functions.html') 
+		self.assertEquals(content.split('\n')[0].startswith('<!DOCTYPE'), True)
+		content = File.openUrlAsString('malformed') 
+		self.assertEquals(content.split('\n')[0].startswith('<Error'), True)
+		content = File.openUrlAsString('https://gibtsnicht') 
+		self.assertEquals(content.split('\n')[0].startswith('<Error'), True)
+	
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -977,7 +1101,26 @@ def suite():
 	suite.addTest(FileTest('testOpen'))
 	suite.addTest(FileTest('testClose'))
 	suite.addTest(FileTest('testCopy'))
-
+	suite.addTest(FileTest('testDateLastModified'))
+	suite.addTest(FileTest('testDelete'))
+	suite.addTest(FileTest('testDirectory'))
+	suite.addTest(FileTest('testExists'))
+	suite.addTest(FileTest('testGetName'))
+	suite.addTest(FileTest('testGetNameWithoutExtension'))
+	suite.addTest(FileTest('testGetDirectory'))
+	suite.addTest(FileTest('testGetDefaultDir'))
+	suite.addTest(FileTest('testSetDefaultDir'))
+	suite.addTest(FileTest('testGetParent'))
+	suite.addTest(FileTest('testIsDirectory'))
+	suite.addTest(FileTest('testLastModified'))
+	suite.addTest(FileTest('testLength'))
+	suite.addTest(FileTest('testMakeDirectory'))
+	suite.addTest(FileTest('testName'))
+	suite.addTest(FileTest('testNameWithoutExtension'))
+	suite.addTest(FileTest('testOpenAsString'))
+	suite.addTest(FileTest('testOpenAsRawString'))
+	suite.addTest(FileTest('testOpenUrlAsString'))
+	
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))
 	suite.addTest(GetPixelTest('testGetPixelGrey16Bit'))
