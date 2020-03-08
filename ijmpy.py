@@ -54,11 +54,11 @@ from ij import IJ, WindowManager, Prefs
 from ij.io import SaveDialog, OpenDialog
 from ij.process import FloatProcessor, ColorProcessor, ImageProcessor
 from ij.plugin import Colors, Macro_Runner
-from ij.plugin.frame import RoiManager
+from ij.plugin.frame import RoiManager, Fitter
 from ij.plugin.filter import MaximumFinder, Analyzer
 from ij.process import FHT
 from ij.util import Tools
-from ij.measure import ResultsTable
+from ij.measure import ResultsTable, CurveFitter
 from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog, Toolbar
 
 NaN = Double.NaN
@@ -462,8 +462,12 @@ def atan2(y, x):
 
 def autoUpdate(aBoolean):
 	'''
-	If boolean is true, the display is refreshed each time lineTo(), drawLine(), drawString(), etc. are called,
-	otherwise, the display is refreshed only when updateDisplay() is called or when the macro terminates. 
+	If boolean is true, the display is refreshed each time lineTo(), `drawLine()`_, `drawString()`_, etc. are called.
+	
+	Otherwise, the display is refreshed only when updateDisplay() is called or when the macro terminates. 
+
+	.. _`drawLine()`: redirect.html#mripy.ijmpy.drawLine
+	.. _`drawString()`: redirect.html#mripy.ijmpy.drawString
 	'''
 	Settings.AUTO_UPDATE = aBoolean
 	
@@ -921,7 +925,10 @@ def drawOval(x, y, width, height):
 	
 	See also: 
 	=========
-	fillOval, setColor, setLineWidth, autoUpdate and Overlay.drawEllipse. 
+	`fillOval`_, setColor, setLineWidth, `autoUpdate`_ and Overlay.drawEllipse. 
+
+	.. _`fillOval`: redirect.html#mripy.ijmpy.fillOval
+	.. _`autoUpdate`: redirect.html#mripy.ijmpy.autoUpdate
 	'''
 	imp = IJ.getImage()
 	imp.getProcessor().drawOval(x, y, width, height)
@@ -934,7 +941,10 @@ def drawRect(x, y, width, height):
 	
 	See also: 
 	=========
-	fillRect, setColor, setLineWidth, autoUpdate and Overlay.drawRect 
+	`fillRect`_, setColor, setLineWidth, `autoUpdate`_ and Overlay.drawRect 
+
+	.. _`fillRect`: redirect.html#mripy.ijmpy.fillRect
+	.. _`autoUpdate`: redirect.html#mripy.ijmpy.autoUpdate
 	'''
 	imp = IJ.getImage()
 	imp.getProcessor().drawRect(x, y, width, height)
@@ -1183,6 +1193,13 @@ class FileMeta(type):
 		parts = result.split('.')
 		result = '.'.join(parts[0:len(parts)-1])
 		return result
+
+	@property
+	def separator(cls):
+		'''
+		Returns the file name separator character ("/" or "\").
+		'''
+		return os.path.sep
 		
 class File(object):
 	'''
@@ -1389,7 +1406,7 @@ class File(object):
 			name = od.getFileName()
 			if (name==None):
 				return ""
-			path = directory + name;
+			path = directory + name
 		maxLength = count
 		if (not count):
 			maxLength = 5000
@@ -1414,6 +1431,211 @@ class File(object):
 		except (urllib2.URLError, ValueError), e:
 			contents = ('<Error: ' + str(e) + '>')
 		return contents
+
+	@classmethod
+	def openDialog(cls, title):
+		'''
+		 Displays a file open dialog and returns the path to the file chosen by the user (`example`_). 
+		 
+		 The macro exits if the user cancels the dialog. 
+
+		 .. _`example`: https://imagej.net/macros/OpenDialogDemo.txt
+		'''
+		od = OpenDialog(title, "")
+		directory = od.getDirectory()
+		name = od.getFileName()
+		if (name==None):
+			sys.exit(0)
+		path = directory + name
+		return path
+
+	@classmethod 
+	def rename(cls, pathSrc, pathDest):
+		'''
+		 Renames, or moves, a file or directory. 
+		 
+		 Returns True if successful. 
+		'''
+		os.rename(pathSrc, pathDest)
+		res = not os.path.exists(pathSrc) and os.path.exists(pathDest)
+		return res
+
+	@classmethod
+	def saveString(cls, string, path):
+		'''
+		Saves string as a file.
+		'''
+		with open(path, "w") as txtFile:
+			n = txtFile.write(string)
+		return n
+
+def fill(imp=None):
+	'''
+	Fills the image or selection with the current drawing color. 
+	'''
+	if (not imp):
+		imp = IJ.getImage()
+	IJ.runMacro('fill()')
+	return imp
+
+def fillOval(x, y, width, height, imp=None):
+	'''
+	Fills an oval bounded by the specified rectangle with the current drawing color. 
+	
+	See also:
+	=========
+	`drawOval`_, setColor, `autoUpdate`_.
+
+	.. _`drawOval`: redirect.html#mripy.ijmpy.drawOval
+	.. _`autoUpdate`: redirect.html#mripy.ijmpy.autoUpdate
+	'''
+	if (not imp):
+		imp = IJ.getImage()
+	imp.getProcessor().fillOval(x, y, width, height)
+	return imp
+
+def fillRect(x, y, width, height, imp=None):
+	'''
+	Fills the specified rectangle with the current drawing color. 
+	
+	See also:
+	=========
+	`drawRect`_, setColor, `autoUpdate`_.
+
+	.. _`drawRect`: redirect.html#mripy.ijmpy.drawRect
+	.. _`autoUpdate`: redirect.html#mripy.ijmpy.autoUpdate
+	'''
+	if (not imp):
+		imp = IJ.getImage()
+	imp.getProcessor().fillRect(x, y, width, height)
+	return imp
+
+class FitMeta(type):
+	'''
+	Meta class of the class Fit.
+	'''
+	@property
+	def rSquared(self):
+		'''
+		Returns R^2=1-SSE/SSD, where SSE is the sum of the squares of the errors
+		and SSD is the sum of the squares of the deviations about the mean. 
+		'''
+		return Fit.fitter.getRSquared()
+
+	@property
+	def nParams(self):
+		'''
+		Returns the number of parameters.
+		'''
+		return Fit.fitter.getNumParams()
+
+	@property
+	def nEquations(self):
+		'''
+		Returns the number of equations.
+		'''
+		return CurveFitter.fitList.length
+
+	@property
+	def plot(self):
+		'''
+		Plots the current curve fit.
+		'''
+		Fitter.plot(Fit.fitter);
+
+	@property
+	def logResults(self):
+		'''
+		Causes doFit() to write a description of the curve fitting results to the Log window. 
+		'''
+		Fit.logFitResults = True
+
+	@property
+	def showDialog(self):
+		'''
+		Causes doFit() to display the simplex settings dialog.
+		'''
+		Fit.showFitDialog = True
+		
+class Fit(object):
+	'''
+	Fit Functions. These functions do curve fitting. 
+	
+	The `CurveFittingDemo`_ macro demonstrates how to use them. 
+
+	.. _`CurveFittingDemo`: https://imagej.net/macros/examples/CurveFittingDemo.txt
+	'''
+	__metaclass__ = FitMeta
+	fitter = None
+	logFitResults = False
+	showFitDialog = False
+	
+	@classmethod
+	def doFit(cls, equation, xpoints, ypoints, initialGuesses=None):
+		'''
+		Fits the specified equation to the points defined by xpoints, ypoints. 
+		
+		Equation can be either the equation name or an index. The equation names are shown 
+		in the drop down menu in the Analyze>Tools>Curve Fitting window. With ImageJ 1.42f 
+		or later, equation can be a string containing a user-defined equation (example). 
+		If initialGuesses is not None, initialGuesses must be an array equal in length to the 
+		number of parameters in equation (example). 
+		'''	
+		equation = equation.lower()
+		fitList = [f.lower() for f in CurveFitter.fitList]
+		try:
+			index = fitList.index(equation)
+		except ValueError:
+			index = -1
+		isCustom = equation.find("y=")!=-1 or equation.find("y =")!=-1
+		if index<0 and not isCustom:
+			raise Exception('Unrecognized fit')
+		if not len(xpoints)==len(ypoints):
+			raise Exception('Arrays not same length')
+		if len(xpoints)==0:
+			raise Exception('Zero length array')	
+		cls.fitter = CurveFitter(xpoints, ypoints)
+		cls.fitter.setStatusAndEsc(None, True)
+		if index==-1 and isCustom:		
+			cls.fitter.doCustomFit(equation, initialGuesses, cls.showFitDialog)
+		else:
+			cls.fitter.doFit(index, cls.showFitDialog)
+		if cls.logFitResults:
+			IJ.log(cls.fitter.getResultString())
+			cls.logFitResults = False
+		cls.showFitDialog = False
+		return float('nan')	
+
+	@classmethod
+	def p(cls, index):
+		'''
+		Returns the value of the specified parameter. 
+		'''
+		if index<0 or index > cls.fitter.getNumParams()-1:
+			raise Exception("Index ("+str(index)+") is outside of the 0-"+str(cls.fitter.getNumParams()-1)+" range")
+		p = cls.fitter.getParams()
+		res = p[index] if index<len(p) else float('nan')
+		return res
+
+	@classmethod
+	def f(cls, x):
+		'''
+		Returns the y value at x (`example`_). 
+
+		.. _`example`: https://imagej.net/macros/examples/PlotSigmoidDerivatives.txt
+		'''
+		return cls.fitter.f(fitter.getParams(), x)
+
+	@classmethod
+	def getEquation(cls, index):
+		'''
+		Returns the name and formula of the specified equation. 
+		'''
+		if index<0 or index>CurveFitter.fitList.length-1:
+			raise Exception("Index ("+str(index)+") is outside of the 0-"+str(CurveFitter.fitList.length-1)+" range") 
+		name = CurveFitter.fitList[index]
+		formula = CurveFitter.fList[index]
+		return name, formula
 		
 def getPixel(x, y=None):
 	'''

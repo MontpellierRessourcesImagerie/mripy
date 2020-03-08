@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>mripy.ijmpy.FileMeta</title>
+  <title>mripy.ijmpy.FitMeta</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -36,7 +36,7 @@
       <span class="breadcrumbs">
         Package&nbsp;mripy ::
         <a href="mripy.ijmpy-module.html">Module&nbsp;ijmpy</a> ::
-        Class&nbsp;FileMeta
+        Class&nbsp;FitMeta
       </span>
     </td>
     <td>
@@ -46,23 +46,25 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="mripy.ijmpy.FileMeta-class.html"
+            >]&nbsp;|&nbsp;<a href="mripy.ijmpy.FitMeta-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== TYPE DESCRIPTION ==================== -->
-<h1 class="epydoc">Type FileMeta</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Type FitMeta</h1><p class="nomargin-top"><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta">source&nbsp;code</a></span></p>
 <pre class="base-tree">
 object --+    
          |    
       type --+
              |
-            <strong class="uidshort">FileMeta</strong>
+            <strong class="uidshort">FitMeta</strong>
 </pre>
 
 <hr />
+Meta class of the class Fit.
+
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -86,10 +88,11 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mripy.ijmpy.FileMeta-class.html#directory" class="summary-sig-name">directory</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      The directory path of the last file opened using a file open dialog, a file save dialog, drag and drop, open(path) or runMacro(path).</td>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FitMeta-class.html#rSquared" class="summary-sig-name">rSquared</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns R^2=1-SSE/SSD, where SSE is the sum of the squares of the errors
+and SSD is the sum of the squares of the deviations about the mean.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.directory">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.rSquared">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -103,10 +106,10 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mripy.ijmpy.FileMeta-class.html#name" class="summary-sig-name">name</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      The name of the last file opened using a file open dialog, a file save dialog, drag and drop, or the open(path) function.</td>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FitMeta-class.html#nParams" class="summary-sig-name">nParams</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the number of parameters.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.name">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.nParams">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -120,10 +123,10 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mripy.ijmpy.FileMeta-class.html#nameWithoutExtension" class="summary-sig-name">nameWithoutExtension</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      The name of the last file opened with the extension removed.</td>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FitMeta-class.html#nEquations" class="summary-sig-name">nEquations</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns the number of equations.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.nameWithoutExtension">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.nEquations">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -137,10 +140,44 @@ object --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="mripy.ijmpy.FileMeta-class.html#separator" class="summary-sig-name">separator</a>(<span class="summary-sig-arg">cls</span>)</span><br />
-      Returns the file name separator character (&quot;/&quot; or &quot;&quot;).</td>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FitMeta-class.html#plot" class="summary-sig-name">plot</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Plots the current curve fit.</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.separator">source&nbsp;code</a></span>
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.plot">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FitMeta-class.html#logResults" class="summary-sig-name">logResults</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Causes doFit() to write a description of the curve fitting results to the Log window.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.logResults">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.FitMeta-class.html#showDialog" class="summary-sig-name">showDialog</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Causes doFit() to display the simplex settings dialog.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.showDialog">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -236,21 +273,22 @@ object --+
   </td>
 </tr>
 </table>
-<a name="directory"></a>
+<a name="rSquared"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">directory</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rSquared</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.directory">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.rSquared">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  The directory path of the last file opened using a file open dialog, a file save dialog, drag and drop, open(path) or runMacro(path).
+  Returns R^2=1-SSE/SSD, where SSE is the sum of the squares of the errors
+and SSD is the sum of the squares of the deviations about the mean.
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -259,21 +297,21 @@ object --+
   </dl>
 </td></tr></table>
 </div>
-<a name="name"></a>
+<a name="nParams"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">name</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nParams</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.name">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.nParams">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  The name of the last file opened using a file open dialog, a file save dialog, drag and drop, or the open(path) function.
+  Returns the number of parameters.
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -282,21 +320,21 @@ object --+
   </dl>
 </td></tr></table>
 </div>
-<a name="nameWithoutExtension"></a>
+<a name="nEquations"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nameWithoutExtension</span>(<span class="sig-arg">self</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nEquations</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.nameWithoutExtension">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.nEquations">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  The name of the last file opened with the extension removed.
+  Returns the number of equations.
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
@@ -305,21 +343,67 @@ object --+
   </dl>
 </td></tr></table>
 </div>
-<a name="separator"></a>
+<a name="plot"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">separator</span>(<span class="sig-arg">cls</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">plot</span>(<span class="sig-arg">self</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FileMeta.separator">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.plot">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  Returns the file name separator character (&quot;/&quot; or &quot;&quot;).
+  Plots the current curve fit.
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="logResults"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">logResults</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.logResults">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Causes doFit() to write a description of the curve fitting results to the Log window.
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@property</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="showDialog"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">showDialog</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#FitMeta.showDialog">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Causes doFit() to display the simplex settings dialog.
   <dl class="fields">
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">

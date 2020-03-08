@@ -513,6 +513,62 @@ The <a class="rst-reference external" href="https://imagej.net/macros/FileDemo.t
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.File-class.html#openDialog" class="summary-sig-name">openDialog</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">title</span>)</span><br />
+      Displays a file open dialog and returns the path to the file chosen by the user (<a class="rst-reference external" href="https://imagej.net/macros/OpenDialogDemo.txt" target="_top">example</a>).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.openDialog">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy.File-class.html#rename" class="summary-sig-name">rename</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">pathSrc</span>,
+        <span class="summary-sig-arg">pathDest</span>)</span><br />
+      Renames, or moves, a file or directory.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.rename">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="saveString"></a><span class="summary-sig-name">saveString</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">string</span>,
+        <span class="summary-sig-arg">path</span>)</span><br />
+      Saves string as a file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.saveString">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 </table>
 <!-- ==================== PROPERTIES ==================== -->
 <a name="section-Properties"></a>
@@ -701,6 +757,51 @@ With v1.41i and later, returns &quot;&lt;Error: message&gt;&quot; if there any e
   </dl>
 </td></tr></table>
 </div>
+<a name="openDialog"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">openDialog</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">title</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.openDialog">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Displays a file open dialog and returns the path to the file chosen by the user (<a class="rst-reference external" href="https://imagej.net/macros/OpenDialogDemo.txt" target="_top">example</a>).</p>
+<p>The macro exits if the user cancels the dialog.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="rename"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">rename</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">pathSrc</span>,
+        <span class="sig-arg">pathDest</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#File.rename">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Renames, or moves, a file or directory.</p>
+<p>Returns True if successful.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -726,7 +827,7 @@ With v1.41i and later, returns &quot;&lt;Error: message&gt;&quot; if there any e
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Sat Mar  7 01:47:31 2020
+    on Sun Mar  8 23:26:53 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

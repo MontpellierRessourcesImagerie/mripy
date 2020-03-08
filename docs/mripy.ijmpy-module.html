@@ -159,6 +159,22 @@ Array.reverse(array)</blockquote>
 or to delete, rename or move a file or directory.
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.ijmpy.FitMeta-class.html" class="summary-name">FitMeta</a><br />
+      Meta class of the class Fit.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="mripy.ijmpy.Fit-class.html" class="summary-name">Fit</a><br />
+      Fit Functions. These functions do curve fitting.
+    </td>
+  </tr>
 </table>
 <!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -273,9 +289,8 @@ using the signs of the arguments to determine the quadrant.</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="autoUpdate"></a><span class="summary-sig-name">autoUpdate</span>(<span class="summary-sig-arg">aBoolean</span>)</span><br />
-      If boolean is true, the display is refreshed each time lineTo(), drawLine(), drawString(), etc. are called,
-otherwise, the display is refreshed only when updateDisplay() is called or when the macro terminates.</td>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#autoUpdate" class="summary-sig-name">autoUpdate</a>(<span class="summary-sig-arg">aBoolean</span>)</span><br />
+      If boolean is true, the display is refreshed each time lineTo(), <a class="rst-reference external" href="redirect.html#mripy.ijmpy.drawLine" target="_top">drawLine()</a>, <a class="rst-reference external" href="redirect.html#mripy.ijmpy.drawString" target="_top">drawString()</a>, etc. are called.</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="mripy.ijmpy-pysrc.html#autoUpdate">source&nbsp;code</a></span>
             
@@ -706,6 +721,65 @@ string.</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="fill"></a><span class="summary-sig-name">fill</span>(<span class="summary-sig-arg">imp</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Fills the image or selection with the current drawing color.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#fill">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#fillOval" class="summary-sig-name">fillOval</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">width</span>,
+        <span class="summary-sig-arg">height</span>,
+        <span class="summary-sig-arg">imp</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Fills an oval bounded by the specified rectangle with the current drawing color.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#fillOval">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#fillRect" class="summary-sig-name">fillRect</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">width</span>,
+        <span class="summary-sig-arg">height</span>,
+        <span class="summary-sig-arg">imp</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Fills the specified rectangle with the current drawing color.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#fillRect">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#getPixel" class="summary-sig-name">getPixel</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>)</span><br />
       Returns the raw value of the pixel at (x,y).</td>
@@ -1073,6 +1147,26 @@ using the signs of the arguments to determine the quadrant.</p>
   </dl>
 </td></tr></table>
 </div>
+<a name="autoUpdate"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">autoUpdate</span>(<span class="sig-arg">aBoolean</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#autoUpdate">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>If boolean is true, the display is refreshed each time lineTo(), <a class="rst-reference external" href="redirect.html#mripy.ijmpy.drawLine" target="_top">drawLine()</a>, <a class="rst-reference external" href="redirect.html#mripy.ijmpy.drawString" target="_top">drawString()</a>, etc. are called.</p>
+<p>Otherwise, the display is refreshed only when updateDisplay() is called or when the macro terminates.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <a name="calibrate"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1336,7 +1430,7 @@ it is ignored if &quot;tolerance &gt; 0&quot;. If <code class="link">mode</code>
   <p>Draws the outline of an oval using the current color and line width.</p>
 <div class="rst-section" id="rst-see-also">
 <h1 class="heading">See also:</h1>
-<p>fillOval, setColor, setLineWidth, autoUpdate and Overlay.drawEllipse.</p>
+<p><a class="rst-reference external" href="redirect.html#mripy.ijmpy.fillOval" target="_top">fillOval</a>, setColor, setLineWidth, <a class="rst-reference external" href="redirect.html#mripy.ijmpy.autoUpdate" target="_top">autoUpdate</a> and Overlay.drawEllipse.</p>
 </div>
   <dl class="fields">
   </dl>
@@ -1362,7 +1456,7 @@ it is ignored if &quot;tolerance &gt; 0&quot;. If <code class="link">mode</code>
   <p>Draws the outline of a rectangle using the current color and line width.</p>
 <div class="rst-section" id="rst-see-also">
 <h1 class="heading">See also:</h1>
-<p>fillRect, setColor, setLineWidth, autoUpdate and Overlay.drawRect</p>
+<p><a class="rst-reference external" href="redirect.html#mripy.ijmpy.fillRect" target="_top">fillRect</a>, setColor, setLineWidth, <a class="rst-reference external" href="redirect.html#mripy.ijmpy.autoUpdate" target="_top">autoUpdate</a> and Overlay.drawRect</p>
 </div>
   <dl class="fields">
   </dl>
@@ -1524,6 +1618,60 @@ seemed to have worked for eval. For now use &quot;Exec&quot;, but this is likely
 <p>In ijmpy you can specify an exit status, for example:</p>
 <blockquote>
 exit(status=0)</blockquote>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="fillOval"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fillOval</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">width</span>,
+        <span class="sig-arg">height</span>,
+        <span class="sig-arg">imp</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#fillOval">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fills an oval bounded by the specified rectangle with the current drawing color.</p>
+<div class="rst-section" id="rst-see-also">
+<h1 class="heading">See also:</h1>
+<p><a class="rst-reference external" href="redirect.html#mripy.ijmpy.drawOval" target="_top">drawOval</a>, setColor, <a class="rst-reference external" href="redirect.html#mripy.ijmpy.autoUpdate" target="_top">autoUpdate</a>.</p>
+</div>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="fillRect"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fillRect</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">width</span>,
+        <span class="sig-arg">height</span>,
+        <span class="sig-arg">imp</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#fillRect">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fills the specified rectangle with the current drawing color.</p>
+<div class="rst-section" id="rst-see-also">
+<h1 class="heading">See also:</h1>
+<p><a class="rst-reference external" href="redirect.html#mripy.ijmpy.drawRect" target="_top">drawRect</a>, setColor, <a class="rst-reference external" href="redirect.html#mripy.ijmpy.autoUpdate" target="_top">autoUpdate</a>.</p>
+</div>
   <dl class="fields">
   </dl>
 </td></tr></table>
@@ -1823,7 +1971,7 @@ For an example, see the <a class="rst-reference external" href="https://imagej.n
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Sat Mar  7 01:47:31 2020
+    on Sun Mar  8 23:26:53 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

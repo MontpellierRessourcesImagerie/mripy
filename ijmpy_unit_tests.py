@@ -293,6 +293,7 @@ class ArrayTest(unittest.TestCase):
 		self.assertEquals(round(values[3], 3), 8.901)
 
 	def testShowArrayResults(self):
+		close('Results')
 		array = [1.234, 2.345, 3.456, 4.567]
 		rt = Array.show('Results', array);
 		self.assertEquals(rt.getTitle(), "Results")
@@ -826,7 +827,91 @@ class FileTest(unittest.TestCase):
 		self.assertEquals(content.split('\n')[0].startswith('<Error'), True)
 		content = File.openUrlAsString('https://gibtsnicht') 
 		self.assertEquals(content.split('\n')[0].startswith('<Error'), True)
+
+	def testRename(self):
+		f = File.open('test.txt')
+		print(f, "test test")
+		File.close(f)
+		res = File.rename('test.txt', 'test2.txt')
+		self.assertEquals(res, True)
+		res = File.rename('test2.txt', 'test.txt')
+
+	def testSaveString(self):
+		File.saveString('test test', 'test.txt')
+		content = File.openAsString('test.txt')
+		self.assertEquals(content, 'test test\n')
 	
+	def testSeparator(self):
+		sep = File.separator
+		self.assertEquals(sep=="/" or sep=='\\', True)
+
+class FillTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+		imp = newImage("test", "8-bit black", 256, 256, 1);
+		
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+
+	def testFill(self):
+		IJ.setForegroundColor(255, 255, 255)
+		imp = fill()
+		mean = IJ.getValue(imp, 'Mean')
+		self.assertEquals(mean, 255)
+		run("Close All");
+		newImage("test", "8-bit black", 256, 256, 1);
+		IJ.makeRectangle(64, 64, 128, 128)
+		imp = fill()
+		IJ.run("Select None")
+		mean = IJ.getValue(imp, 'Mean')
+		self.assertEquals(mean, 63.75)
+
+	def testFillOval(self):
+		IJ.setForegroundColor(255, 255, 255)
+		fillOval(128, 128, 50, 50);
+		roi = doWand(150, 150)
+		self.assertEquals(len(roi.getContainedPoints()), 1976)
+
+	def testFillRect(self):
+		IJ.setForegroundColor(255, 255, 255)
+		fillRect(128, 128, 50, 50);
+		roi = doWand(150, 150)
+		self.assertEquals(len(roi.getContainedPoints()), 2500)
+
+class FitTest(unittest.TestCase):
+	def testDoFit(self):
+		x = [0, 1, 2, 3, 4, 5]
+		y = [0, 0.9, 4.5, 8, 18, 24]
+		Fit.doFit("Straight Line", x, y)
+		a = round(Fit.p(0), 4)
+		b = round(Fit.p(1), 4)
+		self.assertEquals(a, -3.2524)
+		self.assertEquals(b, 4.9943)
+
+		x = [0, 1, 2, 3]
+		y = [0, 1, 0, -1]
+		equation = "y = a * sin(b*x+c)"
+		Fit.doFit(equation, x, y)
+		a = round(Fit.p(0), 4)
+		b = round(Fit.p(1), 4)
+		c = round(Fit.p(2), 4)
+		self.assertEquals(a, 1.0000)
+		self.assertEquals(b, 1.5708)
+		self.assertEquals(c, 0.0000)
+
+		x = [0, 1, 2, 3]
+		y = [0, 1, 0, -1]
+		equation = "y = a * sin(b*x+c)"
+		Fit.doFit(equation, x, y, [1, 1.2, 0])
+		a = round(Fit.p(0), 4)
+		b = round(Fit.p(1), 4)
+		c = round(Fit.p(2), 4)
+		self.assertEquals(a, 1.0000)
+		self.assertEquals(b, 1.5708)
+		self.assertEquals(c, 0.0000)
+		
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -1120,6 +1205,15 @@ def suite():
 	suite.addTest(FileTest('testOpenAsString'))
 	suite.addTest(FileTest('testOpenAsRawString'))
 	suite.addTest(FileTest('testOpenUrlAsString'))
+	suite.addTest(FileTest('testRename'))
+	suite.addTest(FileTest('testSaveString'))
+	suite.addTest(FileTest('testSeparator'))
+
+	suite.addTest(FillTest('testFill'))
+	suite.addTest(FillTest('testFillOval'))
+	suite.addTest(FillTest('testFillRect'))
+
+	suite.addTest(FitTest('testDoFit'))
 	
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))
