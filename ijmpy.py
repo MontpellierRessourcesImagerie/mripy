@@ -52,7 +52,7 @@ from java.lang import Double, String, Thread
 from java.awt import Font, Color
 from ij import IJ, WindowManager, Prefs
 from ij.io import SaveDialog, OpenDialog
-from ij.process import FloatProcessor, ColorProcessor, ImageProcessor
+from ij.process import FloatProcessor, ColorProcessor, ImageProcessor, FloodFiller
 from ij.plugin import Colors, Macro_Runner
 from ij.plugin.frame import RoiManager, Fitter
 from ij.plugin.filter import MaximumFinder, Analyzer
@@ -1534,7 +1534,7 @@ class FitMeta(type):
 		'''
 		Returns the number of equations.
 		'''
-		return CurveFitter.fitList.length
+		return len(CurveFitter.fitList)
 
 	@property
 	def plot(self):
@@ -1624,19 +1624,56 @@ class Fit(object):
 
 		.. _`example`: https://imagej.net/macros/examples/PlotSigmoidDerivatives.txt
 		'''
-		return cls.fitter.f(fitter.getParams(), x)
+		return cls.fitter.f(cls.fitter.getParams(), x)
 
 	@classmethod
 	def getEquation(cls, index):
 		'''
 		Returns the name and formula of the specified equation. 
 		'''
-		if index<0 or index>CurveFitter.fitList.length-1:
+		if index<0 or index>len(CurveFitter.fitList)-1:
 			raise Exception("Index ("+str(index)+") is outside of the 0-"+str(CurveFitter.fitList.length-1)+" range") 
 		name = CurveFitter.fitList[index]
 		formula = CurveFitter.fList[index]
 		return name, formula
-		
+
+def floodFill(x, y, connectivity = '4-connected', imp = None):
+	'''
+	Fills, with the foreground color, pixels that are connected to, and have the same color as, the pixel at (x, y). 
+	
+	Does 8-connected filling if there is an optional string argument 
+	containing "8", for example floodFill(x, y, "8-connected"). 
+	This function is used to implement the `flood fill (paint bucket)`_ macro tool. 
+
+	.. _`flood fill (paint bucket)`: https://imagej.net/macros/tools/FloodFillTool.txt
+	'''
+	if not imp:
+		imp = IJ.getImage()
+	ip = imp.getProcessor()
+	floodFiller = FloodFiller(ip)
+	if connectivity.find('8')>= 0:
+		floodFiller.fill8(x, y)
+	else:
+		floodFiller.fill(x, y)
+	__updateAndDraw()
+	return imp
+
+def floor(n):
+	'''
+	Returns the largest value that is not greater than n and is equal to an integer. 
+	
+	See also: 
+	=========
+	round
+	'''
+	return math.floor(n)
+
+def fromCharCode(*args):
+	'''
+	This function takes one or more Unicode values and returns a string. 
+	'''
+	return ''.join(map(unichr, args))
+
 def getPixel(x, y=None):
 	'''
 	Returns the raw value of the pixel at (x,y). 

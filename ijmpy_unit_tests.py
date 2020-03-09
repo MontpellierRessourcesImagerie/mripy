@@ -33,6 +33,10 @@ class MathTest(unittest.TestCase):
 		res2 = exp(2)
 		self.assertEquals(res1, math.e)
 		self.assertEquals(round(res2, 14), round(math.e**2, 14))
+
+	def testFloor(self):
+		res = floor(3.78)
+		self.assertEquals(res, 3)
 		
 class ArrayTest(unittest.TestCase):
 		
@@ -911,7 +915,136 @@ class FitTest(unittest.TestCase):
 		self.assertEquals(a, 1.0000)
 		self.assertEquals(b, 1.5708)
 		self.assertEquals(c, 0.0000)
+
+	def testRSquared(self):
+		x = [0, 1, 2, 3, 4, 5]
+		y = [0, 0.9, 4.5, 8, 18, 24]
+		Fit.doFit("Straight Line", x, y)
+		rSq = round(Fit.rSquared, 4)
+		self.assertEquals(rSq, 0.9218)
+
+	def testP(self):
+		x = [0, 1]
+		y = [-1, 0]
+		Fit.doFit("Straight Line", x, y)	# y = a + b*x 
+		a = Fit.p(0)
+		b = Fit.p(1)
+		self.assertEquals(a, -1)
+		self.assertEquals(b, 1)
+
+	def testNParams(self):
+		x = [0, 1, 2, 3]
+		y = [0, 1, 0, -1]
+		equation = "y = a * sin(b*x+c)"
+		Fit.doFit(equation, x, y, [1, 1.2, 0])
+		self.assertEquals(Fit.nParams, 3)
+
+	def testF(self):
+		x = [0, 1]
+		y = [-1, 0]
+		Fit.doFit("Straight Line", x, y)	# y = a + b*x 
+		f2 = Fit.f(2)
+		f3 = Fit.f(3)
+		self.assertEquals(f2, 1)
+		self.assertEquals(f3, 2)
 		
+	def testNEquations(self):
+		self.assertEquals(Fit.nEquations>=25, True)
+
+	def testGetEquation(self):
+		name, formula = Fit.getEquation(0)
+		self.assertEquals(name, 'Straight Line')
+		self.assertEquals(formula, 'y = a+bx')
+		name, formula = Fit.getEquation(4)
+		self.assertEquals(name, 'Exponential')
+		self.assertEquals(formula, 'y = a*exp(bx)')
+
+	def testPlot(self):
+		x = [0, 1, 2, 3]
+		y = [0, 1, 0, -1]
+		equation = "y = a * sin(b*x+c)"
+		Fit.doFit(equation, x, y)
+		Fit.plot
+		title = IJ.getImage().getTitle()
+		self.assertEquals(title, equation)
+		close()
+
+	def testLogResults(self):
+		print('\\Clear')
+		Fit.logResults
+		x = [0, 1, 2, 3]
+		y = [0, 1, 0, -1]
+		equation = "y = a * sin(b*x+c)"
+		Fit.doFit(equation, x, y)
+		content = IJ.getLog()
+		lines = content.split("\n")
+		self.assertEquals(lines[1], 'Formula: ' + equation)
+		print('\\Clear')
+
+class FloodFillTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All")
+
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All")
+		IJ.setForegroundColor(255, 255, 255);
+		
+	def testFloodFill4(self):
+		imp = newImage("test", "RGB black", 256, 256, 1);
+		IJ.makeRectangle(10, 10, 100, 100)
+		IJ.setForegroundColor(255, 255, 255);
+		run("Fill", "slice");
+		run("Select None");
+
+		IJ.setForegroundColor(0, 0, 255);
+		floodFill(55, 55)
+		values = IJ.getImage().getPixel(55, 55)
+		self.assertEquals(values[0], 0)
+		self.assertEquals(values[1], 0)
+		self.assertEquals(values[2], 255)
+
+		values = IJ.getImage().getPixel(11, 11)
+		self.assertEquals(values[0], 0)
+		self.assertEquals(values[1], 0)
+		self.assertEquals(values[2], 255)
+
+		values = IJ.getImage().getPixel(99, 99)
+		self.assertEquals(values[0], 0)
+		self.assertEquals(values[1], 0)
+		self.assertEquals(values[2], 255)
+
+	def testFloodFill8(self):
+		imp = newImage("test", "RGB black", 256, 256, 1);
+		IJ.makeRectangle(10, 10, 100, 100)
+		IJ.setForegroundColor(255, 255, 255);
+		run("Fill", "slice");
+		run("Select None");
+
+		IJ.setForegroundColor(0, 0, 255);
+		floodFill(55, 55, '8-connected', imp)
+		
+		values = imp.getPixel(55, 55)
+		self.assertEquals(values[0], 0)
+		self.assertEquals(values[1], 0)
+		self.assertEquals(values[2], 255)
+
+		values = IJ.getImage().getPixel(11, 11)
+		self.assertEquals(values[0], 0)
+		self.assertEquals(values[1], 0)
+		self.assertEquals(values[2], 255)
+
+		values = IJ.getImage().getPixel(99, 99)
+		self.assertEquals(values[0], 0)
+		self.assertEquals(values[1], 0)
+		self.assertEquals(values[2], 255)
+
+class FromCharCodeTest(unittest.TestCase):
+	def testFromCharCode(self):
+		aStr = fromCharCode(65, 66, 67)
+		self.assertEquals(aStr, 'ABC')
+
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -1106,6 +1239,7 @@ def suite():
 	suite.addTest(MathTest('testAtan2'))
 	suite.addTest(MathTest('testCos'))
 	suite.addTest(MathTest('testExp'))
+	suite.addTest(MathTest('testFloor'))
 	
 	suite.addTest(ArrayTest('testConcat'))
 	suite.addTest(ArrayTest('testCopy'))
@@ -1214,6 +1348,19 @@ def suite():
 	suite.addTest(FillTest('testFillRect'))
 
 	suite.addTest(FitTest('testDoFit'))
+	suite.addTest(FitTest('testRSquared'))
+	suite.addTest(FitTest('testP'))
+	suite.addTest(FitTest('testNParams'))
+	suite.addTest(FitTest('testF'))
+	suite.addTest(FitTest('testNEquations'))
+	suite.addTest(FitTest('testGetEquation'))
+	suite.addTest(FitTest('testPlot'))
+	suite.addTest(FitTest('testLogResults'))
+
+	suite.addTest(FloodFillTest('testFloodFill4'))
+	suite.addTest(FloodFillTest('testFloodFill8'))
+
+	suite.addTest(FromCharCodeTest('testFromCharCode'))
 	
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))

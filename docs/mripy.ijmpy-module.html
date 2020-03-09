@@ -780,6 +780,60 @@ string.</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#floodFill" class="summary-sig-name">floodFill</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">connectivity</span>=<span class="summary-sig-default">'4-connected'</span>,
+        <span class="summary-sig-arg">imp</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Fills, with the foreground color, pixels that are connected to, and have the same color as, the pixel at (x, y).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#floodFill">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#floor" class="summary-sig-name">floor</a>(<span class="summary-sig-arg">n</span>)</span><br />
+      Returns the largest value that is not greater than n and is equal to an integer.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#floor">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="fromCharCode"></a><span class="summary-sig-name">fromCharCode</span>(<span class="summary-sig-arg">*args</span>)</span><br />
+      This function takes one or more Unicode values and returns a string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="mripy.ijmpy-pysrc.html#fromCharCode">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="mripy.ijmpy-module.html#getPixel" class="summary-sig-name">getPixel</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>)</span><br />
       Returns the raw value of the pixel at (x,y).</td>
@@ -1676,6 +1730,54 @@ exit(status=0)</blockquote>
   </dl>
 </td></tr></table>
 </div>
+<a name="floodFill"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">floodFill</span>(<span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">connectivity</span>=<span class="sig-default">'4-connected'</span>,
+        <span class="sig-arg">imp</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#floodFill">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Fills, with the foreground color, pixels that are connected to, and have the same color as, the pixel at (x, y).</p>
+<p>Does 8-connected filling if there is an optional string argument
+containing &quot;8&quot;, for example floodFill(x, y, &quot;8-connected&quot;).
+This function is used to implement the <a class="rst-reference external" href="https://imagej.net/macros/tools/FloodFillTool.txt" target="_top">flood fill (paint bucket)</a> macro tool.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="floor"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">floor</span>(<span class="sig-arg">n</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mripy.ijmpy-pysrc.html#floor">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Returns the largest value that is not greater than n and is equal to an integer.</p>
+<div class="rst-section" id="rst-see-also">
+<h1 class="heading">See also:</h1>
+<p>round</p>
+</div>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <a name="getPixel"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1971,7 +2073,7 @@ For an example, see the <a class="rst-reference external" href="https://imagej.n
   <tr>
     <td align="left" class="footer">
     Generated by Epydoc 3.0.1
-    on Sun Mar  8 23:26:53 2020
+    on Mon Mar  9 23:31:36 2020
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
