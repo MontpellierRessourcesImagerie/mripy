@@ -1045,6 +1045,48 @@ class FromCharCodeTest(unittest.TestCase):
 		aStr = fromCharCode(65, 66, 67)
 		self.assertEquals(aStr, 'ABC')
 
+class GetSelectionBoundsTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		run("Close All");
+		imp = newImage("test", "8-bit black", 256, 256, 1);
+		
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+
+	def testGetSelectionBoundsNoRoi(self):
+		x, y, width, height = getSelectionBounds()
+		self.assertEquals(x, 0)
+		self.assertEquals(y, 0)
+		self.assertEquals(width, 256)
+		self.assertEquals(height, 256)
+
+	def testGetSelectionBoundsWithRoi(self):
+		IJ.makeRectangle(10, 12, 10, 20)
+		x, y, width, height = getSelectionBounds()
+		self.assertEquals(x, 10)
+		self.assertEquals(y, 12)
+		self.assertEquals(width, 10)
+		self.assertEquals(height, 20)
+
+	def testGetBoundingRect(self):
+		x, y, width, height = getBoundingRect()
+		self.assertEquals(x, 0)
+		self.assertEquals(y, 0)
+		self.assertEquals(width, 256)
+		self.assertEquals(height, 256)
+
+class GetDateAndTimeTest(unittest.TestCase):
+	def testGetDateAndTime(self):
+		year, month, _, day, hour, minute, second, _ = getDateAndTime()
+		self.assertEquals(year>2019, True)
+		self.assertEquals(month>=0 and month<12, True)
+		self.assertEquals(day>0 and day<32, True)
+		self.assertEquals(hour>=0 and hour<=24, True)
+		self.assertEquals(minute>=0 and minute<60, True)
+		self.assertEquals(second>=0 and second<60, True)
+
 class GetPixelTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -1140,6 +1182,24 @@ class NImagesTest(unittest.TestCase):
 
 		self.assertEqual(nImages(), 3);
 
+class NResultsTest(unittest.TestCase):
+	def setUp(self):
+		unittest.TestCase.setUp(self)
+		newImage("Ramp", "8-bit ramp", 256, 256, 1);
+		
+	def tearDown(self):
+		unittest.TestCase.tearDown(self)
+		run("Close All");
+		close("Results");
+		
+	def testNResults(self):
+		n1 = nResults()
+		self.assertEquals(n1, 0)
+		IJ.makeRectangle(10, 10, 10, 10)
+		roiManager("add")
+		roiManager("measure")
+		self.assertEquals(nResults(), 1)
+		
 class RoiManagerTest(unittest.TestCase):
 	def setUp(self):
 		unittest.TestCase.setUp(self)
@@ -1361,6 +1421,8 @@ def suite():
 	suite.addTest(FloodFillTest('testFloodFill8'))
 
 	suite.addTest(FromCharCodeTest('testFromCharCode'))
+
+	suite.addTest(GetDateAndTimeTest('testGetDateAndTime'))
 	
 	suite.addTest(GetPixelTest('testGetPixelGrey'))
 	suite.addTest(GetPixelTest('testGetPixelGreyFloatCoords'))
@@ -1377,7 +1439,7 @@ def suite():
 	suite.addTest(NewImageTest('testNewHyperstack'))
 
 	suite.addTest(NImagesTest('testNImages'))
-
+	suite.addTest(NResultsTest('testNResults'))
 	suite.addTest(RoiManagerTest('testRoiManagerAnd'))
 	suite.addTest(RoiManagerTest('testRoiManagerAdd'))
 	suite.addTest(RoiManagerTest('testRoiManagerSelectOneRoi'))
@@ -1385,6 +1447,10 @@ def suite():
 
 	suite.addTest(RunTest('testRunNoParameter'))
 	suite.addTest(RunTest('testRunWithParameterString'))
+
+	suite.addTest(GetSelectionBoundsTest('testGetSelectionBoundsNoRoi'))
+	suite.addTest(GetSelectionBoundsTest('testGetSelectionBoundsWithRoi'))
+	suite.addTest(GetSelectionBoundsTest('testGetBoundingRect'))
 
 	suite.addTest(ThresholdTest('testSetAutoThreshold'))
 	return suite

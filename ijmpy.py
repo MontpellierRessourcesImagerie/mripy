@@ -21,6 +21,14 @@ abs()
 
 When you call 'abs()' the python 'abs()' function is called. The behaviour should be identical.
 
+getArgument()
+-------------
+
+Not implemented, because it exists when called from a macro. Use:
+
+	if 'getArgument' in globals():
+		args = getArgument()
+
 Other differences with the ij-macro language
 ============================================
 
@@ -49,6 +57,7 @@ import __builtin__														# to use the python print command: __builtin__.p
 import math, sys, importlib, java, types, inspect, keyword, tokenize, os, subprocess, shutil, struct, urllib2
 from collections import deque 
 from java.lang import Double, String, Thread
+from java.util import Calendar
 from java.awt import Font, Color
 from ij import IJ, WindowManager, Prefs
 from ij.io import SaveDialog, OpenDialog
@@ -59,7 +68,7 @@ from ij.plugin.filter import MaximumFinder, Analyzer
 from ij.process import FHT
 from ij.util import Tools
 from ij.measure import ResultsTable, CurveFitter
-from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog, Toolbar
+from ij.gui import Roi, GenericDialog, NonBlockingGenericDialog, Toolbar, YesNoCancelDialog
 
 NaN = Double.NaN
 PI = math.pi
@@ -67,7 +76,7 @@ true = 1
 false = 0
 
 py_open = open
-
+	
 class Settings(object):
 	AUTO_UPDATE = True
 	UPDATE_NEEDED = False
@@ -1019,7 +1028,7 @@ def dump():
 	filename = globs['javax.script.filename']
 	result = 'You need to save the script to get the tokens.'
 	if os.path.isfile(filename): 
-		with open(filename, 'r') as myfile:
+		with py_open(filename, 'r') as myfile:
 			tokenize.tokenize(myfile.readline, cons)
 	
 		for token in tokens:
@@ -1413,7 +1422,7 @@ class File(object):
 		length = os.path.getsize(path)
 		if maxLength>length or (path.endswith('.txt') and not count):
 			maxLength = length
-		f = open(path, 'rb')
+		f = py_open(path, 'rb')
 		chars = struct.unpack(str(maxLength) + "c", f.read(maxLength))
 		out = ''.join(chars)
 		return out
@@ -1465,7 +1474,7 @@ class File(object):
 		'''
 		Saves string as a file.
 		'''
-		with open(path, "w") as txtFile:
+		with py_open(path, "w") as txtFile:
 			n = txtFile.write(string)
 		return n
 
@@ -1674,6 +1683,28 @@ def fromCharCode(*args):
 	'''
 	return ''.join(map(unichr, args))
 
+def getBoolean(message, yesLabel="  Yes  ", noLabel="  No  "):
+	'''
+	Displays a dialog box containing the specified message and "Yes", "No" and "Cancel" buttons. 
+	
+	Returns True if the user clicks "Yes", returns False if the user clicks "No" and exits the script if the user clicks "Cancel". 
+	'''
+	title = ''
+	d = YesNoCancelDialog(IJ.getInstance(), title, message, yesLabel, noLabel)
+	if d.cancelPressed():
+		sys.exit(0)
+	if d.yesPressed():
+		return True
+	return False
+
+def getBoundingRect(img=None):
+	'''
+	Replace by `getSelectionBounds`_. 
+
+	.. _`getSelectionBounds`: redirect.html#mripy.ijmpy.getSelectionBounds
+	'''
+	return getSelectionBounds(img)
+	
 def getPixel(x, y=None):
 	'''
 	Returns the raw value of the pixel at (x,y). 
@@ -1708,6 +1739,85 @@ def getPixel(x, y=None):
 		else:
 		 	value = ip.getf(int(x))
 	return value
+
+def getSelectionBounds(img=None):
+	'''
+	Returns the smallest rectangle that can completely contain the current selection
+	as a tupel x, y, width, height. 
+
+	
+	x and y are the pixel coordinates of the upper left corner of the rectangle. 
+	width and height are the width and height of the rectangle in pixels. 
+	If there is no selection, returns (0, 0, ImageWidth, ImageHeight). 
+	
+	See also: 
+	=========
+	selectionType and setSelectionLocation. 
+	'''
+	if not img:
+		img = IJ.getImage()
+	roi = img.getRoi()
+	if roi:
+		r = roi.getFloatBounds()
+		return r.x, r.y, r.width, r.height
+	else:
+		return 0, 0, img.getWidth(), img.getHeight()
+
+def getCursorLoc(img = None):
+	'''
+	Returns the cursor location in pixels and the mouse event modifier flags 
+	(x, y, z, flags). 
+	
+	The z coordinate is zero for 2D images. For stacks, it is one less than the slice number. 
+	Use toScaled(x,y) to scale the coordinates. For examples, see the `GetCursorLocDemo`_ and the 
+	`GetCursorLocDemoTool`_ macros.
+
+	.. _`GetCursorLocDemo`: https://imagej.net/macros//GetCursorLocDemo.txt
+	.. _`GetCursorLocDemoTool`: https://imagej.net/macros/tools/GetCursorLocDemoTool.txt
+	'''
+	if not img:
+		img = IJ.getImage()
+	ic = img.getCanvas()
+	if not ic:
+		return None
+	p = ic.getCursorLoc()
+	z = img.getCurrentSlice()-1
+	roi = img.getRoi()
+	flags = ic.getModifiers() 
+	insideRoi = 32 if (roi and roi.contains(p.x,p.y)) else 0
+	flags = flags + insideRoi
+	return p.x, p.y, z, flags
+
+def getDateAndTime():
+	'''
+	Returns the current date and time:
+		(year, month, dayOfWeek, dayOfMonth, hour, minute, second, millisecond) 
+	
+	Note that 'month' and 'dayOfWeek' are zero-based indexes. 
+	For an example, refer to the GetDateAndTime macro. 
+	
+	See also: 
+	=========
+	getTime
+	'''
+	date = Calendar.getInstance()
+	return date.get(Calendar.YEAR),\
+		   date.get(Calendar.MONTH),\
+		   date.get(Calendar.DAY_OF_WEEK)-1,\
+		   date.get(Calendar.DAY_OF_MONTH),\
+		   date.get(Calendar.HOUR_OF_DAY),\
+		   date.get(Calendar.MINUTE),\
+		   date.get(Calendar.SECOND),\
+		   date.get(Calendar.MILLISECOND)
+
+def getDimensions(img=None):
+	'''
+	Returns the dimensions width, height, channels, slices and frames of the current image.
+	'''
+	if not img:
+		img = IJ.getImage()
+	dim = img.getDimensions()
+	return tupel(dim)
 
 def getThreshold():
 	'''
@@ -1777,6 +1887,16 @@ def nImages():
 	The parentheses "()" are optional in the ij-macro language but *not* in ijmpy. 
 	'''
 	return WindowManager.getImageCount()
+
+def nResults():
+	'''
+	Returns the current measurement counter value. The parentheses "()" are optional in the ij-macro language but *not* in ijmpy. 
+	
+	See also: 
+	=========
+	getValue("results.count"). 
+	'''
+	return Analyzer.getResultsTable().getCounter();
 	
 def roiManager(command, parameter=""):
 	'''
